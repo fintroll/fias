@@ -1,5 +1,6 @@
 <?php
 
+
 $params = array_merge(
 	require __DIR__ . '/../../common/config/params.php', require __DIR__ . '/../../common/config/params-local.php', require __DIR__ . '/params.php', require __DIR__ . '/params-local.php'
 );
@@ -19,11 +20,15 @@ return [
 	// set source language to be English
 	'sourceLanguage' => 'en-US',
 
+
 	'components' => [
         'request' => [
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
             ]
+        ],
+        'response' => [
+            'format' =>  \yii\web\Response::FORMAT_JSON
         ],
 		'user' => [
 			'class' => \yii\web\User::class,
@@ -48,6 +53,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+               'GET address/<id>' => 'address/default/view',
                 [
                     'class' => yii\rest\UrlRule::class,
                     'controller' => [
@@ -60,6 +66,11 @@ return [
 			'errorAction' => 'site/error',
 		],
 	],
+    'modules' => [
+        'address' => [
+            'class' => \rest\modules\address\Address::class,
+        ],
+    ],
 	'params' => $params,
 ];
 

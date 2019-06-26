@@ -126,4 +126,6 @@ class Addrobj extends \yii\db\ActiveRecord
             'DIVTYPE' => 'Divtype',
         ];
     }
+
+
 }
