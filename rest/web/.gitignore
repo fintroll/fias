@@ -1,0 +1,8 @@
+/robots.txt
+/uploads
+/uploads/*
+/index.php
+/index-test.php
+/assets/
+/assets/*
+Nginx-1.12_vhost.conf
