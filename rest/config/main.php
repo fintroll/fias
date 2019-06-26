@@ -19,16 +19,12 @@ return [
 	// set source language to be English
 	'sourceLanguage' => 'en-US',
 
-	'modules' => [
-
-	],
 	'components' => [
-		'request' => [
-			'csrfParam' => '_csrf-rest',
-			'parsers' => [
-				'application/json' => \yii\web\JsonParser::class,
-			],
-		],
+        'request' => [
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
+        ],
 		'user' => [
 			'class' => \yii\web\User::class,
 			'identityClass' => \rest\models\User::class,
@@ -48,6 +44,18 @@ return [
 				],
 			],
 		],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => [
+                [
+                    'class' => yii\rest\UrlRule::class,
+                    'controller' => [
+                        'site',
+                    ],
+                ],
+            ]
+        ],
 		'errorHandler' => [
 			'errorAction' => 'site/error',
 		],

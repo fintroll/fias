@@ -2,10 +2,8 @@
 
 namespace rest\components;
 
-
 use yii\filters\AccessControl;
 use yii\filters\auth\QueryParamAuth;
-use yii\filters\Cors;
 
 
 class Controller extends \yii\rest\Controller
@@ -25,7 +23,7 @@ class Controller extends \yii\rest\Controller
 			'class' => QueryParamAuth::class
 		];
 		// avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
-		$behaviors['authenticator']['except'] = ['options'];
+		$behaviors['authenticator']['except'] = ['login'];
 
 		// Ограничение прав
 		$behaviors['access'] = [

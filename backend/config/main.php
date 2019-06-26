@@ -37,14 +37,16 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-            ],
+                '<controller:[\w\-]+>/<action:\w+>/' => '<controller>/<action>',
+                '<module:[\w\-]+>/<controller:[\w\-]+>/<action:(\w|\-)+>/<id:\d+>' => '<module>/<controller>/<action>',
+                '<module:[\w\-]+>/<controller:[\w\-]+>/<action:(\w|\-)+>' => '<module>/<controller>/<action>',
+                '<action:login>' => 'site/<action>',
+            ]
         ],
-        */
     ],
     'params' => $params,
 ];

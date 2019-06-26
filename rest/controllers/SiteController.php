@@ -8,7 +8,7 @@
 
 namespace rest\controllers;
 
-use rest\components\Controller;
+use rest\components\Controller as RestController;
 use rest\models\LoginForm;
 use Yii;
 use yii\rest\OptionsAction;
@@ -16,12 +16,7 @@ use yii\web\ErrorAction;
 use yii\web\ServerErrorHttpException;
 
 
-/**
- * Class SiteController
- * @author HunterKaan <mr.igor.prokofev@gmail.com>
- * @package rest\controllers
- */
-class SiteController extends Controller
+class SiteController extends RestController
 {
 	/**
 	 * @inheritdoc
@@ -55,12 +50,10 @@ class SiteController extends Controller
 		return $behaviors;
 	}
 
-	/**
-	 * Login.
-	 *
-	 * @return array|LoginForm
-	 * @throws ServerErrorHttpException
-	 */
+    /**
+     * @return LoginForm|null
+     * @throws ServerErrorHttpException
+     */
 	public function actionLogin()
 	{
 		if (Yii::$app->request->isPost) {
@@ -83,5 +76,12 @@ class SiteController extends Controller
 		}
 		return null;
 	}
+
+    public function verbs()
+    {
+        $parentVerbs = parent::verbs();
+        $parentVerbs['login'] = ['POST'];
+        return $parentVerbs;
+    }
 
 }

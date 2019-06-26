@@ -1,25 +1,11 @@
 <?php
-/**
- * Created by Zero.
- * @author HunterKaan <mr.igor.prokofev@gmail.com>
- * Date: 020 20.11.17
- * Time: 14:54
- */
-
 namespace rest\components;
-
 
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\auth\QueryParamAuth;
-use yii\filters\Cors;
 use yii\rest\ActiveController as BaseActiveController;
 
-/**
- * Class ActiveController
- * @author HunterKaan <mr.igor.prokofev@gmail.com>
- * @package rest\components
- */
 class ActiveController extends BaseActiveController
 {
 	/**
