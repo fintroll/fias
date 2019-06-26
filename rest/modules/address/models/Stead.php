@@ -9,8 +9,6 @@ class Stead extends \common\models\fias\Stead
 {
 
 
-
-
     /**
      * {@inheritdoc}
      */

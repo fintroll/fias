@@ -7,15 +7,36 @@ use Yii;
 
 class House extends \common\models\fias\House
 {
-
-
-    /**
+ /**
      * {@inheritdoc}
      */
     public function fields()
     {
         return [
-
+            'postalcode' => 'POSTALCODE',
+            'regioncode' => 'REGIONCODE',
+            'ifnsfl' => 'IFNSFL',
+            'terrifnsfl' => 'TERRIFNSFL',
+            'ifnsul' => 'IFNSUL',
+            'terrifnsul' => 'TERRIFNSUL',
+            'okato' => 'OKATO',
+            'oktmo' => 'OKTMO',
+            'updatedate' => 'UPDATEDATE',
+            'housenum' => 'HOUSENUM',
+            'eststatus' => 'ESTSTATUS',
+            'buildnum' => 'BUILDNUM',
+            'strucnum' => 'STRUCNUM',
+            'strstatus' => 'STRSTATUS',
+            'houseid' => 'HOUSEID',
+            'houseguid' => 'HOUSEGUID',
+            'aoguid' => 'AOGUID',
+            'startdate' => 'STARTDATE',
+            'enddate' => 'ENDDATE',
+            'statstatus' => 'STATSTATUS',
+            'normdoc' => 'NORMDOC',
+            'counter' => 'COUNTER',
+            'cadnum' => 'CADNUM',
+            'divtype' => 'DIVTYPE',
         ];
     }
 
