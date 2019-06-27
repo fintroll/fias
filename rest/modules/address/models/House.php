@@ -42,40 +42,4 @@ class House extends \common\models\fias\House
     {
         return $this->hasOne(Addrobj::class, ['AOGUID' => 'AOGUID']);
     }
-
-    /**
-     * @return mixed|string
-     */
-    public function getFullAddress()
-    {
-        $address = isset($this->address) ? $this->getFullAddress() : $this->HOUSENUM;
-
-        if (!empty($this->BUILDNUM)) {
-            $address .= '/' . $this->BUILDNUM;
-        }
-
-        if (!empty($this->STRUCNUM)) {
-            $address .= '/' . $this->STRUCNUM;
-        }
-
-        return $address;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFullNumber()
-    {
-        $number = $this->HOUSENUM;
-
-        if (!empty($this->BUILDNUM)) {
-            $number .= ' корп. ' . $this->BUILDNUM;
-        }
-
-        if (!empty($this->STRUCNUM)) {
-            $number .= ' стр. ' . $this->STRUCNUM;
-        }
-
-        return $number;
-    }
 }

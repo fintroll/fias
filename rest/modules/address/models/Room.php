@@ -10,6 +10,7 @@ class Room extends \common\models\fias\Room
     public function fields()
     {
         return [
+            'fullAddress',
             'roomguid' => 'ROOMGUID',
             'roomid' => 'ROOMID',
             'flatnumber' => 'FLATNUMBER',
@@ -17,7 +18,14 @@ class Room extends \common\models\fias\Room
             'roomnumber' => 'ROOMNUMBER',
             'roomtype' => 'ROOMTYPE',
             'houseguid' => 'HOUSEGUID',
-            'house',
+            'house'
+
+        ];
+    }
+    public function extraFields()
+    {
+        return [
+
             'livestatus' => 'LIVESTATUS',
             'normdoc' => 'NORMDOC',
             'operstatus' => 'OPERSTATUS',
@@ -31,6 +39,6 @@ class Room extends \common\models\fias\Room
      */
     public function getHouse()
     {
-        return $this->hasOne(House::class, ['HOUSEID' => 'HOUSEGUID']);
+        return $this->hasOne(House::class, ['HOUSEGUID' => 'HOUSEGUID']);
     }
 }

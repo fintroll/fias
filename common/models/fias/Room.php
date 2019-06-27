@@ -27,7 +27,12 @@ use Yii;
  * @property string $CADNUM Кадастровый номер помещения
  * @property string $ROOMCADNUM Кадастровый номер комнаты в помещении
  *
- * @property House $address Адрес
+ * @property House $house Адрес
+ * @property Flattype $flatType тип помещения
+ * @property string $flatLabel тип помещения(сокр)
+ * @property Roomtype $roomType тип помещения
+ * @property string $roomLabel тип помещения(сокр)
+ * @property string $fullAddress тип помещения(сокр)
  */
 class Room extends \yii\db\ActiveRecord
 {
@@ -89,6 +94,55 @@ class Room extends \yii\db\ActiveRecord
      */
     public function getHouse()
     {
-        return $this->hasOne(House::class, ['HOUSEID' => 'HOUSEGUID']);
+        return $this->hasOne(House::class, ['HOUSEGUID' => 'HOUSEGUID']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFlatType()
+    {
+        return $this->hasOne(Flattype::class, ['FLTYPEID' => 'FLATTYPE']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFlatLabel(): string
+    {
+        return $this->flatType !== null ? $this->flatType->SHORTNAME . ' ' . $this->FLATNUMBER : $this->FLATNUMBER;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRoomType()
+    {
+        return $this->hasOne(Flattype::class, ['RMTYPEID' => 'ROOMTYPE']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getRoomLabel(): string
+    {
+        return $this->roomType !== null ? $this->roomType->SHORTNAME . ' ' . $this->ROOMNUMBER : $this->ROOMNUMBER;
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getFullAddress()
+    {
+        $address = ($this->house !== null && $this->house->fullAddress !== null) ? $this->house->fullAddress : $this->FLATNUMBER ?? $this->ROOMNUMBER;
+
+        if (!empty($this->flatLabel)) {
+            $address .= ' '.$this->flatLabel;
+        }
+        if (!empty($this->roomLabel)) {
+            $address .= ' '.$this->roomLabel;
+        }
+
+        return $address;
     }
 }
