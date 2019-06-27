@@ -2,7 +2,7 @@
 
 namespace common\models\fias;
 
-use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%socrbase}}".
@@ -12,12 +12,12 @@ use Yii;
  * @property string $SOCRNAME Полное наименование типа объекта
  * @property string $KOD_T_ST Ключевое поле
  */
-class Socrbase extends \yii\db\ActiveRecord
+class Socrbase extends ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return '{{%SOCRBASE}}';
     }
@@ -25,7 +25,7 @@ class Socrbase extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['LEVEL', 'SOCRNAME', 'KOD_T_ST'], 'required'],
@@ -39,7 +39,7 @@ class Socrbase extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'LEVEL' => 'Уровень адресного объекта',

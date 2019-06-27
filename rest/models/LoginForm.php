@@ -2,22 +2,28 @@
 
 namespace rest\models;
 
-class LoginForm extends \common\models\LoginForm
+use common\models\LoginForm as CommonLoginForm;
+
+/**
+ * Class LoginForm
+ * @package rest\models
+ */
+class LoginForm extends CommonLoginForm
 {
 
-	/**
-	 * @inheritDoc
-	 */
-	public function fields()
-	{
-		return [
-			'access_token' => function (LoginForm $model) {
-				return $model->getUser()->auth_key;
-			},
-		];
-	}
+    /**
+     * @inheritDoc
+     */
+    public function fields(): array
+    {
+        return [
+            'access_token' => static function (LoginForm $model) {
+                return $model->getUser()->auth_key;
+            },
+        ];
+    }
 
-	public function formName()
+    public function formName(): string
     {
         return '';
     }

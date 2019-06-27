@@ -2,7 +2,7 @@
 
 namespace common\models\fias;
 
-use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%flattype}}".
@@ -11,12 +11,12 @@ use Yii;
  * @property string $NAME Наименование
  * @property string $SHORTNAME Краткое наименование
  */
-class Flattype extends \yii\db\ActiveRecord
+class Flattype extends ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return '{{%FLATTYPE}}';
     }
@@ -24,7 +24,7 @@ class Flattype extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['FLTYPEID', 'NAME'], 'required'],
@@ -36,7 +36,7 @@ class Flattype extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'FLTYPEID' => 'Тип помещения',

@@ -2,7 +2,7 @@
 
 namespace common\models\fias;
 
-use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%ndoctype}}".
@@ -10,12 +10,12 @@ use Yii;
  * @property int $NDTYPEID Идентификатор записи (ключ)
  * @property string $NAME Наименование типа нормативного документа
  */
-class Ndoctype extends \yii\db\ActiveRecord
+class Ndoctype extends ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return '{{%NDOCTYPE}}';
     }
@@ -23,7 +23,7 @@ class Ndoctype extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['NDTYPEID', 'NAME'], 'required'],
@@ -36,7 +36,7 @@ class Ndoctype extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'NDTYPEID' => 'Идентификатор записи (ключ)',

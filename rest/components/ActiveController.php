@@ -3,6 +3,7 @@ namespace rest\components;
 
 use Yii;
 use yii\filters\AccessControl;
+use yii\filters\auth\HttpBearerAuth;
 use yii\filters\auth\QueryParamAuth;
 use yii\rest\ActiveController as BaseActiveController;
 
@@ -20,7 +21,7 @@ class ActiveController extends BaseActiveController
 
 		// re-add authentication filter
 		$behaviors['authenticator'] = [
-			'class' => QueryParamAuth::class,
+			'class' => HttpBearerAuth::class,
 		];
 		// avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
 		$behaviors['authenticator']['except'] = ['options'];

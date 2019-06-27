@@ -3,6 +3,7 @@
 namespace common\models\fias;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%hststat}}".
@@ -10,12 +11,12 @@ use Yii;
  * @property int $HOUSESTID Идентификатор статуса
  * @property string $NAME Наименование
  */
-class Hststat extends \yii\db\ActiveRecord
+class Hststat extends ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return '{{%HSTSTAT}}';
     }
@@ -23,7 +24,7 @@ class Hststat extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['HOUSESTID', 'NAME'], 'required'],
@@ -36,7 +37,7 @@ class Hststat extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'HOUSESTID' => 'Идентификатор статуса',

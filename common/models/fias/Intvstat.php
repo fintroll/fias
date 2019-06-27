@@ -3,6 +3,7 @@
 namespace common\models\fias;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%intvstat}}".
@@ -10,12 +11,12 @@ use Yii;
  * @property int $INTVSTATID Идентификатор статуса (обычный, четный, нечетный)
  * @property string $NAME Наименование
  */
-class Intvstat extends \yii\db\ActiveRecord
+class Intvstat extends ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return '{{%INTVSTAT}}';
     }
@@ -23,7 +24,7 @@ class Intvstat extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['INTVSTATID', 'NAME'], 'required'],
@@ -36,7 +37,7 @@ class Intvstat extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'INTVSTATID' => 'Идентификатор статуса (обычный, четный, нечетный)',

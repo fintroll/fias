@@ -2,16 +2,19 @@
 
 namespace rest\modules\address\models;
 
-use Yii;
+use common\models\fias\Addrobj as CommonAddrobj;
 
-
-class Addrobj extends \common\models\fias\Addrobj
+/**
+ * Class Addrobj
+ * @package rest\modules\address\models
+ */
+class Addrobj extends CommonAddrobj
 {
 
     /**
      * {@inheritdoc}
      */
-    public function fields()
+    public function fields(): array
     {
         return [
             'fullAddress',
@@ -23,7 +26,7 @@ class Addrobj extends \common\models\fias\Addrobj
         ];
     }
 
-    public function extraFields()
+    public function extraFields(): array
     {
         return [
             'regioncode' => 'REGIONCODE',

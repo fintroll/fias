@@ -2,17 +2,18 @@
 
 namespace rest\modules\address\models;
 
-use Yii;
+use common\models\fias\Stead as CommonStead;
 
-
-class Stead extends \common\models\fias\Stead
+/**
+ * Class Stead
+ * @package rest\modules\address\models
+ */
+class Stead extends CommonStead
 {
-
-
     /**
      * {@inheritdoc}
      */
-    public function fields()
+    public function fields(): array
     {
         return [
             'steadguid' => 'STEADGUID',

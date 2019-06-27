@@ -2,7 +2,7 @@
 
 namespace common\models\fias;
 
-use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%stead}}".
@@ -30,12 +30,12 @@ use Yii;
  * @property string $CADNUM Кадастровый номер
  * @property int $DIVTYPE Тип адресации:
  */
-class Stead extends \yii\db\ActiveRecord
+class Stead extends ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return '{{%STEAD}}';
     }
@@ -43,7 +43,7 @@ class Stead extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['STEADGUID', 'REGIONCODE', 'UPDATEDATE', 'STEADID', 'OPERSTATUS', 'STARTDATE', 'ENDDATE', 'LIVESTATUS', 'DIVTYPE'], 'required'],
@@ -63,7 +63,7 @@ class Stead extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'STEADGUID' => 'Глобальный уникальный идентификатор адресного объекта (земельного участка)',

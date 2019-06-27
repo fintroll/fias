@@ -2,12 +2,14 @@
 
 namespace rest\modules\address\models;
 
-class Room extends \common\models\fias\Room
+use common\models\fias\Room as CommonRoom;
+
+class Room extends CommonRoom
 {
     /**
      * {@inheritdoc}
      */
-    public function fields()
+    public function fields(): array
     {
         return [
             'fullAddress',
@@ -22,7 +24,8 @@ class Room extends \common\models\fias\Room
 
         ];
     }
-    public function extraFields()
+
+    public function extraFields(): array
     {
         return [
 

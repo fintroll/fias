@@ -2,7 +2,7 @@
 
 namespace common\models\fias;
 
-use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%strstat}}".
@@ -11,12 +11,12 @@ use Yii;
  * @property string $NAME Наименование
  * @property string $SHORTNAME Краткое наименование
  */
-class Strstat extends \yii\db\ActiveRecord
+class Strstat extends ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return '{{%STRSTAT}}';
     }
@@ -24,7 +24,7 @@ class Strstat extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['STRSTATID', 'NAME'], 'required'],
@@ -37,7 +37,7 @@ class Strstat extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'STRSTATID' => 'Признак строения',

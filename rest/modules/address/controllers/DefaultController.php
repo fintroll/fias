@@ -8,7 +8,6 @@ use rest\modules\address\models\House;
 use rest\modules\address\models\Room;
 use Yii;
 use Throwable;
-use yii\base\InvalidConfigException;
 use yii\log\Logger;
 use yii\web\NotFoundHttpException;
 
@@ -26,7 +25,7 @@ class DefaultController extends ActiveController
     /**
      * @return array
      */
-    public function actions()
+    public function actions(): array
     {
         $actions = parent::actions();
         unset($actions['create'], $actions['update'], $actions['delete'], $actions['index']);
@@ -38,9 +37,8 @@ class DefaultController extends ActiveController
      * @param $id
      * @return Room|House|Addrobj
      * @throws NotFoundHttpException
-     * @throws InvalidConfigException
      */
-     public function findModel($id)
+    public function findModel($id)
     {
         $modelsClasses = [
             'ROOMID' => Room::class,
@@ -59,12 +57,12 @@ class DefaultController extends ActiveController
             Yii::getLogger()->log($ignore->getMessage(), Logger::LEVEL_ERROR);
         }
         if ($model === null) {
-            throw new NotFoundHttpException('Объект fias_id='.$id.' не найден');
+            throw new NotFoundHttpException('Объект fias_id=' . $id . ' не найден');
         }
         return $model;
     }
 
-    public function verbs()
+    public function verbs(): array
     {
         $parentVerbs = parent::verbs();
         $parentVerbs['view'] = ['GET'];

@@ -2,7 +2,7 @@
 
 namespace common\models\fias;
 
-use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%actstat}}".
@@ -10,12 +10,12 @@ use Yii;
  * @property int $ACTSTATID Идентификатор статуса (ключ)
  * @property string $NAME Наименование
  */
-class Actstat extends \yii\db\ActiveRecord
+class Actstat extends ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName():string
     {
         return '{{%ACTSTAT}}';
     }
@@ -23,7 +23,7 @@ class Actstat extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules():array
     {
         return [
             [['ACTSTATID', 'NAME'], 'required'],
@@ -36,7 +36,7 @@ class Actstat extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels():array
     {
         return [
             'ACTSTATID' => 'Идентификатор статуса (ключ)',

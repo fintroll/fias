@@ -2,7 +2,8 @@
 
 namespace common\models\fias;
 
-use Yii;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%addrobj}}".
@@ -50,12 +51,12 @@ use Yii;
  * @property Addrobj[] $parentsTree
  * @property string $fullAddress
  */
-class Addrobj extends \yii\db\ActiveRecord
+class Addrobj extends ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return '{{%ADDROBJ}}';
     }
@@ -63,7 +64,7 @@ class Addrobj extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['AOGUID', 'FORMALNAME', 'REGIONCODE', 'AUTOCODE', 'AREACODE', 'CITYCODE', 'CTARCODE', 'PLACECODE', 'PLANCODE', 'EXTRCODE', 'SEXTCODE', 'UPDATEDATE', 'SHORTNAME', 'AOLEVEL', 'AOID', 'ACTSTATUS', 'CENTSTATUS', 'OPERSTATUS', 'CURRSTATUS', 'STARTDATE', 'ENDDATE', 'LIVESTATUS', 'DIVTYPE'], 'required'],
@@ -87,7 +88,7 @@ class Addrobj extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'AOGUID' => 'Глобальный уникальный идентификатор адресного объекта ',
@@ -133,7 +134,7 @@ class Addrobj extends \yii\db\ActiveRecord
 
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getParent()
     {
@@ -146,7 +147,7 @@ class Addrobj extends \yii\db\ActiveRecord
      *
      * @return string
      */
-    public function getFullAddress()
+    public function getFullAddress(): string
     {
         $address = $this->getAddressRecursive();
         $addresses = explode(';', $address);
@@ -157,7 +158,7 @@ class Addrobj extends \yii\db\ActiveRecord
     /**
      * @return string
      */
-    protected function getAddressRecursive():string
+    protected function getAddressRecursive(): string
     {
         $address = $this->replaceTitle();
         if ($this->parent !== null) {
@@ -169,7 +170,7 @@ class Addrobj extends \yii\db\ActiveRecord
     /**
      * @return array
      */
-    protected function getParentsTree():array
+    protected function getParentsTree(): array
     {
         $result = [];
         if ($this->PARENTGUID !== null) {
@@ -183,7 +184,7 @@ class Addrobj extends \yii\db\ActiveRecord
      *
      * @return string
      */
-    protected function replaceTitle()
+    protected function replaceTitle(): ?string
     {
         switch ($this->SHORTNAME) {
             case 'обл':

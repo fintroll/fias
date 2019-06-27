@@ -2,15 +2,18 @@
 
 namespace rest\modules\address\models;
 
-use Yii;
+use common\models\fias\House as CommonHouse;
 
-
-class House extends \common\models\fias\House
+/**
+ * Class House
+ * @package rest\modules\address\models
+ */
+class House extends CommonHouse
 {
- /**
+    /**
      * {@inheritdoc}
      */
-    public function fields()
+    public function fields(): array
     {
         return [
             'fullAddress',
@@ -24,7 +27,7 @@ class House extends \common\models\fias\House
         ];
     }
 
-    public function extraFields()
+    public function extraFields(): array
     {
         return [
             'aoguid' => 'AOGUID',

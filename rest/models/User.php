@@ -1,8 +1,8 @@
 <?php
+
 namespace rest\models;
 
 use common\models\User as CommonUser;
-
 
 /**
  * Class User

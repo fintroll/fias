@@ -2,7 +2,8 @@
 
 namespace common\models\fias;
 
-use Yii;
+
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%curentst}}".
@@ -10,12 +11,12 @@ use Yii;
  * @property int $CURENTSTID Идентификатор статуса (ключ)
  * @property string $NAME Наименование (0 - актуальный, 1-50, 2-98 – исторический (кроме 51), 51 - переподчиненный, 99 - несуществующий)
  */
-class Curentst extends \yii\db\ActiveRecord
+class Curentst extends ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return '{{%CURENTST}}';
     }
@@ -23,7 +24,7 @@ class Curentst extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['CURENTSTID', 'NAME'], 'required'],
@@ -36,7 +37,7 @@ class Curentst extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'CURENTSTID' => 'Идентификатор статуса (ключ)',

@@ -2,7 +2,7 @@
 
 namespace common\models\fias;
 
-use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%operstat}}".
@@ -10,12 +10,12 @@ use Yii;
  * @property int $OPERSTATID Идентификатор статуса (ключ)
  * @property string $NAME Наименование
  */
-class Operstat extends \yii\db\ActiveRecord
+class Operstat extends ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return '{{%OPERSTAT}}';
     }
@@ -23,7 +23,7 @@ class Operstat extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['OPERSTATID', 'NAME'], 'required'],
@@ -36,7 +36,7 @@ class Operstat extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'OPERSTATID' => 'Идентификатор статуса (ключ)',

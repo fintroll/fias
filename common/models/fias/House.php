@@ -2,8 +2,8 @@
 
 namespace common\models\fias;
 
-use Yii;
-
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 /**
  * This is the model class for table "{{%house}}".
  *
@@ -37,12 +37,12 @@ use Yii;
  * @property string $fullAddress Полный адрес
  * @property string $fullNumber Полный номер
  */
-class House extends \yii\db\ActiveRecord
+class House extends ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return '{{%HOUSE}}';
     }
@@ -50,7 +50,7 @@ class House extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['UPDATEDATE', 'ESTSTATUS', 'HOUSEID', 'HOUSEGUID', 'AOGUID', 'STARTDATE', 'ENDDATE', 'STATSTATUS', 'COUNTER', 'DIVTYPE'], 'required'],
@@ -102,7 +102,7 @@ class House extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getAddress()
     {

@@ -2,7 +2,7 @@
 
 namespace common\models\fias;
 
-use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%room}}".
@@ -34,12 +34,12 @@ use Yii;
  * @property string $roomLabel тип помещения(сокр)
  * @property string $fullAddress тип помещения(сокр)
  */
-class Room extends \yii\db\ActiveRecord
+class Room extends ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return '{{%ROOM}}';
     }
@@ -47,7 +47,7 @@ class Room extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['ROOMGUID', 'FLATNUMBER', 'FLATTYPE', 'REGIONCODE', 'UPDATEDATE', 'HOUSEGUID', 'ROOMID', 'STARTDATE', 'ENDDATE', 'LIVESTATUS', 'OPERSTATUS'], 'required'],
@@ -64,7 +64,7 @@ class Room extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'ROOMGUID' => 'Глобальный уникальный идентификатор адресного объекта (помещения)',
@@ -130,17 +130,17 @@ class Room extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return mixed|string
+     * @return string
      */
-    public function getFullAddress()
+    public function getFullAddress(): string
     {
         $address = ($this->house !== null && $this->house->fullAddress !== null) ? $this->house->fullAddress : $this->FLATNUMBER ?? $this->ROOMNUMBER;
 
         if (!empty($this->flatLabel)) {
-            $address .= ', '.$this->flatLabel;
+            $address .= ', ' . $this->flatLabel;
         }
         if (!empty($this->roomLabel)) {
-            $address .= ', '.$this->roomLabel;
+            $address .= ', ' . $this->roomLabel;
         }
 
         return $address;

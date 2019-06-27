@@ -2,7 +2,7 @@
 
 namespace common\models\fias;
 
-use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%normdoc}}".
@@ -14,12 +14,12 @@ use Yii;
  * @property int $DOCTYPE Тип документа
  * @property string $DOCIMGID Идентификатор образа (внешний ключ)
  */
-class Normdoc extends \yii\db\ActiveRecord
+class Normdoc extends ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return '{{%NORMDOC}}';
     }
@@ -27,7 +27,7 @@ class Normdoc extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['NORMDOCID', 'DOCTYPE'], 'required'],
@@ -43,7 +43,7 @@ class Normdoc extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'NORMDOCID' => 'Идентификатор нормативного документа',
