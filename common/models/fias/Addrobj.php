@@ -188,6 +188,8 @@ class Addrobj extends \yii\db\ActiveRecord
         switch ($this->SHORTNAME) {
             case 'обл':
                 return $this->FORMALNAME . ' ' . $this->SHORTNAME;
+            case 'край':
+                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
             case 'р-н':
                 return $this->FORMALNAME . ' ' . $this->SHORTNAME;
             case 'проезд':
@@ -201,7 +203,7 @@ class Addrobj extends \yii\db\ActiveRecord
             case 'ш':
                 return $this->FORMALNAME . ' ' . $this->SHORTNAME;
             case 'г':
-                return $this->SHORTNAME . ' ' . $this->FORMALNAME;
+                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
             case 'линия':
                 return $this->SHORTNAME . ' ' . $this->FORMALNAME;
             case 'ул':

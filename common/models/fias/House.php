@@ -116,7 +116,7 @@ class House extends \yii\db\ActiveRecord
     {
         $address = isset($this->address) ? $this->POSTALCODE.', '.$this->address->fullAddress : '';
 
-        $address .= ' '. $this->HOUSENUM . $this->fullNumber;
+        $address .= ', '. $this->HOUSENUM . $this->fullNumber;
 
         return $address;
     }
