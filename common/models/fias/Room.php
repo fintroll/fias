@@ -137,10 +137,10 @@ class Room extends \yii\db\ActiveRecord
         $address = ($this->house !== null && $this->house->fullAddress !== null) ? $this->house->fullAddress : $this->FLATNUMBER ?? $this->ROOMNUMBER;
 
         if (!empty($this->flatLabel)) {
-            $address .= ' '.$this->flatLabel;
+            $address .= ', '.$this->flatLabel;
         }
         if (!empty($this->roomLabel)) {
-            $address .= ' '.$this->roomLabel;
+            $address .= ', '.$this->roomLabel;
         }
 
         return $address;

@@ -14,12 +14,12 @@ class Addrobj extends \common\models\fias\Addrobj
     public function fields()
     {
         return [
+            'fullAddress',
             'aoid' => 'AOID',
             'aoguid' => 'AOGUID',
             'postalcode' => 'POSTALCODE',
             'formalname' => 'FORMALNAME',
-            'parentsTree',
-            'fullAddress'
+            'parentsTree'
         ];
     }
 

@@ -114,9 +114,9 @@ class House extends \yii\db\ActiveRecord
      */
     public function getFullAddress()
     {
-        $address = isset($this->address) ? $this->address->fullAddress : '';
+        $address = isset($this->address) ? $this->POSTALCODE.', '.$this->address->fullAddress : '';
 
-        $address .= ' д.'. $this->HOUSENUM . $this->fullNumber;
+        $address .= ' '. $this->HOUSENUM . $this->fullNumber;
 
         return $address;
     }
@@ -129,7 +129,7 @@ class House extends \yii\db\ActiveRecord
         $number = '';
 
         if (!empty($this->BUILDNUM)) {
-            $number .= ' корп. ' . $this->BUILDNUM;
+            $number .= ' к' . $this->BUILDNUM;
         }
 
         if (!empty($this->STRUCNUM)) {

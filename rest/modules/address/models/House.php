@@ -13,6 +13,7 @@ class House extends \common\models\fias\House
     public function fields()
     {
         return [
+            'fullAddress',
             'houseid' => 'HOUSEID',
             'houseguid' => 'HOUSEGUID',
             'housenum' => 'HOUSENUM',
