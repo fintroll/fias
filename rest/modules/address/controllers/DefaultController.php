@@ -2,19 +2,20 @@
 
 namespace rest\modules\address\controllers;
 
-use rest\components\Controller;
+use rest\components\ActiveController;
 use rest\modules\address\models\Addrobj;
 use rest\modules\address\models\House;
 use rest\modules\address\models\Room;
+use Yii;
 use Throwable;
+use yii\web\NotFoundHttpException;
 
 /**
  * Class DefaultController
  * @package rest\modules\address\controllers
  */
-class DefaultController extends Controller
+class DefaultController extends ActiveController
 {
-
     /**
      * @var string Обязательное поле. Класс модели по умолчанию
      */
@@ -27,15 +28,16 @@ class DefaultController extends Controller
     {
         $actions = parent::actions();
         unset($actions['create'], $actions['update'], $actions['delete'], $actions['index']);
+        $actions['view']['findModel'] = [$this, 'findModel'];
         return $actions;
     }
 
     /**
-     * @param string $id
-     *
-     * @return Addrobj|House|Room|null
+     * @param $id
+     * @return Room|House|Addrobj
+     * @throws NotFoundHttpException
      */
-    public function findModel($id)
+     public function findModel($id)
     {
         $modelsClasses = [
             'ROOMID' => Room::class,
@@ -50,8 +52,11 @@ class DefaultController extends Controller
                     break;
                 }
             }
-        } catch (Throwable $exception) {
-            return null;
+        } catch (Throwable $ignore) {
+            Yii::error($ignore->getMessage());
+        }
+        if ($model === null) {
+            throw new NotFoundHttpException('Объект fias_id='.$id.' не найден');
         }
         return $model;
     }
