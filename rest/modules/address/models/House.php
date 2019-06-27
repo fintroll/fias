@@ -13,30 +13,25 @@ class House extends \common\models\fias\House
     public function fields()
     {
         return [
-            'postalcode' => 'POSTALCODE',
-            'regioncode' => 'REGIONCODE',
-            'ifnsfl' => 'IFNSFL',
-            'terrifnsfl' => 'TERRIFNSFL',
-            'ifnsul' => 'IFNSUL',
-            'terrifnsul' => 'TERRIFNSUL',
-            'okato' => 'OKATO',
-            'oktmo' => 'OKTMO',
-            'updatedate' => 'UPDATEDATE',
+            'houseid' => 'HOUSEID',
+            'houseguid' => 'HOUSEGUID',
             'housenum' => 'HOUSENUM',
             'eststatus' => 'ESTSTATUS',
             'buildnum' => 'BUILDNUM',
             'strucnum' => 'STRUCNUM',
-            'strstatus' => 'STRSTATUS',
-            'houseid' => 'HOUSEID',
-            'houseguid' => 'HOUSEGUID',
+            'address'
+        ];
+    }
+
+    public function extraFields()
+    {
+        return [
             'aoguid' => 'AOGUID',
-            'startdate' => 'STARTDATE',
-            'enddate' => 'ENDDATE',
-            'statstatus' => 'STATSTATUS',
+            'cadnum' => 'CADNUM',
             'normdoc' => 'NORMDOC',
             'counter' => 'COUNTER',
-            'cadnum' => 'CADNUM',
-            'divtype' => 'DIVTYPE',
+            'strstatus' => 'STRSTATUS',
+            'statstatus' => 'STATSTATUS',
         ];
     }
 
@@ -45,7 +40,7 @@ class House extends \common\models\fias\House
      */
     public function getAddress()
     {
-        return $this->hasOne(Addrobj::class, ['AOID' => 'AOGUID']);
+        return $this->hasOne(Addrobj::class, ['AOGUID' => 'AOGUID']);
     }
 
     /**

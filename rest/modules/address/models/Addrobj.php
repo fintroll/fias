@@ -14,8 +14,18 @@ class Addrobj extends \common\models\fias\Addrobj
     public function fields()
     {
         return [
+            'aoid' => 'AOID',
             'aoguid' => 'AOGUID',
+            'postalcode' => 'POSTALCODE',
             'formalname' => 'FORMALNAME',
+            'parentsTree',
+            'fullAddress'
+        ];
+    }
+
+    public function extraFields()
+    {
+        return [
             'regioncode' => 'REGIONCODE',
             'autocode' => 'AUTOCODE',
             'areacode' => 'AREACODE',
@@ -27,31 +37,14 @@ class Addrobj extends \common\models\fias\Addrobj
             'extrcode' => 'EXTRCODE',
             'sextcode' => 'SEXTCODE',
             'offname' => 'OFFNAME',
-            'postalcode' => 'POSTALCODE',
-            'ifnsfl' => 'IFNSFL',
-            'terrifnsfl' => 'TERRIFNSFL',
-            'ifnsul' => 'IFNSUL',
-            'terrifnsul' => 'TERRIFNSUL',
-            'okato' => 'OKATO',
-            'oktmo' => 'OKTMO',
-            'updatedate' => 'UPDATEDATE',
             'shortname' => 'SHORTNAME',
-            'aolevel' => 'AOLEVEL',
             'parentguid' => 'PARENTGUID',
-            'aoid' => 'AOID',
-            'previd' => 'PREVID',
-            'nextid' => 'NEXTID',
-            'code' => 'CODE',
             'plaincode' => 'PLAINCODE',
             'actstatus' => 'ACTSTATUS',
             'centstatus' => 'CENTSTATUS',
             'operstatus' => 'OPERSTATUS',
             'currstatus' => 'CURRSTATUS',
-            'startdate' => 'STARTDATE',
-            'enddate' => 'ENDDATE',
-            'normdoc' => 'NORMDOC',
             'livestatus' => 'LIVESTATUS',
-            'divtype' => 'DIVTYPE',
         ];
     }
 }

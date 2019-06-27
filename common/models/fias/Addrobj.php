@@ -45,6 +45,10 @@ use Yii;
  * @property string $NORMDOC Внешний ключ на нормативный документ
  * @property int $LIVESTATUS Признак действующего адресного объекта
  * @property int $DIVTYPE
+ *
+ * @property Addrobj $parent
+ * @property Addrobj[] $parentsTree
+ * @property string $fullAddress
  */
 class Addrobj extends \yii\db\ActiveRecord
 {
@@ -128,4 +132,84 @@ class Addrobj extends \yii\db\ActiveRecord
     }
 
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getParent()
+    {
+        return $this->hasOne(static::class, ['AOGUID' => 'PARENTGUID']);
+    }
+
+
+    /**
+     * Полный адрес
+     *
+     * @return string
+     */
+    public function getFullAddress()
+    {
+        $address = $this->getAddressRecursive();
+        $addresses = explode(';', $address);
+        $addresses = array_reverse($addresses);
+        return implode(', ', $addresses);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getAddressRecursive():string
+    {
+        $address = $this->replaceTitle();
+        if ($this->parent !== null) {
+            $address .= ';' . $this->parent->getAddressRecursive();
+        }
+        return $address;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getParentsTree():array
+    {
+        $result = [];
+        if ($this->PARENTGUID !== null) {
+            $result[] = $this->parent;
+        }
+        return $result;
+    }
+
+    /**
+     * Добавить отформатированный префикс к тайтлу
+     *
+     * @return string
+     */
+    protected function replaceTitle()
+    {
+        switch ($this->SHORTNAME) {
+            case 'обл':
+                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
+            case 'р-н':
+                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
+            case 'проезд':
+                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
+            case 'б-р':
+                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
+            case 'пер':
+                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
+            case 'ал':
+                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
+            case 'ш':
+                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
+            case 'г':
+                return $this->SHORTNAME . ' ' . $this->FORMALNAME;
+            case 'линия':
+                return $this->SHORTNAME . ' ' . $this->FORMALNAME;
+            case 'ул':
+                return $this->SHORTNAME . ' ' . $this->FORMALNAME;
+            case 'пр-кт':
+                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
+            default:
+                return trim($this->SHORTNAME . '. ' . $this->FORMALNAME);
+        }
+    }
 }

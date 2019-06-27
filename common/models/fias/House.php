@@ -106,7 +106,7 @@ class House extends \yii\db\ActiveRecord
      */
     public function getAddress()
     {
-        return $this->hasOne(Addrobj::class, ['AOID' => 'AOGUID']);
+        return $this->hasOne(Addrobj::class, ['AOGUID' => 'AOGUID']);
     }
 
     /**
