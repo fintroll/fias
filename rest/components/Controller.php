@@ -21,7 +21,7 @@ class Controller extends \yii\rest\Controller
 
 		// re-add authentication filter
 		$behaviors['authenticator'] = [
-			'class' => HttpBearerAuth::class
+			'class' => YII_ENV_DEV ? QueryParamAuth::class : HttpBearerAuth::class,
 		];
 		// avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
 		$behaviors['authenticator']['except'] = ['login'];
