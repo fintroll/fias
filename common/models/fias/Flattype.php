@@ -18,7 +18,7 @@ class Flattype extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%flattype}}';
+        return '{{%FLATTYPE}}';
     }
 
     /**

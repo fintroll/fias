@@ -37,7 +37,7 @@ class Stead extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%stead}}';
+        return '{{%STEAD}}';
     }
 
     /**

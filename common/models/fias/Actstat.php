@@ -17,7 +17,7 @@ class Actstat extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%actstat}}';
+        return '{{%ACTSTAT}}';
     }
 
     /**

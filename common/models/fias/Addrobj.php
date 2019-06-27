@@ -57,7 +57,7 @@ class Addrobj extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%addrobj}}';
+        return '{{%ADDROBJ}}';
     }
 
     /**

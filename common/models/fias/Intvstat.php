@@ -17,7 +17,7 @@ class Intvstat extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%intvstat}}';
+        return '{{%INTVSTAT}}';
     }
 
     /**

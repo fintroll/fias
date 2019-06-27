@@ -19,7 +19,7 @@ class Socrbase extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%socrbase}}';
+        return '{{%SOCRBASE}}';
     }
 
     /**

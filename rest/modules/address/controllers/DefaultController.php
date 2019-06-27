@@ -9,6 +9,7 @@ use rest\modules\address\models\Room;
 use Yii;
 use Throwable;
 use yii\base\InvalidConfigException;
+use yii\log\Logger;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -55,7 +56,7 @@ class DefaultController extends ActiveController
                 }
             }
         } catch (Throwable $ignore) {
-            throw new InvalidConfigException($ignore->getMessage());
+            Yii::getLogger()->log($ignore->getMessage(), Logger::LEVEL_ERROR);
         }
         if ($model === null) {
             throw new NotFoundHttpException('Объект fias_id='.$id.' не найден');

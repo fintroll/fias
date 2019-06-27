@@ -44,7 +44,7 @@ class House extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%house}}';
+        return '{{%HOUSE}}';
     }
 
     /**

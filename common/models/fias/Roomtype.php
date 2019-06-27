@@ -18,7 +18,7 @@ class Roomtype extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%roomtype}}';
+        return '{{%ROOMTYPE}}';
     }
 
     /**

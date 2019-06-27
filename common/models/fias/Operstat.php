@@ -17,7 +17,7 @@ class Operstat extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%operstat}}';
+        return '{{%OPERSTAT}}';
     }
 
     /**

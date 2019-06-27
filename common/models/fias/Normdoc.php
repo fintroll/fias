@@ -21,7 +21,7 @@ class Normdoc extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%normdoc}}';
+        return '{{%NORMDOC}}';
     }
 
     /**

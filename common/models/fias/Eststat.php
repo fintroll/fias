@@ -18,7 +18,7 @@ class Eststat extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%eststat}}';
+        return '{{%ESTSTAT}}';
     }
 
     /**

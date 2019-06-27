@@ -17,7 +17,7 @@ class Centerst extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%centerst}}';
+        return '{{%CENTERST}}';
     }
 
     /**

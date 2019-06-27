@@ -17,7 +17,7 @@ class Curentst extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%curentst}}';
+        return '{{%CURENTST}}';
     }
 
     /**

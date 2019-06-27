@@ -18,7 +18,7 @@ class Strstat extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%strstat}}';
+        return '{{%STRSTAT}}';
     }
 
     /**
