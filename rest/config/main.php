@@ -54,6 +54,8 @@ return [
             'showScriptName' => false,
             'rules' => [
                'GET address/<id>' => 'address/default/view',
+               'GET link/<id>' => 'link/default/view',
+                'POST link' => 'link/default/create',
                 [
                     'class' => yii\rest\UrlRule::class,
                     'controller' => [
