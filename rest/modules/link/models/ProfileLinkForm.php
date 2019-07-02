@@ -19,7 +19,7 @@ class ProfileLinkForm extends Model
     public $id;
 
     /**
-     * @var int $project_profile_id
+     * @var string $project_profile_id
      */
     public $project_profile_id;
 
@@ -52,9 +52,8 @@ class ProfileLinkForm extends Model
     public function rules(): array
     {
         return [
-            [['fias_id'], 'required'],
-            [['project_profile_id'], 'integer'],
-            [['fias_id'], 'string', 'max' => 36],
+            [['fias_id','project_profile_id'], 'required'],
+            [['fias_id','project_profile_id'], 'string', 'max' => 36],
             [['fias_id'], function ($attribute) {
                 $model = SearchAddress::findModel($this->{$attribute});
                 if ($model === null) {
@@ -70,16 +69,20 @@ class ProfileLinkForm extends Model
      * @return bool
      * @throws Throwable
      */
-    public function save():bool
+    public function save(): bool
     {
         if ($this->validate()) {
-            $this->link = $this->prepareFiasLinkRecord($this->fias_id);
-            if (!$this->link->isNewRecord){
+            $this->link = $this->prepareFiasLinkRecord();
+            if (!$this->link->isNewRecord) {
                 return true;
             }
+            $this->link->setAttributes($this->getAttributes());
             $transaction = Yii::$app->db->beginTransaction();
             try {
-                $this->link->save();
+                if (!$this->link->save()) {
+                    $transaction->rollBack();
+                    return false;
+                }
                 $this->id = $this->link->id;
                 $transaction->commit();
                 return true;
@@ -94,7 +97,7 @@ class ProfileLinkForm extends Model
     /**
      * @return string
      */
-    public function formName():string
+    public function formName(): string
     {
         return '';
     }
@@ -123,9 +126,9 @@ class ProfileLinkForm extends Model
      * @param string $fias_id
      * @return ProfileFiasLink
      */
-    public function prepareFiasLinkRecord($fias_id): ProfileFiasLink
+    public function prepareFiasLinkRecord(): ProfileFiasLink
     {
-        $model = ProfileFiasLink::find()->where(['fias_id' => $fias_id])->one();
+        $model = ProfileFiasLink::find()->where(['fias_id' => $this->fias_id, 'project_profile_id' => $this->project_profile_id])->one();
         if ($model !== null) {
             $this->id = $model->id;
             $this->project_profile_id = $model->project_profile_id;

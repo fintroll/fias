@@ -10,35 +10,10 @@ use common\models\fias\ProfileFiasLink as CommonLink;
  */
 class ProfileFiasLink extends CommonLink
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName():string
-    {
-        return '{{%profiles_x_fias_link}}';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rules(): array
+    public function fields()
     {
         return [
-            [['project_profile_id', 'fias_id'], 'required'],
-            [['project_profile_id'], 'integer'],
-            [['fias_id'], 'string', 'max' => 36],
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels(): array
-    {
-        return [
-            'id' => 'ID',
-            'project_profile_id' => 'ID Анкеты в проекте',
-            'fias_id' => 'Fias_id',
+            'project_profile_id',
         ];
     }
 }

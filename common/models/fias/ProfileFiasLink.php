@@ -29,8 +29,7 @@ class ProfileFiasLink extends ActiveRecord
     {
         return [
             [['project_profile_id', 'fias_id'], 'required'],
-            [['project_profile_id'], 'integer'],
-            [['fias_id'], 'string', 'max' => 36],
+            [['project_profile_id','fias_id'], 'string', 'max' => 36],
         ];
     }
 

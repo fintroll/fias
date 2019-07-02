@@ -14,7 +14,7 @@ class m190701_132810_create_profiles_x_fias_link_table extends Migration
     {
         $this->createTable('{{%profiles_x_fias_link}}', [
             'id' => $this->primaryKey(),
-            'project_profile_id' => $this->integer()->notNull()->comment('ID Анкеты в проекте'),
+            'project_profile_id' => $this->string()->notNull()->comment('ID Анкеты в проекте'),
             'fias_id' => $this->string(36)->notNull()->comment('Fias_id'),
         ]);
         $this->createIndex('idx_link_project_profile_id','{{%profiles_x_fias_link}}', 'project_profile_id');
