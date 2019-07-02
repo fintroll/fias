@@ -14,31 +14,52 @@ use Throwable;
 class SearchAddress extends Model
 {
     /**
-     * @var int
+     * @var string $query
      */
-    public $region;
+    public $query;
 
     /**
-     * @var string
+     * @var string $parent_fias_id
      */
-    public $street;
+    public $parent_fias_id;
 
     /**
-     * @var string
+     * @var string $type
      */
-    public $address_id;
+    public $type;
 
     /**
-     * @var string
+     * @var array $types
      */
-    public $house;
+    private $types = [
+        'region' => [
+            'class' => Addrobj::class,
+            'parent_field' => 'PARENTGUID',
+            'search_field' => 'FORMALNAME',
+            'levels' => [1, 2]
+        ],
+        'district' => [
+            'class' => Addrobj::class,
+            'parent_field' => 'PARENTGUID',
+            'search_field' => 'FORMALNAME'
+        ],
+        'city' => [
+            'class' => Addrobj::class,
+            'parent_field' => 'PARENTGUID',
+            'search_field' => 'FORMALNAME'
+        ],
+        'street' => [
+            'class' => Addrobj::class,
+            'parent_field' => 'PARENTGUID',
+            'search_field' => 'FORMALNAME'
+        ],
+        'house' => [
+            'class' => House::class,
+            'parent_field' => 'AOGUID',
+            'search_fields' => 'HOUSENUM'
+        ],
+    ];
 
-    /**
-     * Поиск по улицам и улицам на дополнительных территориях
-     *
-     * @var array
-     */
-    protected $levels = [7, 91];
 
     /**
      * @inheritdoc
@@ -46,8 +67,9 @@ class SearchAddress extends Model
     public function rules()
     {
         return [
-            [['address_id', 'house', 'street'], 'string'],
-            [['region'], 'integer'],
+            [['type', 'query'], 'required'],
+            [['query', 'parent_fias_id', 'type'], 'string'],
+            [['type'], 'in', 'range' => array_keys($this->types)],
         ];
     }
 
@@ -62,49 +84,12 @@ class SearchAddress extends Model
 
     /**
      * @param $params
-     * @return array
-     */
-    public function searchAddress($params)
-    {
-        if (!empty($params['house'])) {
-            $dataProvider = $this->searchHouse($params);
-            $models = $dataProvider->getModels();
-            if (empty($models)) {
-                return ['result' => true, 'data' => null];
-            }
-
-            foreach ($models as $model) {
-                $data[] = $model->getFullNumber();
-            }
-            return ['result' => true, 'data' => $data];
-        }
-
-        if (!empty($params['street'])) {
-            $dataProvider = $this->searchAddressObject($params);
-            $models = $dataProvider->getModels();
-            if (empty($models)) {
-                return ['result' => true, 'data' => null];
-            }
-
-            foreach ($models as $model) {
-                $data[] = [
-                    'value' => $model->getFullAddress(),
-                    'address_id' => $model->address_id
-                ];
-            }
-            return ['result' => true, 'data' => $data];
-        }
-
-        return ['result' => true, 'data' => null];
-    }
-
-    /**
-     * @param $params
      * @return ActiveDataProvider
      */
-    protected function searchAddressObject($params)
+    public function search($params): ActiveDataProvider
     {
-        $query = Addrobj::find()->where(['IN', 'address_level', $this->levels]);
+
+        $query = Addrobj::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -113,50 +98,21 @@ class SearchAddress extends Model
         $this->load($params, '');
 
         if (!$this->validate()) {
+            $query->andWhere('0=1');
             return $dataProvider;
         }
 
-        $query->andFilterWhere([
-            'region_code' => $this->region,
-        ]);
+        $type =  $this->types[$this->type];
+        /** @var $query Room|House|Addrobj */
+        $query = $type['class']::find();
+        $query->andFilterWhere(['like', $type['search_field'], $this->query]);
+        $query->andFilterWhere([$type['parent_field'] => $this->parent_fias_id]);
+        $query->andFilterWhere([$type['parent_field'], $this->parent_fias_id]);
 
-        $query->andFilterWhere([
-            'LIKE',
-            'title',
-            $this->street
-        ]);
 
         return $dataProvider;
     }
 
-    /**
-     * @param $params
-     * @return ActiveDataProvider
-     */
-    protected function searchHouse($params)
-    {
-        $query = House::find();
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-
-        $this->load($params, '');
-
-        if (!$this->validate()) {
-            return $dataProvider;
-        }
-
-        $query->where(['address_id' => $this->address_id]);
-
-        $query->andFilterWhere([
-            'LIKE',
-            House::tableName() . '.number',
-            $this->house
-        ]);
-
-        return $dataProvider;
-    }
 
     /**
      * @param $id

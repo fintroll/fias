@@ -75,6 +75,9 @@ return [
         'link' => [
             'class' => \rest\modules\link\Link::class,
         ],
+        'search' => [
+            'class' => \rest\modules\search\Search::class,
+        ],
     ],
     'params' => $params,
 ];
