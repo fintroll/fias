@@ -114,8 +114,6 @@ class ProfileLinkForm extends Model
         } else {
             $model = new ProfileFiasLink();
         }
-
-
         return $model;
     }
 }

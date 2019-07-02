@@ -1,6 +1,6 @@
 <?php
 
-namespace rest\modules\address\controllers;
+namespace rest\modules\link\controllers;
 
 use rest\components\ActiveController;
 use rest\modules\address\models\Addrobj;
@@ -9,9 +9,6 @@ use rest\modules\address\models\Room;
 use rest\modules\links\models\ProfileFiasLink;
 use rest\modules\links\models\ProfileLinkForm;
 use rest\searches\SearchAddress;
-use Yii;
-use Throwable;
-use yii\log\Logger;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -31,7 +28,7 @@ class DefaultController extends ActiveController
     public function actions(): array
     {
         $actions = parent::actions();
-        unset($actions['delete'], $actions['index']);
+        unset($actions['delete'], $actions['index'], $actions['update']);
         $actions['view']['findModel'] = [$this, 'findModel'];
         $actions['create']['modelClass'] = ProfileLinkForm::class;
         return $actions;

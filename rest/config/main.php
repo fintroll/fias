@@ -72,6 +72,9 @@ return [
         'address' => [
             'class' => \rest\modules\address\Address::class,
         ],
+        'link' => [
+            'class' => \rest\modules\link\Link::class,
+        ],
     ],
     'params' => $params,
 ];

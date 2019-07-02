@@ -7,9 +7,6 @@ use rest\modules\address\models\Addrobj;
 use rest\modules\address\models\House;
 use rest\modules\address\models\Room;
 use rest\searches\SearchAddress;
-use Yii;
-use Throwable;
-use yii\log\Logger;
 use yii\web\NotFoundHttpException;
 
 /**
