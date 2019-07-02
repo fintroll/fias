@@ -8,6 +8,7 @@ use rest\modules\address\models\House;
 use rest\modules\address\models\Room;
 use rest\modules\links\models\ProfileFiasLink;
 use rest\modules\links\models\ProfileLinkForm;
+use rest\searches\SearchAddress;
 use Yii;
 use Throwable;
 use yii\log\Logger;
@@ -43,5 +44,22 @@ class DefaultController extends ActiveController
         $parentVerbs['view'] = ['GET'];
         $parentVerbs['create'] = ['POST'];
         return $parentVerbs;
+    }
+    /**
+     * @param $id
+     * @return Room|House|Addrobj
+     * @throws NotFoundHttpException
+     */
+    public function findModel($id)
+    {
+        $fiasLinkModel = ProfileFiasLink::findOne($id);
+        if ($fiasLinkModel === null){
+            throw new NotFoundHttpException('Объект id=' . $id . ' не найден');
+        }
+        $model = SearchAddress::findModel($fiasLinkModel->fias_id);
+        if ($model === null) {
+            throw new NotFoundHttpException('Объект fias_id=' . $id . ' не найден');
+        }
+        return $model;
     }
 }

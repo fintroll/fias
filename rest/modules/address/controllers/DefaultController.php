@@ -6,6 +6,7 @@ use rest\components\ActiveController;
 use rest\modules\address\models\Addrobj;
 use rest\modules\address\models\House;
 use rest\modules\address\models\Room;
+use rest\searches\SearchAddress;
 use Yii;
 use Throwable;
 use yii\log\Logger;
@@ -40,22 +41,7 @@ class DefaultController extends ActiveController
      */
     public function findModel($id)
     {
-        $modelsClasses = [
-            'ROOMID' => Room::class,
-            'HOUSEID' => House::class,
-            'AOID' => Addrobj::class
-        ];
-        $model = null;
-        try {
-            foreach ($modelsClasses as $key => $modelsClass) {
-                $model = $modelsClass::findOne([$key => $id]);
-                if ($model !== null) {
-                    break;
-                }
-            }
-        } catch (Throwable $ignore) {
-            Yii::getLogger()->log($ignore->getMessage(), Logger::LEVEL_ERROR);
-        }
+        $model = SearchAddress::findModel($id);
         if ($model === null) {
             throw new NotFoundHttpException('Объект fias_id=' . $id . ' не найден');
         }
