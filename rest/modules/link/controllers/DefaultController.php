@@ -52,7 +52,7 @@ class DefaultController extends ActiveController
      */
     public function findModel($id)
     {
-        $fiasLinkModel = ProfileFiasLink::findOne($id);
+        $fiasLinkModel = ProfileFiasLink::find()->where(['project_profile_id' => $id])->one();
         if ($fiasLinkModel === null){
             throw new NotFoundHttpException('Объект id=' . $id . ' не найден');
         }
