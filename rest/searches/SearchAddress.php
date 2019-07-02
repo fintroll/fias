@@ -105,9 +105,11 @@ class SearchAddress extends Model
         $type =  $this->types[$this->type];
         /** @var $query Room|House|Addrobj */
         $query = $type['class']::find();
-        $query->andFilterWhere(['like', $type['search_field'], $this->query]);
-        $query->andFilterWhere([$type['parent_field'] => $this->parent_fias_id]);
-        $query->andFilterWhere([$type['parent_field'], $this->parent_fias_id]);
+        $query->andFilterWhere(['LIKE ', $type['search_field'], $this->query]);
+        if ($type['class'] === Addrobj::class) {
+            $query->andFilterWhere(['AOLEVEL' => $type['levels']]);
+        }
+
 
 
         return $dataProvider;
