@@ -1,15 +1,12 @@
 <?php
 
-namespace rest\modules\links\models;
+namespace rest\modules\link\models;
 
 use common\models\fias\ProfileFiasLink as CommonLink;
 
 /**
- * This is the model class for table "{{%profiles_x_fias_link}}".
- *
- * @property int $id
- * @property int $project_profile_id ID Анкеты в проекте
- * @property string $fias_id Fias_id
+ * Class ProfileFiasLink
+ * @package rest\modules\link\models
  */
 class ProfileFiasLink extends CommonLink
 {

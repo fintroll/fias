@@ -6,8 +6,8 @@ use rest\components\ActiveController;
 use rest\modules\address\models\Addrobj;
 use rest\modules\address\models\House;
 use rest\modules\address\models\Room;
-use rest\modules\links\models\ProfileFiasLink;
-use rest\modules\links\models\ProfileLinkForm;
+use rest\modules\link\models\ProfileFiasLink;
+use rest\modules\link\models\ProfileLinkForm;
 use rest\searches\SearchAddress;
 use yii\web\NotFoundHttpException;
 

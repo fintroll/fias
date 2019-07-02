@@ -1,12 +1,16 @@
 <?php
 
-namespace rest\modules\links\models;
+namespace rest\modules\link\models;
 
 use Yii;
 use rest\searches\SearchAddress;
 use Throwable;
 use yii\base\Model;
 
+/**
+ * Class ProfileLinkForm
+ * @package rest\modules\link\models
+ */
 class ProfileLinkForm extends Model
 {
     /**
@@ -28,6 +32,11 @@ class ProfileLinkForm extends Model
      * @var string $full_address
      */
     public $full_address;
+
+    /**
+     * @var ProfileFiasLink $link
+     */
+    private $link;
 
     /**
      * {@inheritdoc}
@@ -64,14 +73,14 @@ class ProfileLinkForm extends Model
     public function save():bool
     {
         if ($this->validate()) {
-            $link = $this->prepareFiasLinkRecord($this->fias_id);
-            if (!$link->isNewRecord){
+            $this->link = $this->prepareFiasLinkRecord($this->fias_id);
+            if (!$this->link->isNewRecord){
                 return true;
             }
             $transaction = Yii::$app->db->beginTransaction();
             try {
-                $link->save();
-                $this->id = $link->id;
+                $this->link->save();
+                $this->id = $this->link->id;
                 $transaction->commit();
                 return true;
             } catch (Throwable $e) {
@@ -103,6 +112,14 @@ class ProfileLinkForm extends Model
     }
 
     /**
+     * @return mixed
+     */
+    public function getPrimaryKey()
+    {
+        return $this->link->getPrimaryKey(true);
+    }
+
+    /**
      * @param string $fias_id
      * @return ProfileFiasLink
      */
@@ -111,6 +128,7 @@ class ProfileLinkForm extends Model
         $model = ProfileFiasLink::find()->where(['fias_id' => $fias_id])->one();
         if ($model !== null) {
             $this->id = $model->id;
+            $this->project_profile_id = $model->project_profile_id;
         } else {
             $model = new ProfileFiasLink();
         }
