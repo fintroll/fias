@@ -56,7 +56,7 @@ class SearchAddress extends Model
         'house' => [
             'class' => House::class,
             'parent_field' => 'AOGUID',
-            'search_fields' => 'HOUSENUM'
+            'search_field' => 'HOUSENUM'
         ],
     ];
 
@@ -67,7 +67,7 @@ class SearchAddress extends Model
     public function rules()
     {
         return [
-            [['type', 'query'], 'required'],
+            [['type'], 'required'],
             [['query', 'parent_fias_id', 'type'], 'string'],
             [['type'], 'in', 'range' => array_keys($this->types)],
         ];
@@ -105,13 +105,13 @@ class SearchAddress extends Model
         $type =  $this->types[$this->type];
         /** @var $query Room|House|Addrobj */
         $query = $type['class']::find();
-        $query->andFilterWhere(['LIKE ', $type['search_field'], $this->query]);
+        $query->andFilterWhere(['LIKE', $type['search_field'], $this->query]);
         if ($type['class'] === Addrobj::class) {
             $query->andFilterWhere(['AOLEVEL' => $type['levels']]);
         }
 
 
-
+        $dumpSql = $query->createCommand()->getRawSql();
         return $dataProvider;
     }
 
