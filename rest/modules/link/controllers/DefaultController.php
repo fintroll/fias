@@ -1,11 +1,13 @@
 <?php
 
-namespace rest\modules\address\controllers;
+namespace rest\modules\link\controllers;
 
 use rest\components\ActiveController;
 use rest\modules\address\models\Addrobj;
 use rest\modules\address\models\House;
 use rest\modules\address\models\Room;
+use rest\modules\link\models\ProfileFiasLink;
+use rest\modules\link\models\ProfileLinkForm;
 use rest\searches\SearchAddress;
 use yii\web\NotFoundHttpException;
 
@@ -18,7 +20,7 @@ class DefaultController extends ActiveController
     /**
      * @var string Обязательное поле. Класс модели по умолчанию
      */
-    public $modelClass = Addrobj::class;
+    public $modelClass = ProfileFiasLink::class;
 
     /**
      * @return array
@@ -26,11 +28,20 @@ class DefaultController extends ActiveController
     public function actions(): array
     {
         $actions = parent::actions();
-        unset($actions['create'], $actions['update'], $actions['delete'], $actions['index']);
+        unset($actions['delete'], $actions['index'], $actions['update']);
         $actions['view']['findModel'] = [$this, 'findModel'];
+        $actions['create']['modelClass'] = ProfileLinkForm::class;
         return $actions;
     }
 
+
+    public function verbs(): array
+    {
+        $parentVerbs = parent::verbs();
+        $parentVerbs['view'] = ['GET'];
+        $parentVerbs['create'] = ['POST'];
+        return $parentVerbs;
+    }
     /**
      * @param $id
      * @return Room|House|Addrobj
@@ -38,17 +49,14 @@ class DefaultController extends ActiveController
      */
     public function findModel($id)
     {
-        $model = SearchAddress::findModel($id);
+        $fiasLinkModel = ProfileFiasLink::find()->where(['project_profile_id' => $id])->one();
+        if ($fiasLinkModel === null){
+            throw new NotFoundHttpException('Объект id=' . $id . ' не найден');
+        }
+        $model = SearchAddress::findModel($fiasLinkModel->fias_id);
         if ($model === null) {
             throw new NotFoundHttpException('Объект fias_id=' . $id . ' не найден');
         }
         return $model;
-    }
-
-    public function verbs(): array
-    {
-        $parentVerbs = parent::verbs();
-        $parentVerbs['view'] = ['GET'];
-        return $parentVerbs;
     }
 }
