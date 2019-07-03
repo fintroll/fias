@@ -103,6 +103,7 @@ class SearchAddress extends Model
                 break;
             case 'house':
                 $query = House::find();
+                $query->andWhere(['AOGUID' => $this->parent_fias_id]);
                 $query->andFilterWhere(
                     [
                         'OR',
@@ -110,10 +111,10 @@ class SearchAddress extends Model
                         ['LIKE', 'BUILDNUM', $this->query]
                     ]
                 );
-                $query->andFilterWhere(['AOGUID' => $this->parent_fias_id]);
                 break;
             case 'room':
                 $query = Room::find();
+                $query->andWhere(['HOUSEGUID' => $this->parent_fias_id]);
                 $query->andFilterWhere(
                     [
                         'OR',
@@ -121,7 +122,7 @@ class SearchAddress extends Model
                         ['LIKE', 'ROOMNUMBER', $this->query]
                     ]
                 );
-                $query->andFilterWhere(['HOUSEGUID' => $this->parent_fias_id]);
+
                 break;
             default:
                 $query->andWhere('0=1');
