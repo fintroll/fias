@@ -7,6 +7,7 @@ use rest\modules\address\models\Addrobj;
 use rest\searches\SearchAddress;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\rest\IndexAction;
 use yii\rest\Serializer;
 
 /**
@@ -18,7 +19,7 @@ class AddressController extends ActiveController
     /**
      * @var string Обязательное поле. Класс модели по умолчанию
      */
-    public $modelClass = Addrobj::class;
+    public $modelClass = SearchAddress::class;
 
     /**
      * @var array Паджинация
@@ -43,6 +44,24 @@ class AddressController extends ActiveController
      * @return ActiveDataProvider
      */
     public function prepareDataProvider():ActiveDataProvider
+    {
+        $search = new SearchAddress();
+        return $search->search(Yii::$app->request->queryParams);
+    }
+
+    /**
+     * @return ActiveDataProvider
+     */
+    public function prepareHouseDataProvider():ActiveDataProvider
+    {
+        $search = new SearchAddress();
+        return $search->search(Yii::$app->request->queryParams);
+    }
+
+    /**
+     * @return ActiveDataProvider
+     */
+    public function prepareRoomDataProvider():ActiveDataProvider
     {
         $search = new SearchAddress();
         return $search->search(Yii::$app->request->queryParams);

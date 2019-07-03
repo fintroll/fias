@@ -16,7 +16,7 @@ class SearchAddress extends Model
     /**
      * @var string $query
      */
-    public $query;
+    public $query = '';
 
     /**
      * @var string $parent_fias_id
@@ -32,32 +32,11 @@ class SearchAddress extends Model
      * @var array $types
      */
     private $types = [
-        'region' => [
-            'class' => Addrobj::class,
-            'parent_field' => 'PARENTGUID',
-            'search_field' => 'FORMALNAME',
-            'levels' => [1, 2]
-        ],
-        'district' => [
-            'class' => Addrobj::class,
-            'parent_field' => 'PARENTGUID',
-            'search_field' => 'FORMALNAME'
-        ],
-        'city' => [
-            'class' => Addrobj::class,
-            'parent_field' => 'PARENTGUID',
-            'search_field' => 'FORMALNAME'
-        ],
-        'street' => [
-            'class' => Addrobj::class,
-            'parent_field' => 'PARENTGUID',
-            'search_field' => 'FORMALNAME'
-        ],
-        'house' => [
-            'class' => House::class,
-            'parent_field' => 'AOGUID',
-            'search_field' => 'HOUSENUM'
-        ],
+        'region',
+        'district',
+        'city',
+        'street',
+        'house',
     ];
 
 
@@ -69,7 +48,7 @@ class SearchAddress extends Model
         return [
             [['type'], 'required'],
             [['query', 'parent_fias_id', 'type'], 'string'],
-            [['type'], 'in', 'range' => array_keys($this->types)],
+            [['type'], 'in', 'range' => $this->types],
         ];
     }
 
@@ -102,14 +81,41 @@ class SearchAddress extends Model
             return $dataProvider;
         }
 
-        $type =  $this->types[$this->type];
-        /** @var $query Room|House|Addrobj */
-        $query = $type['class']::find();
-        $query->andFilterWhere(['LIKE', $type['search_field'], $this->query]);
-        if ($type['class'] === Addrobj::class) {
-            $query->andFilterWhere(['AOLEVEL' => $type['levels']]);
+        switch ($this->type) {
+            case 'region':
+                $query->andFilterWhere(['LIKE', 'FORMALNAME', $this->query]);
+                $query->andFilterWhere(['AOLEVEL' => [1, 2]]);
+                $query->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
+                break;
+            case 'district':
+                $query->andFilterWhere(['LIKE', 'FORMALNAME', $this->query]);
+                $query->andFilterWhere(['AOLEVEL' => 3]);
+                $query->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
+                break;
+            case 'city':
+                $query->andFilterWhere(['LIKE', 'FORMALNAME', $this->query]);
+                $query->andFilterWhere(['AOLEVEL' => [4, 5, 6, 65]]);
+                $query->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
+                break;
+            case 'street':
+                $query->andFilterWhere(['LIKE', 'FORMALNAME', $this->query]);
+                $query->andFilterWhere(['IN', 'AOLEVEL', [7, 91]]);
+                $query->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
+                break;
+            case 'house':
+                $query->andFilterWhere(
+                    [
+                        'OR',
+                        ['LIKE', 'HOUSENUM', $this->query],
+                        ['LIKE', 'BUILDNUM', $this->query]
+                    ]
+                );
+                $query->andFilterWhere(['AOGUID' => $this->parent_fias_id]);
+                break;
+            default:
+                $query->andWhere('0=1');
+                return $dataProvider;
         }
-
 
         $dumpSql = $query->createCommand()->getRawSql();
         return $dataProvider;
