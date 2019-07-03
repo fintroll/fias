@@ -37,6 +37,16 @@ class AddressController extends ActiveController
         $actions = parent::actions();
         unset($actions['create'], $actions['update'], $actions['delete'], $actions['view']);
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
+        $actions['house'] = [
+            'class' => IndexAction::class,
+            'modelClass' => SearchAddress::class,
+            'prepareDataProvider' => [$this, 'prepareHousesDataProvider'],
+        ];
+        $actions['room'] = [
+            'class' => IndexAction::class,
+            'modelClass' => SearchAddress::class,
+            'prepareDataProvider' => [$this, 'prepareRoomsDataProvider'],
+        ];
         return $actions;
     }
 
@@ -52,18 +62,18 @@ class AddressController extends ActiveController
     /**
      * @return ActiveDataProvider
      */
-    public function prepareHouseDataProvider():ActiveDataProvider
+    public function prepareHousesDataProvider():ActiveDataProvider
     {
         $search = new SearchAddress();
-        return $search->search(Yii::$app->request->queryParams);
+        return $search->searchHouses(Yii::$app->request->queryParams);
     }
 
     /**
      * @return ActiveDataProvider
      */
-    public function prepareRoomDataProvider():ActiveDataProvider
+    public function prepareRoomsDataProvider():ActiveDataProvider
     {
         $search = new SearchAddress();
-        return $search->search(Yii::$app->request->queryParams);
+        return $search->searchRooms(Yii::$app->request->queryParams);
     }
 }

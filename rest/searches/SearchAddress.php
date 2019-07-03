@@ -71,20 +71,15 @@ class SearchAddress extends Model
      */
     public function search($params): ActiveDataProvider
     {
-
         $query = Addrobj::find()->where(['actstatus' => 1]);
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
         $this->load($params, '');
-
         if (!$this->validate()) {
             $query->andWhere('0=1');
             return $dataProvider;
         }
-
         switch ($this->type) {
             case 'region':
                 $query->andFilterWhere(['LIKE', 'FORMALNAME', $this->query]);
@@ -101,34 +96,65 @@ class SearchAddress extends Model
                 $query->andFilterWhere(['IN', 'AOLEVEL', [7, 91]]);
                 $query->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
                 break;
-            case 'house':
-                $query = House::find();
-                $query->andWhere(['AOGUID' => $this->parent_fias_id]);
-                $query->andFilterWhere(
-                    [
-                        'OR',
-                        ['LIKE', 'HOUSENUM', $this->query],
-                        ['LIKE', 'BUILDNUM', $this->query]
-                    ]
-                );
-                break;
-            case 'room':
-                $query = Room::find();
-                $query->andWhere(['HOUSEGUID' => $this->parent_fias_id]);
-                $query->andFilterWhere(
-                    [
-                        'OR',
-                        ['LIKE', 'FLATNUMMBER', $this->query],
-                        ['LIKE', 'ROOMNUMBER', $this->query]
-                    ]
-                );
-
-                break;
             default:
                 $query->andWhere('0=1');
                 return $dataProvider;
         }
+        return $dataProvider;
+    }
 
+    /**
+     * @param $params
+     * @return ActiveDataProvider
+     */
+    public function searchHouses($params): ActiveDataProvider
+    {
+        $query = House::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        $this->load($params, '');
+        if (!$this->validate()) {
+            $query->andWhere('0=1');
+            return $dataProvider;
+        }
+        $query->andWhere(['AOGUID' => $this->parent_fias_id]);
+        $query->andFilterWhere(
+            [
+                'OR',
+                ['LIKE', 'HOUSENUM', $this->query],
+                ['LIKE', 'BUILDNUM', $this->query],
+                ['LIKE', 'STRUCDNUM', $this->query]
+            ]
+        );
+        $dumpSql = $query->createCommand()->getRawSql();
+        return $dataProvider;
+    }
+
+
+    /**
+     * @param $params
+     * @return ActiveDataProvider
+     */
+    public function searchRooms($params): ActiveDataProvider
+    {
+        $query = Room::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        $this->load($params, '');
+        if (!$this->validate()) {
+            $query->andWhere('0=1');
+            return $dataProvider;
+        }
+        $query->andWhere(['HOUSEGUID' => $this->parent_fias_id]);
+        $query->andFilterWhere(
+            [
+                'OR',
+                ['LIKE', 'FLATNUMMBER', $this->query],
+                ['LIKE', 'ROOMNUMBER', $this->query]
+            ]
+        );
         $dumpSql = $query->createCommand()->getRawSql();
         return $dataProvider;
     }
