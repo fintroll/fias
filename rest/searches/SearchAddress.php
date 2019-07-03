@@ -37,6 +37,7 @@ class SearchAddress extends Model
         'city',
         'street',
         'house',
+        'room'
     ];
 
 
@@ -47,6 +48,7 @@ class SearchAddress extends Model
     {
         return [
             [['type'], 'required'],
+            [['parent_fias_id'], 'required', 'when' => in_array($this->type, ['house', 'room'], true)],
             [['query', 'parent_fias_id', 'type'], 'string'],
             [['type'], 'in', 'range' => $this->types],
         ];
@@ -68,7 +70,7 @@ class SearchAddress extends Model
     public function search($params): ActiveDataProvider
     {
 
-        $query = Addrobj::find()->where(['actstatus'=> 1]);
+        $query = Addrobj::find()->where(['actstatus' => 1]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -89,7 +91,7 @@ class SearchAddress extends Model
                 break;
             case 'city':
                 $query->andFilterWhere(['LIKE', 'FORMALNAME', $this->query]);
-                $query->andFilterWhere(['AOLEVEL' => [4, 5, 6, 65]]);
+                $query->andFilterWhere(['AOLEVEL' => [4, 5, 6]]);
                 $query->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
                 break;
             case 'street':
@@ -107,6 +109,17 @@ class SearchAddress extends Model
                     ]
                 );
                 $query->andFilterWhere(['AOGUID' => $this->parent_fias_id]);
+                break;
+            case 'room':
+                $query = Room::find();
+                $query->andFilterWhere(
+                    [
+                        'OR',
+                        ['LIKE', 'FLATNUMMBER', $this->query],
+                        ['LIKE', 'ROOMNUMBER', $this->query]
+                    ]
+                );
+                $query->andFilterWhere(['HOUSEGUID' => $this->parent_fias_id]);
                 break;
             default:
                 $query->andWhere('0=1');
