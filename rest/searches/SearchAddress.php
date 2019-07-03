@@ -68,7 +68,7 @@ class SearchAddress extends Model
     public function search($params): ActiveDataProvider
     {
 
-        $query = Addrobj::find();
+        $query = Addrobj::find()->where(['actstatus'=> 1]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -84,12 +84,7 @@ class SearchAddress extends Model
         switch ($this->type) {
             case 'region':
                 $query->andFilterWhere(['LIKE', 'FORMALNAME', $this->query]);
-                $query->andFilterWhere(['AOLEVEL' => [1, 2]]);
-                $query->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
-                break;
-            case 'district':
-                $query->andFilterWhere(['LIKE', 'FORMALNAME', $this->query]);
-                $query->andFilterWhere(['AOLEVEL' => 3]);
+                $query->andFilterWhere(['AOLEVEL' => [1, 2, 3]]);
                 $query->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
                 break;
             case 'city':
@@ -103,6 +98,7 @@ class SearchAddress extends Model
                 $query->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
                 break;
             case 'house':
+                $query = House::find();
                 $query->andFilterWhere(
                     [
                         'OR',
