@@ -127,7 +127,7 @@ class SearchAddress extends Model
                 ['LIKE', 'STRUCNUM', $this->query]
             ]
         );
-        $dumpSql = $query->createCommand()->getRawSql();
+        $query->orderBy(['HOUSENUM' => SORT_ASC, 'BUILDNUM' => SORT_ASC, 'STRUCNUM' => SORT_ASC]);
         return $dataProvider;
     }
 
@@ -155,7 +155,6 @@ class SearchAddress extends Model
                 ['LIKE', 'ROOMNUMBER', $this->query]
             ]
         );
-        $dumpSql = $query->createCommand()->getRawSql();
         return $dataProvider;
     }
 
