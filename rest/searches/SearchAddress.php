@@ -48,7 +48,9 @@ class SearchAddress extends Model
     {
         return [
             [['type'], 'required'],
-            [['parent_fias_id'], 'required', 'when' => in_array($this->type, ['house', 'room'], true)],
+            [['parent_fias_id'], 'required', 'when' => function ($model) {
+                return in_array($model->type, ['house', 'room'], true);
+            }],
             [['query', 'parent_fias_id', 'type'], 'string'],
             [['type'], 'in', 'range' => $this->types],
         ];
