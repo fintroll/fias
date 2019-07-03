@@ -124,7 +124,7 @@ class SearchAddress extends Model
                 'OR',
                 ['LIKE', 'HOUSENUM', $this->query],
                 ['LIKE', 'BUILDNUM', $this->query],
-                ['LIKE', 'STRUCDNUM', $this->query]
+                ['LIKE', 'STRUCNUM', $this->query]
             ]
         );
         $dumpSql = $query->createCommand()->getRawSql();
