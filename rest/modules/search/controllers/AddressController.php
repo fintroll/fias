@@ -22,13 +22,6 @@ class AddressController extends ActiveController
      */
     public $modelClass = SearchAddress::class;
 
-    /**
-     * @var array Паджинация
-     */
-    public $serializer = [
-        'class' => Serializer::class,
-        'collectionEnvelope' => 'items',
-    ];
 
     /**
      * @return array
@@ -54,25 +47,6 @@ class AddressController extends ActiveController
         return $actions;
     }
 
-    /**
-     * @return array
-     */
-    public function behaviors()
-    {
-        return array_merge(parent::behaviors(), [
-
-            'corsFilter' => [
-                'class' => Cors::class,
-                'cors' => [
-                    'Origin' => '*',
-                    'Access-Control-Request-Method' => ['GET', 'POST'],
-                    'Access-Control-Allow-Credentials' => true,
-                    'Access-Control-Max-Age' => 3600,
-                ],
-            ],
-
-        ]);
-    }
 
     /**
      * @return ActiveDataProvider
