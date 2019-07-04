@@ -26,16 +26,6 @@ class Controller extends \yii\rest\Controller
 		];
 		// avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
 		$behaviors['authenticator']['except'] = ['login'];
-        $behaviors['corsFilter'] = [
-            'class' => Cors::class,
-            'cors'  => [
-                // restrict access to domains:
-                'Origin'                           => '*',
-                'Access-Control-Request-Method'    => ['GET'],
-                'Access-Control-Allow-Credentials' => true,
-                'Access-Control-Max-Age'           => 3600,                 // Cache (seconds)
-            ],
-        ];
 		// Ограничение прав
 		$behaviors['access'] = [
 			'class' => AccessControl::class,

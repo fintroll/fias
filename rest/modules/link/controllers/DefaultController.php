@@ -9,6 +9,7 @@ use rest\modules\address\models\Room;
 use rest\modules\link\models\ProfileFiasLink;
 use rest\modules\link\models\ProfileLinkForm;
 use rest\searches\SearchAddress;
+use yii\filters\Cors;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -32,6 +33,24 @@ class DefaultController extends ActiveController
         $actions['view']['findModel'] = [$this, 'findModel'];
         $actions['create']['modelClass'] = ProfileLinkForm::class;
         return $actions;
+    }
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [
+            'corsFilter' => [
+                'class' => Cors::class,
+                'cors' => [
+                    'Origin' => '*',
+                    'Access-Control-Request-Method' => ['GET', 'POST'],
+                    'Access-Control-Allow-Credentials' => true,
+                    'Access-Control-Max-Age' => 3600,
+                ],
+            ],
+        ]);
     }
 
 

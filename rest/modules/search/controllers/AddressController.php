@@ -7,6 +7,7 @@ use rest\modules\address\models\Addrobj;
 use rest\searches\SearchAddress;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\Cors;
 use yii\rest\IndexAction;
 use yii\rest\Serializer;
 
@@ -47,13 +48,36 @@ class AddressController extends ActiveController
             'modelClass' => SearchAddress::class,
             'prepareDataProvider' => [$this, 'prepareRoomsDataProvider'],
         ];
+        $actions['options'] = [
+            'class' => 'yii\rest\OptionsAction',
+        ];
         return $actions;
+    }
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [
+
+            'corsFilter' => [
+                'class' => Cors::class,
+                'cors' => [
+                    'Origin' => '*',
+                    'Access-Control-Request-Method' => ['GET', 'POST'],
+                    'Access-Control-Allow-Credentials' => true,
+                    'Access-Control-Max-Age' => 3600,
+                ],
+            ],
+
+        ]);
     }
 
     /**
      * @return ActiveDataProvider
      */
-    public function prepareDataProvider():ActiveDataProvider
+    public function prepareDataProvider(): ActiveDataProvider
     {
         $search = new SearchAddress();
         return $search->search(Yii::$app->request->queryParams);
@@ -62,7 +86,7 @@ class AddressController extends ActiveController
     /**
      * @return ActiveDataProvider
      */
-    public function prepareHousesDataProvider():ActiveDataProvider
+    public function prepareHousesDataProvider(): ActiveDataProvider
     {
         $search = new SearchAddress();
         return $search->searchHouses(Yii::$app->request->queryParams);
@@ -71,7 +95,7 @@ class AddressController extends ActiveController
     /**
      * @return ActiveDataProvider
      */
-    public function prepareRoomsDataProvider():ActiveDataProvider
+    public function prepareRoomsDataProvider(): ActiveDataProvider
     {
         $search = new SearchAddress();
         return $search->searchRooms(Yii::$app->request->queryParams);
