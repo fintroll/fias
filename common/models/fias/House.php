@@ -116,7 +116,7 @@ class House extends ActiveRecord
     {
         $address = isset($this->address) ? $this->POSTALCODE.', '.$this->address->fullAddress : '';
 
-        $address .= ', '. $this->HOUSENUM . $this->fullNumber;
+        $address .= ', '. $this->fullNumber;
 
         return $address;
     }
@@ -126,7 +126,7 @@ class House extends ActiveRecord
      */
     public function getFullNumber()
     {
-        $number = '';
+        $number = $this->HOUSENUM;
 
         if (!empty($this->BUILDNUM)) {
             $number .= ' к' . $this->BUILDNUM;

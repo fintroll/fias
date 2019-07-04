@@ -2,9 +2,9 @@
 
 namespace rest\searches;
 
-use rest\modules\address\models\Addrobj;
-use rest\modules\address\models\House;
-use rest\modules\address\models\Room;
+use rest\modules\search\models\Addrobj;
+use rest\modules\search\models\House;
+use rest\modules\search\models\Room;
 use yii\base\Model;
 use Yii;
 use yii\data\ActiveDataProvider;

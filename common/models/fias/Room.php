@@ -33,6 +33,7 @@ use yii\db\ActiveRecord;
  * @property Roomtype $roomType тип помещения
  * @property string $roomLabel тип помещения(сокр)
  * @property string $fullAddress тип помещения(сокр)
+ * @property string $fullNumber номер + сокращение
  */
 class Room extends ActiveRecord
 {
@@ -144,5 +145,13 @@ class Room extends ActiveRecord
         }
 
         return $address;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullNumber(): string
+    {
+        return $this->flatLabel ?? $this->roomLabel ?? '';
     }
 }
