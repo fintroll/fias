@@ -14,9 +14,9 @@ use Throwable;
 class SearchAddress extends Model
 {
     /**
-     * @var string $query
+     * @var string $term
      */
-    public $query = '';
+    public $term = '';
 
     /**
      * @var string $parent_fias_id
@@ -51,7 +51,7 @@ class SearchAddress extends Model
             [['parent_fias_id'], 'required', 'when' => function ($model) {
                 return in_array($model->type, ['house', 'room'], true);
             }],
-            [['query', 'parent_fias_id', 'type'], 'string'],
+            [['term', 'parent_fias_id', 'type'], 'string'],
             [['type'], 'in', 'range' => $this->types],
         ];
     }
@@ -71,33 +71,33 @@ class SearchAddress extends Model
      */
     public function search($params): ActiveDataProvider
     {
-        $query = Addrobj::find()->where(['actstatus' => 1]);
+        $term = Addrobj::find()->where(['actstatus' => 1]);
         $dataProvider = new ActiveDataProvider([
-            'query' => $query,
+            'term' => $term,
         ]);
         $this->load($params, '');
         if (!$this->validate()) {
-            $query->andWhere('0=1');
+            $term->andWhere('0=1');
             return $dataProvider;
         }
         switch ($this->type) {
             case 'region':
-                $query->andFilterWhere(['LIKE', 'FORMALNAME', $this->query]);
-                $query->andFilterWhere(['AOLEVEL' => [1, 2, 3]]);
-                $query->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
+                $term->andFilterWhere(['LIKE', 'FORMALNAME', $this->term]);
+                $term->andFilterWhere(['AOLEVEL' => [1, 2, 3]]);
+                $term->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
                 break;
             case 'city':
-                $query->andFilterWhere(['LIKE', 'FORMALNAME', $this->query]);
-                $query->andFilterWhere(['AOLEVEL' => [4, 5, 6]]);
-                $query->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
+                $term->andFilterWhere(['LIKE', 'FORMALNAME', $this->term]);
+                $term->andFilterWhere(['AOLEVEL' => [4, 5, 6]]);
+                $term->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
                 break;
             case 'street':
-                $query->andFilterWhere(['LIKE', 'FORMALNAME', $this->query]);
-                $query->andFilterWhere(['IN', 'AOLEVEL', [7, 91]]);
-                $query->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
+                $term->andFilterWhere(['LIKE', 'FORMALNAME', $this->term]);
+                $term->andFilterWhere(['IN', 'AOLEVEL', [7, 91]]);
+                $term->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
                 break;
             default:
-                $query->andWhere('0=1');
+                $term->andWhere('0=1');
                 return $dataProvider;
         }
         return $dataProvider;
@@ -109,25 +109,25 @@ class SearchAddress extends Model
      */
     public function searchHouses($params): ActiveDataProvider
     {
-        $query = House::find();
+        $term = House::find();
         $dataProvider = new ActiveDataProvider([
-            'query' => $query,
+            'term' => $term,
         ]);
         $this->load($params, '');
         if (!$this->validate()) {
-            $query->andWhere('0=1');
+            $term->andWhere('0=1');
             return $dataProvider;
         }
-        $query->andWhere(['AOGUID' => $this->parent_fias_id]);
-        $query->andFilterWhere(
+        $term->andWhere(['AOGUID' => $this->parent_fias_id]);
+        $term->andFilterWhere(
             [
                 'OR',
-                ['LIKE', 'HOUSENUM', $this->query],
-                ['LIKE', 'BUILDNUM', $this->query],
-                ['LIKE', 'STRUCNUM', $this->query]
+                ['LIKE', 'HOUSENUM', $this->term],
+                ['LIKE', 'BUILDNUM', $this->term],
+                ['LIKE', 'STRUCNUM', $this->term]
             ]
         );
-        $query->orderBy(['HOUSENUM' => SORT_ASC, 'BUILDNUM' => SORT_ASC, 'STRUCNUM' => SORT_ASC]);
+        $term->orderBy(['HOUSENUM' => SORT_ASC, 'BUILDNUM' => SORT_ASC, 'STRUCNUM' => SORT_ASC]);
         return $dataProvider;
     }
 
@@ -138,21 +138,21 @@ class SearchAddress extends Model
      */
     public function searchRooms($params): ActiveDataProvider
     {
-        $query = Room::find();
+        $term = Room::find();
         $dataProvider = new ActiveDataProvider([
-            'query' => $query,
+            'term' => $term,
         ]);
         $this->load($params, '');
         if (!$this->validate()) {
-            $query->andWhere('0=1');
+            $term->andWhere('0=1');
             return $dataProvider;
         }
-        $query->andWhere(['HOUSEGUID' => $this->parent_fias_id]);
-        $query->andFilterWhere(
+        $term->andWhere(['HOUSEGUID' => $this->parent_fias_id]);
+        $term->andFilterWhere(
             [
                 'OR',
-                ['LIKE', 'FLATNUMMBER', $this->query],
-                ['LIKE', 'ROOMNUMBER', $this->query]
+                ['LIKE', 'FLATNUMMBER', $this->term],
+                ['LIKE', 'ROOMNUMBER', $this->term]
             ]
         );
         return $dataProvider;
