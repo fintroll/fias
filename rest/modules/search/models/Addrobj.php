@@ -17,8 +17,8 @@ class Addrobj extends CommonAddrobj
     public function fields(): array
     {
         return [
-            'fullAddress',
-            'aoguid' => 'AOGUID',
+            'value' => 'fullAddress',
+            'id' => 'AOGUID',
         ];
     }
 
