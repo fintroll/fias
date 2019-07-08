@@ -16,7 +16,8 @@ class Room extends CommonRoom
     public function fields(): array
     {
         return [
-            'roomid' => 'ROOMID',
+            'id' => 'ROOMID',
+            'value' => 'fullNumber',
         ];
     }
 
