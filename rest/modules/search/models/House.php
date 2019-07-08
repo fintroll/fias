@@ -16,9 +16,10 @@ class House extends CommonHouse
     public function fields(): array
     {
         return [
-            'value' => 'fullNumber',
+            'value' => 'streetNumber',
             'id' => 'HOUSEGUID',
             'postalcode' => 'POSTALCODE',
+            'number' => 'fullNumber',
         ];
     }
 
