@@ -36,6 +36,7 @@ use yii\db\ActiveRecord;
  * @property Addrobj $address Адрес
  * @property string $fullAddress Полный адрес
  * @property string $fullNumber Полный номер
+ * @property string $streetNumber Полный номер
  */
 class House extends ActiveRecord
 {
@@ -137,5 +138,13 @@ class House extends ActiveRecord
         }
 
         return $number;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStreetNumber()
+    {
+        return !empty($this->address) ? $this->address->fullName.' д.'.$this->fullNumber : $this->fullNumber;
     }
 }
