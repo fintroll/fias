@@ -151,7 +151,7 @@ class SearchAddress extends Model
         $query->andFilterWhere(
             [
                 'OR',
-                ['LIKE', 'FLATNUMMBER', $this->term],
+                ['LIKE', 'FLATNUMBER', $this->term],
                 ['LIKE', 'ROOMNUMBER', $this->term]
             ]
         );
