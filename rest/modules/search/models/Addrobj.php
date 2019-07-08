@@ -19,6 +19,7 @@ class Addrobj extends CommonAddrobj
         return [
             'value' => 'fullAddress',
             'id' => 'AOGUID',
+            'name' => 'fullName'
         ];
     }
 

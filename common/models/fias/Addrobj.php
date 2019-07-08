@@ -50,6 +50,7 @@ use yii\db\ActiveRecord;
  * @property Addrobj $parent
  * @property Addrobj[] $parentsTree
  * @property string $fullAddress
+ * @property string $fullName
  */
 class Addrobj extends ActiveRecord
 {
@@ -156,6 +157,16 @@ class Addrobj extends ActiveRecord
     }
 
     /**
+     * Полный название
+     *
+     * @return string
+     */
+    public function getFullName(): string
+    {
+        return $this->replaceTitle();
+    }
+
+    /**
      * @return string
      */
     protected function getAddressRecursive(): string
@@ -184,7 +195,7 @@ class Addrobj extends ActiveRecord
      *
      * @return string
      */
-    protected function replaceTitle(): ?string
+    protected function replaceTitle(): string
     {
         switch ($this->SHORTNAME) {
             case 'обл':
