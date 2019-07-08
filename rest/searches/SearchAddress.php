@@ -127,6 +127,7 @@ class SearchAddress extends Model
                 ['LIKE', 'STRUCNUM', $this->term]
             ]
         );
+        $query->andWhere(['>=', 'ENDDATE', date('Y-m-d')]);
         $query->orderBy(['HOUSENUM' => SORT_ASC, 'BUILDNUM' => SORT_ASC, 'STRUCNUM' => SORT_ASC]);
         return $dataProvider;
     }
