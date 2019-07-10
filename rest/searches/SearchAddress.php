@@ -4,6 +4,7 @@ namespace rest\searches;
 
 use rest\modules\search\models\Addrobj;
 use rest\modules\search\models\House;
+use rest\modules\search\models\PostalCode;
 use rest\modules\search\models\Room;
 use yii\base\Model;
 use Yii;
@@ -128,6 +129,27 @@ class SearchAddress extends Model
                 ['LIKE', 'STRUCNUM', $this->term]
             ]
         );
+        $query->andWhere(['>=', 'ENDDATE', date('Y-m-d')]);
+        $query->orderBy(['HOUSENUM' => SORT_ASC, 'BUILDNUM' => SORT_ASC, 'STRUCNUM' => SORT_ASC]);
+        return $dataProvider;
+    }
+
+    /**
+     * @param $params
+     * @return ActiveDataProvider
+     */
+    public function searchPostal($params): ActiveDataProvider
+    {
+        $query = PostalCode::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        $this->load($params, '');
+        if (!$this->validate()) {
+            $query->andWhere('0=1');
+            return $dataProvider;
+        }
+        $query->andWhere(['POSTALCODE' => $this->term]);
         $query->andWhere(['>=', 'ENDDATE', date('Y-m-d')]);
         $query->orderBy(['HOUSENUM' => SORT_ASC, 'BUILDNUM' => SORT_ASC, 'STRUCNUM' => SORT_ASC]);
         return $dataProvider;

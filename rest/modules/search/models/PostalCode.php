@@ -15,7 +15,7 @@ class PostalCode extends House
     public function fields(): array
     {
         return [
-            'value' => 'streetNumber',
+            'value' => 'fullAddress',
             'id' => 'HOUSEGUID',
             'postalcode' => 'POSTALCODE',
             'number' => 'fullNumber',
