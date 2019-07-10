@@ -3,14 +3,10 @@
 namespace rest\modules\search\controllers;
 
 use rest\components\ActiveController;
-use rest\modules\address\models\Addrobj;
 use rest\searches\SearchAddress;
 use Yii;
 use yii\data\ActiveDataProvider;
-use yii\filters\Cors;
 use yii\rest\IndexAction;
-use yii\rest\Serializer;
-
 /**
  * Class SearchController
  * @package rest\modules\address\controllers
@@ -41,8 +37,13 @@ class AddressController extends ActiveController
             'modelClass' => SearchAddress::class,
             'prepareDataProvider' => [$this, 'prepareRoomsDataProvider'],
         ];
+        $actions['postal'] = [
+            'class' => IndexAction::class,
+            'modelClass' => SearchAddress::class,
+            'prepareDataProvider' => [$this, 'preparePostalDataProvider'],
+        ];
         $actions['options'] = [
-            'class' => 'yii\rest\OptionsAction',
+            'class' => yii\rest\OptionsAction::class,
         ];
         return $actions;
     }
@@ -73,5 +74,14 @@ class AddressController extends ActiveController
     {
         $search = new SearchAddress();
         return $search->searchRooms(Yii::$app->request->queryParams);
+    }
+
+    /**
+     * @return ActiveDataProvider
+     */
+    public function preparePostalDataProvider(): ActiveDataProvider
+    {
+        $search = new SearchAddress();
+        return $search->searchPostal(Yii::$app->request->queryParams);
     }
 }
