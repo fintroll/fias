@@ -55,6 +55,7 @@ use yii\db\ActiveRecord;
  */
 class Addrobj extends ActiveRecord
 {
+    public $parentsTree = [];
     /**
      * {@inheritdoc}
      */
