@@ -189,14 +189,14 @@ class SearchAddress extends Model
 
     /**
      * @param $id
-     * @return Room|House|Addrobj
+     * @return \rest\modules\address\models\Room|\rest\modules\address\models\House|\rest\modules\address\models\Addrobj
      */
     public static function findModel($id)
     {
         $modelsClasses = [
-            'ROOMID' => Room::class,
-            'HOUSEID' => House::class,
-            'AOID' => Addrobj::class
+            'ROOMID' => \rest\modules\address\models\Room::class,
+            'HOUSEID' => \rest\modules\address\models\House::class,
+            'AOID' => \rest\modules\address\models\Addrobj::class
         ];
         $model = null;
         try {
