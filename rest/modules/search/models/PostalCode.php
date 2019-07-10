@@ -3,7 +3,6 @@
 namespace rest\modules\search\models;
 
 
-use function foo\func;
 
 /**
  * Class PostalCode
@@ -21,9 +20,6 @@ class PostalCode extends House
             'id' => 'HOUSEGUID',
             'postalcode' => 'POSTALCODE',
             'number' => 'fullNumber',
-            'parents' => function (PostalCode $model) {
-                return $model->address->parents;
-            },
             'parentsTree' => function (PostalCode $model) {
                 return $model->address->parentsTree;
             },
