@@ -184,18 +184,17 @@ class Addrobj extends ActiveRecord
      */
     protected function getParentsTree(): array
     {
-        $result = [$this];
-        if ($this->parent !== null) {
-            $result = array_merge($result, $this->fetchParent($this->parent));
+        $result = [];
+        if ($this->PARENTGUID !== null) {
+            $result[] = $this->parent;
         }
         return $result;
     }
 
-    private function fetchParent(Addrobj $model = null)
+    public function afterFind()
     {
-        if ($model !== null) {
-            array_merge($this->parentsTree, $this->fetchParent($this->parent));
-        }
+        parent::afterFind();
+        var_dump($this->parentsTree);die();
     }
 
     /**
