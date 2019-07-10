@@ -49,6 +49,7 @@ use yii\db\ActiveRecord;
  *
  * @property Addrobj $parent
  * @property Addrobj[] $parentsTree
+ * @property Addrobj[] $arrayTree
  * @property array $parents
  * @property string $fullAddress
  * @property string $fullName
@@ -191,10 +192,18 @@ class Addrobj extends ActiveRecord
         return $result;
     }
 
-    public function afterFind()
+    /**
+     * @return array
+     */
+    public function getArrayTree(): array
     {
-        parent::afterFind();
-        var_dump($this->parentsTree);die();
+        $model = $this;
+        $result = [$model];
+        do  {
+            $model = $model->parent;
+            $result[] = $model;
+        } while ($model->PARENTGUID !== null);
+        return $result;
     }
 
     /**
