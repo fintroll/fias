@@ -152,7 +152,7 @@ class SearchAddress extends Model
             $query->andWhere('0=1');
             return $dataProvider;
         }
-        $query->andWhere(['LIKE', 'POSTALCODE', $this->term]);
+        $query->andWhere(['POSTALCODE' => $this->term]);
         $query->andWhere(['>=', 'ENDDATE', date('Y-m-d')]);
         $query->orderBy(['HOUSENUM' => SORT_ASC, 'BUILDNUM' => SORT_ASC, 'STRUCNUM' => SORT_ASC]);
         $query->limit(20);
