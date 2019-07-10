@@ -49,7 +49,7 @@ use yii\db\ActiveRecord;
  *
  * @property Addrobj $parent
  * @property Addrobj[] $parentsTree
- * @property Addrobj[] $arrayTree
+ * @property string[] $treeRecursive
  * @property array $parents
  * @property string $fullAddress
  * @property string $fullName
@@ -180,6 +180,15 @@ class Addrobj extends ActiveRecord
         return $address;
     }
 
+    public function getTreeRecursive()
+    {
+        $result = [$this->replaceTitle()];
+        if ($this->parent !== null){
+            $result = array_merge($result, $this->parent->getTreeRecursive());
+        }
+        return $result;
+    }
+
     /**
      * @return array
      */
@@ -189,20 +198,6 @@ class Addrobj extends ActiveRecord
         if ($this->PARENTGUID !== null) {
             $result[] = $this->parent;
         }
-        return $result;
-    }
-
-    /**
-     * @return array
-     */
-    public function getArrayTree(): array
-    {
-        $model = $this;
-        $result = [$model];
-        do  {
-            $model = $model->parent;
-            $result[] = $model;
-        } while ($model->PARENTGUID !== null);
         return $result;
     }
 

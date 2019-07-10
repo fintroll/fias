@@ -22,8 +22,7 @@ class Addrobj extends CommonAddrobj
             'aoguid' => 'AOGUID',
             'postalcode' => 'POSTALCODE',
             'formalname' => 'FORMALNAME',
-            'parentsTree',
-            'arrayTree'
+            'treeRecursive'
         ];
     }
 
