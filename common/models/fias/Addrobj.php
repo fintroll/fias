@@ -55,7 +55,6 @@ use yii\db\ActiveRecord;
  */
 class Addrobj extends ActiveRecord
 {
-    public $parentsTree = [];
     /**
      * {@inheritdoc}
      */
@@ -187,7 +186,7 @@ class Addrobj extends ActiveRecord
     {
         $result = [$this];
         if ($this->parent !== null) {
-            $result = array_merge($this->parentsTree, $this->fetchParent($this->parent));
+            $result = array_merge($result, $this->fetchParent($this->parent));
         }
         return $result;
     }
