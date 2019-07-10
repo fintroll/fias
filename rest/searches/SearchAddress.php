@@ -90,7 +90,7 @@ class SearchAddress extends Model
                 break;
             case 'city':
                 $query->andFilterWhere(['LIKE', 'FORMALNAME', $this->term]);
-                $query->andFilterWhere(['AOLEVEL' => [4, 5, 6]]);
+                $query->andFilterWhere(['AOLEVEL' => [4, 5, 6, 35, 65]]);
                 $query->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
                 break;
             case 'street':

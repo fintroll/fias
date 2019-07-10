@@ -182,7 +182,10 @@ class Addrobj extends ActiveRecord
 
     public function getTreeRecursive()
     {
-        $result = [$this->replaceTitle()];
+        $result = [
+            $this->replaceObjectLevelFiasID() => $this->AOID,
+            $this->replaceObjectLevelFiasValue() => $this->replaceTitle()
+        ];
         if ($this->parent !== null){
             $result = array_merge($result, $this->parent->getTreeRecursive());
         }
@@ -235,6 +238,52 @@ class Addrobj extends ActiveRecord
                 return $this->FORMALNAME . ' ' . $this->SHORTNAME;
             default:
                 return trim($this->SHORTNAME . '. ' . $this->FORMALNAME);
+        }
+    }
+
+
+    protected function replaceObjectLevelFiasID(): string
+    {
+        switch ($this->AOLEVEL) {
+            case '1':
+            case '2':
+            case '3':
+                return 'region_level_fias_id';
+            case '4':
+            case '5':
+            case '6':
+            case '35':
+            case '65':
+                return 'city_level_fias_id';
+            case '7':
+            case '91':
+                return 'street_level_fias_id';
+            default:
+                return 'unrestricted_level_fias_id';
+        }
+    }
+
+    /**
+     * @return string
+     */
+    protected function replaceObjectLevelFiasValue(): string
+    {
+        switch ($this->AOLEVEL) {
+            case '1':
+            case '2':
+            case '3':
+                return 'region_level_fias_value';
+            case '4':
+            case '5':
+            case '6':
+            case '35':
+            case '65':
+                return 'city_level_fias_value';
+            case '7':
+            case '91':
+                return 'street_level_fias_value';
+            default:
+                return 'unrestricted_level_fias_value';
         }
     }
 }
