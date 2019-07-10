@@ -49,6 +49,7 @@ use yii\db\ActiveRecord;
  *
  * @property Addrobj $parent
  * @property Addrobj[] $parentsTree
+ * @property Addrobj[] $parents
  * @property string $fullAddress
  * @property string $fullName
  */
@@ -187,6 +188,19 @@ class Addrobj extends ActiveRecord
         if ($this->PARENTGUID !== null) {
             $result[] = $this->parent;
         }
+        return $result;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getParents(): array
+    {
+        $result = [];
+        $closure = function ($value) use (&$result) {
+            $result[] = $value;
+        };
+        array_walk_recursive($parents, $closure);
         return $result;
     }
 
