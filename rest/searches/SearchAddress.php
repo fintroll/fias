@@ -37,7 +37,8 @@ class SearchAddress extends Model
         'city',
         'street',
         'house',
-        'room'
+        'room',
+        'postal'
     ];
 
 
@@ -100,7 +101,6 @@ class SearchAddress extends Model
                 $query->andWhere('0=1');
                 return $dataProvider;
         }
-        $query->orderBy(['AOLEVEL' => SORT_ASC]);
         return $dataProvider;
     }
 
@@ -160,26 +160,6 @@ class SearchAddress extends Model
         return $dataProvider;
     }
 
-    /**
-     * @param $params
-     * @return ActiveDataProvider
-     */
-    public function searchPostal($params): ActiveDataProvider
-    {
-        $query = House::find();
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-        $this->load($params, '');
-        if (!$this->validate()) {
-            $query->andWhere('0=1');
-            return $dataProvider;
-        }
-        $query->andWhere(['LIKE', 'POSTALCODE', $this->term]);
-        $query->andWhere(['>=', 'ENDDATE', date('Y-m-d')]);
-        $query->orderBy(['HOUSENUM' => SORT_ASC, 'BUILDNUM' => SORT_ASC, 'STRUCNUM' => SORT_ASC]);
-        return $dataProvider;
-    }
 
     /**
      * @param $id
