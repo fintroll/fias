@@ -20,6 +20,7 @@ class House extends CommonHouse
             'id' => 'HOUSEGUID',
             'postalcode' => 'POSTALCODE',
             'number' => 'fullNumber',
+            'fullAddress',
         ];
     }
 
