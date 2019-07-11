@@ -183,7 +183,7 @@ class Addrobj extends ActiveRecord
     public function getTreeRecursive()
     {
         $result = [
-            $this->replaceObjectLevelFiasID() => $this->AOID,
+            $this->replaceObjectLevelFiasID() => $this->AOGUID,
             $this->replaceObjectLevelFiasValue() => $this->replaceTitle()
         ];
         if ($this->parent !== null){
