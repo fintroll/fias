@@ -15,11 +15,8 @@ class Room extends CommonRoom
             'fullAddress',
             'roomguid' => 'ROOMGUID',
             'roomid' => 'ROOMID',
-            'flatnumber' => 'FLATNUMBER',
-            'flattype' => 'FLATTYPE',
-            'roomnumber' => 'ROOMNUMBER',
-            'roomtype' => 'ROOMTYPE',
-            'houseguid' => 'HOUSEGUID',
+            'fullNumber',
+            'type' => 'room',
             'house'
 
         ];
