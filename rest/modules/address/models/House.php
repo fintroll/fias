@@ -25,6 +25,9 @@ class House extends CommonHouse
             },
             'postalcode' => 'POSTALCODE',
             'number' => 'fullNumber',
+            'treeRecursive' =>  function(House $model) {
+                return $model->address->treeRecursive;
+            },
         ];
     }
 

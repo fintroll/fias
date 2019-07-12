@@ -19,7 +19,10 @@ class Room extends CommonRoom
             'type' => function() {
                 return 'room';
             },
-            'house'
+            'house',
+            'treeRecursive' =>  function(Room $model) {
+                return $model->house->address->treeRecursive;
+            },
 
         ];
     }
