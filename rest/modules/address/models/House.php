@@ -20,7 +20,9 @@ class House extends CommonHouse
             'houseguid' => 'HOUSEGUID',
             'value' => 'streetNumber',
             'id' => 'HOUSEID',
-            'type' => 'house',
+            'type' => function() {
+                return 'house';
+            },
             'postalcode' => 'POSTALCODE',
             'number' => 'fullNumber',
         ];

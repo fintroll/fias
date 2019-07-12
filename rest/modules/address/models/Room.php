@@ -16,7 +16,9 @@ class Room extends CommonRoom
             'roomguid' => 'ROOMGUID',
             'roomid' => 'ROOMID',
             'fullNumber',
-            'type' => 'room',
+            'type' => function() {
+                return 'room';
+            },
             'house'
 
         ];
