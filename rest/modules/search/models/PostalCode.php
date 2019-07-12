@@ -3,7 +3,6 @@
 namespace rest\modules\search\models;
 
 
-
 /**
  * Class PostalCode
  * @package rest\modules\search\models
@@ -22,6 +21,9 @@ class PostalCode extends House
             'houseguid' => 'HOUSEGUID',
             'house_number' => 'fullNumber',
             'fields' => function (PostalCode $model) {
+                return $model->address->treeRecursive;
+            },
+            'treeRecursive' =>  function(PostalCode $model) {
                 return $model->address->treeRecursive;
             },
         ];
