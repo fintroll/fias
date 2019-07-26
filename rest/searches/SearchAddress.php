@@ -202,7 +202,14 @@ class SearchAddress extends Model
         $model = null;
         try {
             foreach ($modelsClasses as $key => $modelsClass) {
-                $model = $modelsClass::findOne([$key => $id]);
+                $model = $modelsClass::find();
+                if ($key === 'AOID'){
+                    $model->andWhere(['actstatus' => 1]);
+                }
+                if ($key === 'HOUSEID'){
+                    $model->andWhere(['>=', 'ENDDATE', date('Y-m-d')]);
+                }
+                $model = $model->one([$key => $id]);
                 if ($model !== null) {
                     break;
                 }
