@@ -1,0 +1,18 @@
+GET http://fias.juriy.falconfinance.ru/address/3008c014-2f60-40a7-a71d-58ac5fa10117?access-token=ZFhpxWrhuRACreAoMlSqofnm0bgMgoOu
+Cookie: XDEBUG_SESSION=PHPSTORM
+Content-Type: application/json
+Authorization: Basic anVyaXk6OFlEaUZFZmRxSG5E
+
+###
+
+POST http://fias.juriy.falconfinance.ru/link?access-token=ZFhpxWrhuRACreAoMlSqofnm0bgMgoOu
+Cookie: XDEBUG_SESSION=PHPSTORM
+Content-Type: application/json
+Authorization: Basic anVyaXk6OFlEaUZFZmRxSG5E
+
+{
+  "fias_id":"5c8dc4b0-3da7-4d71-b721-92b6fe37db10",
+}
+
+###
+

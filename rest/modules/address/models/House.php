@@ -2,6 +2,7 @@
 
 namespace rest\modules\address\models;
 
+use common\models\fias\AddrobjQuery;
 use common\models\fias\House as CommonHouse;
 
 /**
@@ -29,6 +30,14 @@ class House extends CommonHouse
                 return $model->address->treeRecursive;
             },
         ];
+    }
+
+    /**
+     * @return HouseQuery
+     */
+    public static function find()
+    {
+        return new HouseQuery(self::class);
     }
 
     public function extraFields(): array

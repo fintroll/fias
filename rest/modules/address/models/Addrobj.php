@@ -26,6 +26,14 @@ class Addrobj extends CommonAddrobj
         ];
     }
 
+    /**
+     * @return AddrobjQuery
+     */
+    public static function find()
+    {
+        return new AddrobjQuery(self::class);
+    }
+
     public function extraFields(): array
     {
         return [

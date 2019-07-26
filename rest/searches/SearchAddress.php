@@ -104,7 +104,7 @@ class SearchAddress extends Model
         }
         $query->orderBy(['AOLEVEL' => SORT_ASC]);
         $query->limit(20);
-        $q = $query->createCommand()->getRawSql();
+
         return $dataProvider;
     }
 
