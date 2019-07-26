@@ -190,7 +190,7 @@ class SearchAddress extends Model
 
     /**
      * @param $id
-     * @return \rest\modules\address\models\Room|\rest\modules\address\models\House|\rest\modules\address\models\Addrobj
+     * @return array|\common\models\fias\Addrobj|\common\models\fias\House|\common\models\fias\Room|\yii\db\ActiveRecord|null
      */
     public static function findModel($id)
     {
@@ -202,14 +202,17 @@ class SearchAddress extends Model
         $model = null;
         try {
             foreach ($modelsClasses as $key => $modelsClass) {
-                $model = $modelsClass::find();
-                if ($key === 'AOID'){
-                    $model->andWhere(['actstatus' => 1]);
+                /**
+                 * @var \rest\modules\address\models\Room|\rest\modules\address\models\House|\rest\modules\address\models\Addrobj $modelsClass
+                 */
+                $query = $modelsClass::find();
+                if ($key === 'AOID') {
+                    $query->andWhere(['actstatus' => 1]);
                 }
                 if ($key === 'HOUSEID'){
-                    $model->andWhere(['>=', 'ENDDATE', date('Y-m-d')]);
+                    $query->andWhere(['>=', 'ENDDATE', date('Y-m-d')]);
                 }
-                $model = $model->one([$key => $id]);
+                $model = $query->one([$key => $id]);
                 if ($model !== null) {
                     break;
                 }

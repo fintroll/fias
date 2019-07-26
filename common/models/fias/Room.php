@@ -48,11 +48,11 @@ class Room extends ActiveRecord
 
 
     /**
-     * @inheritDoc
+     * @return RoomQuery|\yii\db\ActiveQuery
      */
     public static function find()
     {
-        return Yii::createObject(HouseQuery::class, [static::class]);
+        return new RoomQuery(self::class);
     }
 
     /**

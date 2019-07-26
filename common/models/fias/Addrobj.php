@@ -67,11 +67,11 @@ class Addrobj extends ActiveRecord
     }
 
     /**
-     * @inheritDoc
+     * @return AddrobjQuery
      */
     public static function find()
     {
-        return Yii::createObject(AddrobjQuery::class, [static::class]);
+        return new AddrobjQuery(self::class);
     }
 
     /**

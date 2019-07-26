@@ -53,11 +53,11 @@ class House extends ActiveRecord
 
 
     /**
-     * @inheritDoc
+     * @return \common\models\fias\HouseQuery|ActiveQuery
      */
     public static function find()
     {
-        return Yii::createObject(HouseQuery::class, [static::class]);
+        return new HouseQuery(self::class);
     }
 
     /**
