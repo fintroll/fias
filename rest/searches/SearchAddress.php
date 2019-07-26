@@ -195,9 +195,9 @@ class SearchAddress extends Model
     public static function findModel($id)
     {
         $modelsClasses = [
-            'ROOMID' => \rest\modules\address\models\Room::class,
-            'HOUSEID' => \rest\modules\address\models\House::class,
-            'AOID' => \rest\modules\address\models\Addrobj::class
+            'ROOMGUID' => \rest\modules\address\models\Room::class,
+            'HOUSEGUID' => \rest\modules\address\models\House::class,
+            'AOGUID' => \rest\modules\address\models\Addrobj::class
         ];
         $model = null;
         try {
@@ -206,10 +206,10 @@ class SearchAddress extends Model
                  * @var \rest\modules\address\models\Room|\rest\modules\address\models\House|\rest\modules\address\models\Addrobj $modelsClass
                  */
                 $query = $modelsClass::find();
-                if ($key === 'AOID') {
+                if ($key === 'AOGUID') {
                     $query->andWhere(['actstatus' => 1]);
                 }
-                if ($key === 'HOUSEID'){
+                if ($key === 'HOUSEGUID'){
                     $query->andWhere(['>=', 'ENDDATE', date('Y-m-d')]);
                 }
                 $model = $query->one([$key => $id]);

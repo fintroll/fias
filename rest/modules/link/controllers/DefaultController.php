@@ -75,7 +75,7 @@ class DefaultController extends ActiveController
         }
         $model = SearchAddress::findModel($fiasLinkModel->fias_id);
         if ($model === null) {
-            throw new NotFoundHttpException('Объект fias_id=' . $id . ' не найден');
+            throw new NotFoundHttpException('Объект fias_id=' . $fiasLinkModel->fias_id . ' не найден');
         }
         return $model;
     }
