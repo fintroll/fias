@@ -9,7 +9,7 @@ use yii\db\ActiveRecord;
  * This is the model class for table "{{%profiles_x_fias_link}}".
  *
  * @property int $id
- * @property int $project_profile_id ID Анкеты в проекте
+ * @property string $project_profile_id ID Анкеты в проекте
  * @property string $fias_id Fias_id
  */
 class ProfileFiasLink extends ActiveRecord
@@ -29,7 +29,7 @@ class ProfileFiasLink extends ActiveRecord
     {
         return [
             [['project_profile_id', 'fias_id'], 'required'],
-            [['project_profile_id','fias_id'], 'string', 'max' => 36],
+            [['project_profile_id', 'fias_id'], 'string', 'max' => 36],
         ];
     }
 

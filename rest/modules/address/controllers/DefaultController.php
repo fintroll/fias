@@ -4,8 +4,6 @@ namespace rest\modules\address\controllers;
 
 use rest\components\ActiveController;
 use rest\modules\address\models\Addrobj;
-use rest\modules\address\models\House;
-use rest\modules\address\models\Room;
 use rest\searches\SearchAddress;
 use yii\web\NotFoundHttpException;
 
@@ -33,7 +31,7 @@ class DefaultController extends ActiveController
 
     /**
      * @param $id
-     * @return Room|House|Addrobj
+     * @return \rest\modules\search\models\Addrobj|\rest\modules\search\models\House|\rest\modules\search\models\Room
      * @throws NotFoundHttpException
      */
     public function findModel($id)
