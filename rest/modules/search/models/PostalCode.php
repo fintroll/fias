@@ -15,10 +15,17 @@ class PostalCode extends House
     public function fields(): array
     {
         return [
-            'value' => 'streetNumber',
+            'value' => 'fullAddress',
             'id' => 'HOUSEGUID',
             'postalcode' => 'POSTALCODE',
-            'number' => 'fullNumber',
+            'houseguid' => 'HOUSEGUID',
+            'house_number' => 'fullNumber',
+            'fields' => function (PostalCode $model) {
+                return $model->address->treeRecursive;
+            },
+            'treeRecursive' =>  function(PostalCode $model) {
+                return $model->address->treeRecursive;
+            },
         ];
     }
 

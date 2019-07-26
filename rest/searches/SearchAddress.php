@@ -4,6 +4,7 @@ namespace rest\searches;
 
 use rest\modules\search\models\Addrobj;
 use rest\modules\search\models\House;
+use rest\modules\search\models\PostalCode;
 use rest\modules\search\models\Room;
 use yii\base\Model;
 use Yii;
@@ -89,7 +90,7 @@ class SearchAddress extends Model
                 break;
             case 'city':
                 $query->andFilterWhere(['LIKE', 'FORMALNAME', $this->term]);
-                $query->andFilterWhere(['AOLEVEL' => [4, 5, 6]]);
+                $query->andFilterWhere(['AOLEVEL' => [4, 5, 6, 35, 65]]);
                 $query->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
                 break;
             case 'street':
@@ -101,6 +102,8 @@ class SearchAddress extends Model
                 $query->andWhere('0=1');
                 return $dataProvider;
         }
+        $query->orderBy(['AOLEVEL' => SORT_ASC]);
+        $query->limit(20);
         $q = $query->createCommand()->getRawSql();
         return $dataProvider;
     }
@@ -131,6 +134,29 @@ class SearchAddress extends Model
         );
         $query->andWhere(['>=', 'ENDDATE', date('Y-m-d')]);
         $query->orderBy(['HOUSENUM' => SORT_ASC, 'BUILDNUM' => SORT_ASC, 'STRUCNUM' => SORT_ASC]);
+        $query->limit(20);
+        return $dataProvider;
+    }
+
+    /**
+     * @param $params
+     * @return ActiveDataProvider
+     */
+    public function searchPostal($params): ActiveDataProvider
+    {
+        $query = PostalCode::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        $this->load($params, '');
+        if (!$this->validate()) {
+            $query->andWhere('0=1');
+            return $dataProvider;
+        }
+        $query->andWhere(['POSTALCODE' => $this->term]);
+        $query->andWhere(['>=', 'ENDDATE', date('Y-m-d')]);
+        $query->orderBy(['HOUSENUM' => SORT_ASC, 'BUILDNUM' => SORT_ASC, 'STRUCNUM' => SORT_ASC]);
+        $query->limit(20);
         return $dataProvider;
     }
 
@@ -164,14 +190,14 @@ class SearchAddress extends Model
 
     /**
      * @param $id
-     * @return Room|House|Addrobj
+     * @return \rest\modules\address\models\Room|\rest\modules\address\models\House|\rest\modules\address\models\Addrobj
      */
     public static function findModel($id)
     {
         $modelsClasses = [
-            'ROOMID' => Room::class,
-            'HOUSEID' => House::class,
-            'AOID' => Addrobj::class
+            'ROOMID' => \rest\modules\address\models\Room::class,
+            'HOUSEID' => \rest\modules\address\models\House::class,
+            'AOID' => \rest\modules\address\models\Addrobj::class
         ];
         $model = null;
         try {

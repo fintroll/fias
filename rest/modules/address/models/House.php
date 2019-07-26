@@ -17,13 +17,17 @@ class House extends CommonHouse
     {
         return [
             'fullAddress',
-            'houseid' => 'HOUSEID',
             'houseguid' => 'HOUSEGUID',
-            'housenum' => 'HOUSENUM',
-            'eststatus' => 'ESTSTATUS',
-            'buildnum' => 'BUILDNUM',
-            'strucnum' => 'STRUCNUM',
-            'address'
+            'value' => 'streetNumber',
+            'id' => 'HOUSEID',
+            'type' => function() {
+                return 'house';
+            },
+            'postalcode' => 'POSTALCODE',
+            'number' => 'fullNumber',
+            'treeRecursive' =>  function(House $model) {
+                return $model->address->treeRecursive;
+            },
         ];
     }
 

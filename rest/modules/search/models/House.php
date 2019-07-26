@@ -17,9 +17,11 @@ class House extends CommonHouse
     {
         return [
             'value' => 'streetNumber',
-            'id' => 'HOUSEGUID',
+            'houseguid' => 'HOUSEGUID',
+            'id' => 'HOUSEID',
             'postalcode' => 'POSTALCODE',
             'number' => 'fullNumber',
+            'fullAddress',
         ];
     }
 

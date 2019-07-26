@@ -15,12 +15,14 @@ class Room extends CommonRoom
             'fullAddress',
             'roomguid' => 'ROOMGUID',
             'roomid' => 'ROOMID',
-            'flatnumber' => 'FLATNUMBER',
-            'flattype' => 'FLATTYPE',
-            'roomnumber' => 'ROOMNUMBER',
-            'roomtype' => 'ROOMTYPE',
-            'houseguid' => 'HOUSEGUID',
-            'house'
+            'fullNumber',
+            'type' => function() {
+                return 'room';
+            },
+            'house',
+            'treeRecursive' =>  function(Room $model) {
+                return $model->house->address->treeRecursive;
+            },
 
         ];
     }

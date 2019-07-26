@@ -62,9 +62,9 @@ class DefaultController extends ActiveController
         return $parentVerbs;
     }
 
-    /**]
+    /**
      * @param $id
-     * @return \rest\modules\search\models\Addrobj|\rest\modules\search\models\House|\rest\modules\search\models\Room
+     * @return Addrobj|House|Room
      * @throws NotFoundHttpException
      */
     public function findModel($id)

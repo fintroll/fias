@@ -18,6 +18,7 @@ class Room extends CommonRoom
         return [
             'id' => 'ROOMID',
             'value' => 'fullNumber',
+            'fullAddress'
         ];
     }
 
