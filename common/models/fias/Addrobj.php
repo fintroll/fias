@@ -4,6 +4,7 @@ namespace common\models\fias;
 
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use Yii;
 
 /**
  * This is the model class for table "{{%addrobj}}".
@@ -63,6 +64,14 @@ class Addrobj extends ActiveRecord
     public static function tableName(): string
     {
         return '{{%ADDROBJ}}';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function find()
+    {
+        return Yii::createObject(AddrobjQuery::class, [static::class]);
     }
 
     /**
