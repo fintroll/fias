@@ -19,9 +19,9 @@ class ProfileLinkForm extends Model
     public $id;
 
     /**
-     * @var string $project_profile_id
+     * @var string $fias_link_id
      */
-    public $project_profile_id;
+    public $fias_link_id;
 
     /**
      * @var string $fias_id
@@ -131,7 +131,7 @@ class ProfileLinkForm extends Model
         $model = ProfileFiasLink::find()->where(['fias_id' => $this->fias_id, 'project_profile_id' => $this->project_profile_id])->one();
         if ($model !== null) {
             $this->id = $model->id;
-            $this->project_profile_id = $model->project_profile_id;
+            $this->fias_link_id = $model->project_profile_id;
         } else {
             $model = new ProfileFiasLink();
         }

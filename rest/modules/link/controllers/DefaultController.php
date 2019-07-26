@@ -61,9 +61,10 @@ class DefaultController extends ActiveController
         $parentVerbs['create'] = ['POST'];
         return $parentVerbs;
     }
-    /**
+
+    /**]
      * @param $id
-     * @return Room|House|Addrobj
+     * @return \rest\modules\search\models\Addrobj|\rest\modules\search\models\House|\rest\modules\search\models\Room
      * @throws NotFoundHttpException
      */
     public function findModel($id)
