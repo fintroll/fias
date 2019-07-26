@@ -51,6 +51,7 @@ use yii\db\ActiveRecord;
  * @property Addrobj[] $parentsTree
  * @property string $fullAddress
  * @property string $fullName
+ * @property Socrbase $socrBase
  */
 class Addrobj extends ActiveRecord
 {
@@ -140,6 +141,14 @@ class Addrobj extends ActiveRecord
     public function getParent()
     {
         return $this->hasOne(static::class, ['AOGUID' => 'PARENTGUID']);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getSocrBase()
+    {
+        return $this->hasOne(Socrbase::class, ['SCNAME' => 'SHORTNAME']);
     }
 
 

@@ -72,7 +72,7 @@ class SearchAddress extends Model
      */
     public function search($params): ActiveDataProvider
     {
-        $query = Addrobj::find()->where(['actstatus' => 1]);
+        $query = Addrobj::find()->joinWith('socrBase')->where(['actstatus' => 1]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -101,6 +101,7 @@ class SearchAddress extends Model
                 $query->andWhere('0=1');
                 return $dataProvider;
         }
+        $q = $query->createCommand()->getRawSql();
         return $dataProvider;
     }
 

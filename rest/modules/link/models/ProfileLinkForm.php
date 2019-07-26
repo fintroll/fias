@@ -52,8 +52,8 @@ class ProfileLinkForm extends Model
     public function rules(): array
     {
         return [
-            [['fias_id','project_profile_id'], 'required'],
-            [['fias_id','project_profile_id'], 'string', 'max' => 36],
+            [['fias_id'], 'required'],
+            [['fias_id'], 'string', 'max' => 36],
             [['fias_id'], function ($attribute) {
                 $model = SearchAddress::findModel($this->{$attribute});
                 if ($model === null) {
