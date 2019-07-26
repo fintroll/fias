@@ -20,12 +20,12 @@ class House extends CommonHouse
             'houseguid' => 'HOUSEGUID',
             'value' => 'streetNumber',
             'id' => 'HOUSEID',
-            'type' => function() {
+            'type' => function () {
                 return 'house';
             },
             'postalcode' => 'POSTALCODE',
             'number' => 'fullNumber',
-            'treeRecursive' =>  function(House $model) {
+            'treeRecursive' => function (House $model) {
                 return $model->address->treeRecursive;
             },
         ];
