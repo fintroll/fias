@@ -184,18 +184,19 @@ class SearchAddress extends Model
                 ['LIKE', 'ROOMNUMBER', $this->term]
             ]
         );
+        $query->andFilterWhere(['>=', 'ENDDATE', date('Y-m-d')]);
         return $dataProvider;
     }
 
 
     /**
      * @param $id
-     * @return array|\common\models\fias\Addrobj|\common\models\fias\House|\common\models\fias\Room|\yii\db\ActiveRecord|null
+     * @return \rest\modules\address\models\Room|\rest\modules\address\models\House|\rest\modules\address\models\Addrobj|null
      */
     public static function findModel($id)
     {
         $modelsClasses = [
-            'ROOMGUID' => \rest\modules\address\models\Room::class,
+            'ROOMID' => \rest\modules\address\models\Room::class,
             'HOUSEGUID' => \rest\modules\address\models\House::class,
             'AOGUID' => \rest\modules\address\models\Addrobj::class
         ];
@@ -205,14 +206,14 @@ class SearchAddress extends Model
                 /**
                  * @var \rest\modules\address\models\Room|\rest\modules\address\models\House|\rest\modules\address\models\Addrobj $modelsClass
                  */
-                $query = $modelsClass::find();
+                $query = $modelsClass::find()->where([$key => $id]);
                 if ($key === 'AOGUID') {
-                    $query->andWhere(['actstatus' => 1]);
+                    $query->andFilterWhere(['actstatus' => 1]);
                 }
-                if ($key === 'HOUSEGUID'){
-                    $query->andWhere(['>=', 'ENDDATE', date('Y-m-d')]);
+                if ($key === 'HOUSEGUID' || $key === 'ROOMID'){
+                    $query->andFilterWhere(['>=', 'ENDDATE', date('Y-m-d')]);
                 }
-                $model = $query->one([$key => $id]);
+                $model = $query->one();
                 if ($model !== null) {
                     break;
                 }
