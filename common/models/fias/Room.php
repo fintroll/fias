@@ -3,7 +3,7 @@
 namespace common\models\fias;
 
 use Yii;
-use yii\sphinx\ActiveRecord;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%room}}".
