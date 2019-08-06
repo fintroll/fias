@@ -6,6 +6,7 @@ use rest\components\ActiveController;
 use rest\searches\SearchAddress;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use yii\rest\IndexAction;
 /**
  * Class SearchController
@@ -50,9 +51,9 @@ class AddressController extends ActiveController
 
 
     /**
-     * @return ActiveDataProvider
+     * @return ArrayDataProvider
      */
-    public function prepareDataProvider(): ActiveDataProvider
+    public function prepareDataProvider(): ArrayDataProvider
     {
         $search = new SearchAddress();
         return $search->search(Yii::$app->request->queryParams);

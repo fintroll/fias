@@ -9,8 +9,11 @@ use rest\modules\search\models\Room;
 use yii\base\Model;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
+use yii\data\SqlDataProvider;
 use yii\log\Logger;
 use Throwable;
+use yii\sphinx\MatchExpression;
 
 class SearchAddress extends Model
 {
@@ -69,14 +72,12 @@ class SearchAddress extends Model
 
     /**
      * @param $params
-     * @return ActiveDataProvider
+     * @return ArrayDataProvider
      */
-    public function search($params): ActiveDataProvider
+    public function search($params): ArrayDataProvider
     {
-        $query = Addrobj::find()->joinWith('socrBase')->where(['actstatus' => 1]);
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
+        $query = Addrobj::find()->where(['actstatus' => 1]);
+        $dataProvider = new ArrayDataProvider();
         $this->load($params, '');
         if (!$this->validate()) {
             $query->andWhere('0=1');
@@ -84,17 +85,17 @@ class SearchAddress extends Model
         }
         switch ($this->type) {
             case 'region':
-                $query->andFilterWhere(['LIKE', 'FORMALNAME', $this->term]);
+                $query->match(new MatchExpression(':match', ['match' => '@(FORMALNAME) ' . Yii::$app->sphinx->escapeMatchValue($this->term)]));
                 $query->andFilterWhere(['AOLEVEL' => [1, 2, 3]]);
                 $query->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
                 break;
             case 'city':
-                $query->andFilterWhere(['LIKE', 'FORMALNAME', $this->term]);
+                $query->match(new MatchExpression(':match', ['match' => '@(FORMALNAME)' . Yii::$app->sphinx->escapeMatchValue($this->term)]));
                 $query->andFilterWhere(['AOLEVEL' => [4, 5, 6, 35, 65]]);
                 $query->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
                 break;
             case 'street':
-                $query->andFilterWhere(['LIKE', 'FORMALNAME', $this->term]);
+                $query->match(new MatchExpression(':match', ['match' => '@(FORMALNAME) ' . Yii::$app->sphinx->escapeMatchValue($this->term)]));
                 $query->andFilterWhere(['IN', 'AOLEVEL', [7, 91]]);
                 $query->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
                 break;
@@ -104,7 +105,8 @@ class SearchAddress extends Model
         }
         $query->orderBy(['AOLEVEL' => SORT_ASC]);
         $query->limit(20);
-
+        $result = $query->all();
+        $dataProvider->setModels($result);
         return $dataProvider;
     }
 

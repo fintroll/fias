@@ -5,6 +5,7 @@ namespace rest\modules\search\models;
 use common\models\fias\Socrbase;
 use yii\db\ActiveQuery;
 use yii\sphinx\ActiveRecord;
+use yii\sphinx\Query;
 
 /**
  * This is the model class for table "{{%addrobj}}".
@@ -80,11 +81,11 @@ class Addrobj extends ActiveRecord
     }
 
     /**
-     * @return AddrobjQuery
+     * @return \yii\sphinx\ActiveQuery|Query
      */
     public static function find()
     {
-        return new AddrobjQuery(self::class);
+        return (new Query())->from('ao_index_test1');
     }
 
     public function extraFields(): array
