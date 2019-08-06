@@ -1,6 +1,6 @@
 <?php
 
-namespace rest\modules\address\models;
+namespace rest\modules\search\models;
 
 use common\models\fias\Socrbase;
 use yii\db\ActiveQuery;
