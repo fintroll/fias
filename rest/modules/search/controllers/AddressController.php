@@ -6,7 +6,6 @@ use rest\components\ActiveController;
 use rest\searches\SearchAddress;
 use Yii;
 use yii\data\ActiveDataProvider;
-use yii\data\ArrayDataProvider;
 use yii\rest\IndexAction;
 /**
  * Class SearchController
