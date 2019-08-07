@@ -94,11 +94,11 @@ class SearchAddress extends Model
                 break;
             case 'city':
                 $query->match(new MatchExpression('@(fullname) *' . $sphinx->escapeMatchValue($this->term) . '*'));
-                $query->andWhere(['aolevel' => [1, 2, 3, 4, 5, 6, 35, 65]]);
+                $query->andWhere(['aolevel' => [1, 4, 5, 6, 35, 65]]);
                 $query->andFilterWhere(['parentguid' => $this->parent_fias_id]);
                 break;
             case 'street':
-                $query->match(new MatchExpression('@(fullname) *' . $sphinx->escapeMatchValue($this->term . '*')));
+                $query->match(new MatchExpression('@(fullname) *' . $sphinx->escapeMatchValue($this->term) . '*'));
                 $query->andWhere(['IN', 'aolevel', [7, 91]]);
                 $query->andWhere(['parentguid' => $this->parent_fias_id]);
                 break;
