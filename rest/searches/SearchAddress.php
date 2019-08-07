@@ -72,12 +72,14 @@ class SearchAddress extends Model
 
     /**
      * @param $params
-     * @return ArrayDataProvider
+     * @return ActiveDataProvider
      */
-    public function search($params): ArrayDataProvider
+    public function search($params): ActiveDataProvider
     {
         $query = Addrobj::find()->where(['actstatus' => 1]);
-        $dataProvider = new ArrayDataProvider();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
         $this->load($params, '');
         if (!$this->validate()) {
             $query->andWhere('0=1');
@@ -85,19 +87,19 @@ class SearchAddress extends Model
         }
         switch ($this->type) {
             case 'region':
-                $query->match(new MatchExpression(':match', ['match' => '@(FORMALNAME) ' . Yii::$app->sphinx->escapeMatchValue($this->term)]));
-                $query->andFilterWhere(['AOLEVEL' => [1, 2, 3]]);
-                $query->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
+                $query->match(new MatchExpression('@(fullname) ' . Yii::$app->sphinx->escapeMatchValue($this->term)));
+                $query->andWhere(['aolevel' => [1, 2, 3]]);
+                $query->andFilterWhere(['parentguid' => $this->parent_fias_id]);
                 break;
             case 'city':
-                $query->match(new MatchExpression(':match', ['match' => '@(FORMALNAME)' . Yii::$app->sphinx->escapeMatchValue($this->term)]));
-                $query->andFilterWhere(['AOLEVEL' => [4, 5, 6, 35, 65]]);
-                $query->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
+                $query->match(new MatchExpression('@(fullname) ' . Yii::$app->sphinx->escapeMatchValue($this->term)));
+                $query->andWhere(['aolevel' => [4, 5, 6, 35, 65]]);
+                $query->andFilterWhere(['parentguid' => $this->parent_fias_id]);
                 break;
             case 'street':
-                $query->match(new MatchExpression(':match', ['match' => '@(FORMALNAME) ' . Yii::$app->sphinx->escapeMatchValue($this->term)]));
-                $query->andFilterWhere(['IN', 'AOLEVEL', [7, 91]]);
-                $query->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
+                $query->match(new MatchExpression('@(fullname) ' . Yii::$app->sphinx->escapeMatchValue($this->term)));
+                $query->andWhere(['IN', 'aolevel', [7, 91]]);
+                $query->andWhere(['parentguid' => $this->parent_fias_id]);
                 break;
             default:
                 $query->andWhere('0=1');
@@ -105,8 +107,6 @@ class SearchAddress extends Model
         }
         $query->orderBy(['AOLEVEL' => SORT_ASC]);
         $query->limit(20);
-        $result = $query->all();
-        $dataProvider->setModels($result);
         return $dataProvider;
     }
 

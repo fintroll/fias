@@ -51,9 +51,9 @@ class AddressController extends ActiveController
 
 
     /**
-     * @return ArrayDataProvider
+     * @return ActiveDataProvider
      */
-    public function prepareDataProvider(): ArrayDataProvider
+    public function prepareDataProvider(): ActiveDataProvider
     {
         $search = new SearchAddress();
         return $search->search(Yii::$app->request->queryParams);
