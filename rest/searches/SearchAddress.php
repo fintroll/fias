@@ -77,6 +77,7 @@ class SearchAddress extends Model
     public function search($params): ActiveDataProvider
     {
         $query = Addrobj::find()->where(['actstatus' => 1]);
+        $sphinx = Yii::$app->sphinx;
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -87,17 +88,17 @@ class SearchAddress extends Model
         }
         switch ($this->type) {
             case 'region':
-                $query->match(new MatchExpression('@(fullname) ' . Yii::$app->sphinx->escapeMatchValue($this->term)));
+                $query->match(new MatchExpression('@(fullname) *' . $sphinx->escapeMatchValue($this->term) . '*'));
                 $query->andWhere(['aolevel' => [1, 2, 3]]);
                 $query->andFilterWhere(['parentguid' => $this->parent_fias_id]);
                 break;
             case 'city':
-                $query->match(new MatchExpression('@(fullname) ' . Yii::$app->sphinx->escapeMatchValue($this->term)));
+                $query->match(new MatchExpression('@(fullname) *' . $sphinx->escapeMatchValue($this->term) . '*'));
                 $query->andWhere(['aolevel' => [4, 5, 6, 35, 65]]);
                 $query->andFilterWhere(['parentguid' => $this->parent_fias_id]);
                 break;
             case 'street':
-                $query->match(new MatchExpression('@(fullname) ' . Yii::$app->sphinx->escapeMatchValue($this->term)));
+                $query->match(new MatchExpression('@(fullname) *' . $sphinx->escapeMatchValue($this->term . '*')));
                 $query->andWhere(['IN', 'aolevel', [7, 91]]);
                 $query->andWhere(['parentguid' => $this->parent_fias_id]);
                 break;
@@ -212,7 +213,7 @@ class SearchAddress extends Model
                 if ($key === 'AOGUID') {
                     $query->andFilterWhere(['actstatus' => 1]);
                 }
-                if ($key === 'HOUSEGUID' || $key === 'ROOMID'){
+                if ($key === 'HOUSEGUID' || $key === 'ROOMID') {
                     $query->andFilterWhere(['>=', 'ENDDATE', date('Y-m-d')]);
                 }
                 $model = $query->one();
