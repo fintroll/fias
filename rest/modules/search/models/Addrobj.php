@@ -3,51 +3,21 @@
 namespace rest\modules\search\models;
 
 use common\models\fias\Socrbase;
-use yii\db\ActiveQuery;
 use yii\sphinx\ActiveRecord;
 use yii\sphinx\Query;
 
 /**
- * This is the model class for table "{{%addrobj}}".
  *
- * @property string $AOGUID Глобальный уникальный идентификатор адресного объекта
- * @property string $FORMALNAME Формализованное наименование
- * @property string $REGIONCODE Код региона
- * @property string $AUTOCODE Код автономии
- * @property string $AREACODE Код района
- * @property string $CITYCODE Код города
- * @property string $CTARCODE Код внутригородского района
- * @property string $PLACECODE Код населенного пункта
- * @property string $PLANCODE Код элемента планировочной структуры
- * @property string $STREETCODE Код улицы
- * @property string $EXTRCODE Код дополнительного адресообразующего элемента
- * @property string $SEXTCODE Код подчиненного дополнительного адресообразующего элемента
- * @property string $OFFNAME Официальное наименование
- * @property string $POSTALCODE Почтовый индекс
- * @property string $IFNSFL Код ИФНС ФЛ
- * @property string $TERRIFNSFL Код территориального участка ИФНС ФЛ
- * @property string $IFNSUL Код ИФНС ЮЛ
- * @property string $TERRIFNSUL Код территориального участка ИФНС ЮЛ
- * @property string $OKATO OKATO
- * @property string $OKTMO OKTMO
- * @property string $UPDATEDATE Дата  внесения записи
- * @property string $SHORTNAME Краткое наименование типа объекта
- * @property int $AOLEVEL Уровень адресного объекта
- * @property string $PARENTGUID Идентификатор объекта родительского объекта
- * @property string $AOID Уникальный идентификатор записи. Ключевое поле.
- * @property string $PREVID Идентификатор записи связывания с предыдушей исторической записью
- * @property string $NEXTID Идентификатор записи  связывания с последующей исторической записью
- * @property string $CODE Код адресного объекта одной строкой с признаком актуальности из КЛАДР 4.0.
- * @property string $PLAINCODE Код адресного объекта из КЛАДР 4.0 одной строкой без признака актуальности (последних двух цифр)
- * @property int $ACTSTATUS Статус актуальности адресного объекта ФИАС. Актуальный адрес на текущую дату. Обычно последняя запись об адресном объекте.
- * @property int $CENTSTATUS Статус центра
- * @property int $OPERSTATUS Статус действия над записью – причина появления записи (см. описание таблицы OperationStatus):
- * @property int $CURRSTATUS Статус актуальности КЛАДР 4 (последние две цифры в коде)
- * @property string $STARTDATE Начало действия записи
- * @property string $ENDDATE Окончание действия записи
- * @property string $NORMDOC Внешний ключ на нормативный документ
- * @property int $LIVESTATUS Признак действующего адресного объекта
- * @property int $DIVTYPE
+ * @property string $id
+ * @property string $aoguid
+ * @property string $formalname
+ * @property string $shortname
+ * @property string $aolevel
+ * @property string $parentguid
+ * @property string $actstatus
+ * @property string $livestatus
+ * @property string $fullname
+
  *
  * @property \common\models\fias\Addrobj $parent
  * @property Addrobj[] $parentsTree
@@ -91,25 +61,15 @@ class Addrobj extends ActiveRecord
     public function extraFields(): array
     {
         return [
-            'regioncode' => 'REGIONCODE',
-            'autocode' => 'AUTOCODE',
-            'areacode' => 'AREACODE',
-            'citycode' => 'CITYCODE',
-            'ctarcode' => 'CTARCODE',
-            'placecode' => 'PLACECODE',
-            'plancode' => 'PLANCODE',
-            'streetcode' => 'STREETCODE',
-            'extrcode' => 'EXTRCODE',
-            'sextcode' => 'SEXTCODE',
-            'offname' => 'OFFNAME',
-            'shortname' => 'SHORTNAME',
-            'parentguid' => 'PARENTGUID',
-            'plaincode' => 'PLAINCODE',
-            'actstatus' => 'ACTSTATUS',
-            'centstatus' => 'CENTSTATUS',
-            'operstatus' => 'OPERSTATUS',
-            'currstatus' => 'CURRSTATUS',
-            'livestatus' => 'LIVESTATUS',
+            'id',
+            'aoguid',
+            'formalname',
+            'shortname',
+            'aolevel',
+            'parentguid',
+            'actstatus',
+            'livestatus',
+            'fullname',
         ];
     }
     /**
@@ -165,7 +125,7 @@ class Addrobj extends ActiveRecord
      */
     public function getParent()
     {
-        return $this->hasOne(static::class, ['AOGUID' => 'PARENTGUID']);
+        return $this->hasOne(static::class, ['aoguid' => 'parentguid']);
     }
 
     /**
@@ -203,7 +163,7 @@ class Addrobj extends ActiveRecord
     /**
      * @return string
      */
-    protected function getAddressRecursive(): string
+    public function getAddressRecursive(): string
     {
         $address = $this->replaceTitle();
         if ($this->parent !== null) {
@@ -230,7 +190,7 @@ class Addrobj extends ActiveRecord
     protected function getParentsTree(): array
     {
         $result = [];
-        if ($this->PARENTGUID !== null) {
+        if ($this->parentguid !== null) {
             $result[] = $this->parent;
         }
         return $result;
@@ -243,40 +203,40 @@ class Addrobj extends ActiveRecord
      */
     protected function replaceTitle(): string
     {
-        switch ($this->SHORTNAME) {
+        switch ($this->shortname) {
             case 'обл':
-                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
+                return $this->formalname . ' ' . $this->shortname;
             case 'край':
-                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
+                return $this->formalname . ' ' . $this->shortname;
             case 'р-н':
-                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
+                return $this->formalname . ' ' . $this->shortname;
             case 'проезд':
-                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
+                return $this->formalname . ' ' . $this->shortname;
             case 'б-р':
-                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
+                return $this->formalname . ' ' . $this->shortname;
             case 'пер':
-                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
+                return $this->formalname . ' ' . $this->shortname;
             case 'ал':
-                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
+                return $this->formalname . ' ' . $this->shortname;
             case 'ш':
-                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
+                return $this->formalname . ' ' . $this->shortname;
             case 'г':
-                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
+                return $this->formalname . ' ' . $this->shortname;
             case 'линия':
-                return $this->SHORTNAME . ' ' . $this->FORMALNAME;
+                return $this->shortname . ' ' . $this->formalname;
             case 'ул':
-                return $this->SHORTNAME . ' ' . $this->FORMALNAME;
+                return $this->shortname . ' ' . $this->formalname;
             case 'пр-кт':
-                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
+                return $this->formalname . ' ' . $this->shortname;
             default:
-                return trim($this->SHORTNAME . '. ' . $this->FORMALNAME);
+                return trim($this->shortname . '. ' . $this->formalname);
         }
     }
 
 
     protected function replaceObjectLevelFiasID(): string
     {
-        switch ($this->AOLEVEL) {
+        switch ($this->aolevel) {
             case '1':
             case '2':
             case '3':
@@ -300,7 +260,7 @@ class Addrobj extends ActiveRecord
      */
     protected function replaceObjectLevelFiasValue(): string
     {
-        switch ($this->AOLEVEL) {
+        switch ($this->aolevel) {
             case '1':
             case '2':
             case '3':
