@@ -100,7 +100,7 @@ class SearchAddress extends Model
             case 'street':
                 $query->match(new MatchExpression('@(fullname) *' . $sphinx->escapeMatchValue($this->term) . '*'));
                 $query->andWhere(['aolevel' => [7, 91]]);
-                $query->andWhere(['parentguid' => $this->parent_fias_id]);
+                $query->andFilterWhere(['parentguid' => $this->parent_fias_id]);
                 break;
             default:
                 $query->andWhere('0=1');
