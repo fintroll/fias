@@ -24,7 +24,7 @@ use yii\sphinx\Query;
  * @property string[] $treeRecursive
  * @property array $parents
  * @property string $fullAddress
- * @property string $fullName
+ * @property string $fullObjectName
  * @property Socrbase $socrBase
  */
 class Addrobj extends ActiveRecord
@@ -45,7 +45,7 @@ class Addrobj extends ActiveRecord
         return [
             'value' => 'fullAddress',
             'id' => 'aoguid',
-            'name' => 'fullname',
+            'name' => 'fullObjectName',
             'treeRecursive'
         ];
     }
@@ -101,7 +101,7 @@ class Addrobj extends ActiveRecord
      *
      * @return string
      */
-    public function getFullName(): string
+    public function getFullObjectName(): string
     {
         return $this->replaceTitle();
     }

@@ -99,14 +99,14 @@ class SearchAddress extends Model
                 break;
             case 'street':
                 $query->match(new MatchExpression('@(fullname) *' . $sphinx->escapeMatchValue($this->term) . '*'));
-                $query->andWhere(['IN', 'aolevel', [7, 91]]);
+                $query->andWhere(['aolevel' => [7, 91]]);
                 $query->andWhere(['parentguid' => $this->parent_fias_id]);
                 break;
             default:
                 $query->andWhere('0=1');
                 return $dataProvider;
         }
-        $query->orderBy(['AOLEVEL' => SORT_ASC]);
+        $query->orderBy(['aolevel' => SORT_ASC]);
         $query->limit(20);
         return $dataProvider;
     }
