@@ -61,9 +61,10 @@ class DefaultController extends ActiveController
         $parentVerbs['create'] = ['POST'];
         return $parentVerbs;
     }
+
     /**
      * @param $id
-     * @return Room|House|Addrobj
+     * @return Addrobj|House|Room
      * @throws NotFoundHttpException
      */
     public function findModel($id)
@@ -74,7 +75,7 @@ class DefaultController extends ActiveController
         }
         $model = SearchAddress::findModel($fiasLinkModel->fias_id);
         if ($model === null) {
-            throw new NotFoundHttpException('Объект fias_id=' . $id . ' не найден');
+            throw new NotFoundHttpException('Объект fias_id=' . $fiasLinkModel->fias_id . ' не найден');
         }
         return $model;
     }

@@ -2,6 +2,7 @@
 
 namespace common\models\fias;
 
+use Yii;
 use yii\db\ActiveRecord;
 
 /**
@@ -43,6 +44,15 @@ class Room extends ActiveRecord
     public static function tableName(): string
     {
         return '{{%ROOM}}';
+    }
+
+
+    /**
+     * @return RoomQuery|\yii\db\ActiveQuery
+     */
+    public static function find()
+    {
+        return new RoomQuery(self::class);
     }
 
     /**

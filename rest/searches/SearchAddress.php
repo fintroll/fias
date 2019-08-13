@@ -9,8 +9,11 @@ use rest\modules\search\models\Room;
 use yii\base\Model;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
+use yii\data\SqlDataProvider;
 use yii\log\Logger;
 use Throwable;
+use yii\sphinx\MatchExpression;
 
 class SearchAddress extends Model
 {
@@ -74,6 +77,7 @@ class SearchAddress extends Model
     public function search($params): ActiveDataProvider
     {
         $query = Addrobj::find()->where(['actstatus' => 1]);
+        $sphinx = Yii::$app->sphinx;
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -84,25 +88,26 @@ class SearchAddress extends Model
         }
         switch ($this->type) {
             case 'region':
-                $query->andFilterWhere(['LIKE', 'FORMALNAME', $this->term]);
-                $query->andFilterWhere(['AOLEVEL' => [1, 2, 3]]);
-                $query->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
+                $query->match(new MatchExpression('@(fullname) *' . $sphinx->escapeMatchValue($this->term) . '*'));
+                $query->andWhere(['aolevel' => [1, 2, 3]]);
+                $query->andFilterWhere(['parentguid' => $this->parent_fias_id]);
                 break;
             case 'city':
-                $query->andFilterWhere(['LIKE', 'FORMALNAME', $this->term]);
-                $query->andFilterWhere(['AOLEVEL' => [4, 5, 6, 35, 65]]);
-                $query->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
+                $query->match(new MatchExpression('@(fullname) *' . $sphinx->escapeMatchValue($this->term) . '*'));
+                $query->andWhere(['aolevel' => [1, 4, 5, 6, 35, 65]]);
+                $query->andWhere(['not in', 'shortname', ['Респ', 'Чувашия', 'край', 'обл', 'Аобл', 'округ', 'АО']]);
+                $query->andFilterWhere(['parentguid' => $this->parent_fias_id]);
                 break;
             case 'street':
-                $query->andFilterWhere(['LIKE', 'FORMALNAME', $this->term]);
-                $query->andFilterWhere(['IN', 'AOLEVEL', [7, 91]]);
-                $query->andFilterWhere(['PARENTGUID' => $this->parent_fias_id]);
+                $query->match(new MatchExpression('@(fullname) *' . $sphinx->escapeMatchValue($this->term) . '*'));
+                $query->andWhere(['aolevel' => [7, 91]]);
+                $query->andFilterWhere(['parentguid' => $this->parent_fias_id]);
                 break;
             default:
                 $query->andWhere('0=1');
                 return $dataProvider;
         }
-        $query->orderBy(['AOLEVEL' => SORT_ASC]);
+        $query->orderBy(['aolevel' => SORT_ASC]);
         $query->limit(20);
         return $dataProvider;
     }
@@ -183,25 +188,36 @@ class SearchAddress extends Model
                 ['LIKE', 'ROOMNUMBER', $this->term]
             ]
         );
+        $query->andFilterWhere(['>=', 'ENDDATE', date('Y-m-d')]);
         return $dataProvider;
     }
 
 
     /**
      * @param $id
-     * @return \rest\modules\address\models\Room|\rest\modules\address\models\House|\rest\modules\address\models\Addrobj
+     * @return \rest\modules\address\models\Room|\rest\modules\address\models\House|\rest\modules\address\models\Addrobj|null
      */
     public static function findModel($id)
     {
         $modelsClasses = [
             'ROOMID' => \rest\modules\address\models\Room::class,
-            'HOUSEID' => \rest\modules\address\models\House::class,
-            'AOID' => \rest\modules\address\models\Addrobj::class
+            'HOUSEGUID' => \rest\modules\address\models\House::class,
+            'AOGUID' => \rest\modules\address\models\Addrobj::class
         ];
         $model = null;
         try {
             foreach ($modelsClasses as $key => $modelsClass) {
-                $model = $modelsClass::findOne([$key => $id]);
+                /**
+                 * @var \rest\modules\address\models\Room|\rest\modules\address\models\House|\rest\modules\address\models\Addrobj $modelsClass
+                 */
+                $query = $modelsClass::find()->where([$key => $id]);
+                if ($key === 'AOGUID') {
+                    $query->andFilterWhere(['actstatus' => 1]);
+                }
+                if ($key === 'HOUSEGUID' || $key === 'ROOMID') {
+                    $query->andFilterWhere(['>=', 'ENDDATE', date('Y-m-d')]);
+                }
+                $model = $query->one();
                 if ($model !== null) {
                     break;
                 }

@@ -13,7 +13,7 @@ class ProfileFiasLink extends CommonLink
     public function fields()
     {
         return [
-            'project_profile_id',
+            'fias_link_id',
         ];
     }
 }

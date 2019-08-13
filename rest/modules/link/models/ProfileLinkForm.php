@@ -19,9 +19,9 @@ class ProfileLinkForm extends Model
     public $id;
 
     /**
-     * @var string $project_profile_id
+     * @var string $fias_link_id
      */
-    public $project_profile_id;
+    public $fias_link_id;
 
     /**
      * @var string $fias_id
@@ -52,8 +52,8 @@ class ProfileLinkForm extends Model
     public function rules(): array
     {
         return [
-            [['fias_id','project_profile_id'], 'required'],
-            [['fias_id','project_profile_id'], 'string', 'max' => 36],
+            [['fias_id'], 'required'],
+            [['fias_id'], 'string', 'max' => 36],
             [['fias_id'], function ($attribute) {
                 $model = SearchAddress::findModel($this->{$attribute});
                 if ($model === null) {
@@ -73,10 +73,6 @@ class ProfileLinkForm extends Model
     {
         if ($this->validate()) {
             $this->link = $this->prepareFiasLinkRecord();
-            if (!$this->link->isNewRecord) {
-                return true;
-            }
-            $this->link->setAttributes($this->getAttributes());
             $transaction = Yii::$app->db->beginTransaction();
             try {
                 if (!$this->link->save()) {
@@ -128,12 +124,15 @@ class ProfileLinkForm extends Model
      */
     public function prepareFiasLinkRecord(): ProfileFiasLink
     {
-        $model = ProfileFiasLink::find()->where(['fias_id' => $this->fias_id, 'project_profile_id' => $this->project_profile_id])->one();
+        $model = ProfileFiasLink::find()->where(['fias_id' => $this->fias_id])->one();
         if ($model !== null) {
             $this->id = $model->id;
-            $this->project_profile_id = $model->project_profile_id;
+            $this->fias_link_id = $model->project_profile_id;
         } else {
             $model = new ProfileFiasLink();
+            $model->fias_id = $this->fias_id;
+            $model->project_profile_id = uniqid('fias_', false);
+            $this->fias_link_id = $model->project_profile_id;
         }
         return $model;
     }

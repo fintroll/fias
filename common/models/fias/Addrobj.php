@@ -4,6 +4,7 @@ namespace common\models\fias;
 
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use Yii;
 
 /**
  * This is the model class for table "{{%addrobj}}".
@@ -53,6 +54,7 @@ use yii\db\ActiveRecord;
  * @property array $parents
  * @property string $fullAddress
  * @property string $fullName
+ * @property Socrbase $socrBase
  */
 class Addrobj extends ActiveRecord
 {
@@ -62,6 +64,14 @@ class Addrobj extends ActiveRecord
     public static function tableName(): string
     {
         return '{{%ADDROBJ}}';
+    }
+
+    /**
+     * @return AddrobjQuery
+     */
+    public static function find()
+    {
+        return new AddrobjQuery(self::class);
     }
 
     /**
@@ -142,6 +152,14 @@ class Addrobj extends ActiveRecord
     public function getParent()
     {
         return $this->hasOne(static::class, ['AOGUID' => 'PARENTGUID']);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getSocrBase()
+    {
+        return $this->hasOne(Socrbase::class, ['SCNAME' => 'SHORTNAME']);
     }
 
 

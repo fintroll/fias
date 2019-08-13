@@ -2,8 +2,11 @@
 
 namespace common\models\fias;
 
+use common\models\fias\HouseQuery;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use Yii;
+
 /**
  * This is the model class for table "{{%house}}".
  *
@@ -46,6 +49,15 @@ class House extends ActiveRecord
     public static function tableName(): string
     {
         return '{{%HOUSE}}';
+    }
+
+
+    /**
+     * @return \common\models\fias\HouseQuery|ActiveQuery
+     */
+    public static function find()
+    {
+        return new HouseQuery(self::class);
     }
 
     /**

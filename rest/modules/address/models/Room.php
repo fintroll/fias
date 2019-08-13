@@ -27,6 +27,14 @@ class Room extends CommonRoom
         ];
     }
 
+    /**
+     * @return RoomQuery
+     */
+    public static function find()
+    {
+        return new RoomQuery(self::class);
+    }
+
     public function extraFields(): array
     {
         return [
