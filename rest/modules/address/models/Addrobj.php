@@ -7,16 +7,16 @@ use common\models\fias\Socrbase;
 
 /**
  *
- * @property string $aoguid
- * @property string $formalname
- * @property string $shortname
- * @property string $aolevel
- * @property string $parentguid
- * @property string $actstatus
- * @property string $livestatus
- * @property string $fullname
+ * @property string $AOGUID
+ * @property string $FORMALNAME
+ * @property string $SHORTNAME
+ * @property string $AOLEVEL
+ * @property string $PARENTGUID
+ * @property string $ACTSTATUS
+ * @property string $LIVESTATUS
+ * @property string $FULLNAME
  *
- * @property \common\models\fias\Addrobj $parent
+ * @property Addrobj $parent
  * @property Addrobj[] $parentsTree
  * @property string[] $treeRecursive
  * @property array $parents
@@ -130,7 +130,7 @@ class Addrobj extends CommonAddrobj
     public function getTreeRecursive()
     {
         $result = [
-            $this->replaceObjectLevelFiasID() => $this->aoguid,
+            $this->replaceObjectLevelFiasID() => $this->AOGUID,
             $this->replaceObjectLevelFiasValue() => $this->replaceTitle()
         ];
         if ($this->parent !== null) {
@@ -145,7 +145,7 @@ class Addrobj extends CommonAddrobj
     protected function getParentsTree(): array
     {
         $result = [];
-        if ($this->parentguid !== null) {
+        if ($this->PARENTGUID !== null) {
             $result[] = $this->parent;
         }
         return $result;
@@ -158,40 +158,40 @@ class Addrobj extends CommonAddrobj
      */
     protected function replaceTitle(): string
     {
-        switch ($this->shortname) {
+        switch ($this->SHORTNAME) {
             case 'обл':
-                return $this->formalname . ' ' . $this->shortname;
+                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
             case 'край':
-                return $this->formalname . ' ' . $this->shortname;
+                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
             case 'р-н':
-                return $this->formalname . ' ' . $this->shortname;
+                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
             case 'проезд':
-                return $this->formalname . ' ' . $this->shortname;
+                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
             case 'б-р':
-                return $this->formalname . ' ' . $this->shortname;
+                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
             case 'пер':
-                return $this->formalname . ' ' . $this->shortname;
+                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
             case 'ал':
-                return $this->formalname . ' ' . $this->shortname;
+                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
             case 'ш':
-                return $this->formalname . ' ' . $this->shortname;
+                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
             case 'г':
-                return $this->formalname . ' ' . $this->shortname;
+                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
             case 'линия':
-                return $this->shortname . ' ' . $this->formalname;
+                return $this->SHORTNAME . ' ' . $this->FORMALNAME;
             case 'ул':
-                return $this->shortname . ' ' . $this->formalname;
+                return $this->SHORTNAME . ' ' . $this->FORMALNAME;
             case 'пр-кт':
-                return $this->formalname . ' ' . $this->shortname;
+                return $this->FORMALNAME . ' ' . $this->SHORTNAME;
             default:
-                return trim($this->shortname . '. ' . $this->formalname);
+                return trim($this->SHORTNAME . '. ' . $this->FORMALNAME);
         }
     }
 
 
     protected function replaceObjectLevelFiasID(): string
     {
-        switch ($this->aolevel) {
+        switch ($this->AOLEVEL) {
             case '1':
             case '2':
             case '3':
@@ -215,7 +215,7 @@ class Addrobj extends CommonAddrobj
      */
     protected function replaceObjectLevelFiasValue(): string
     {
-        switch ($this->aolevel) {
+        switch ($this->AOLEVEL) {
             case '1':
             case '2':
             case '3':

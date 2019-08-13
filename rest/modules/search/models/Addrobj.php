@@ -70,7 +70,7 @@ class Addrobj extends ActiveRecord
      */
     public function getParent()
     {
-        return $this->hasOne(static::class, ['aoguid' => 'parentguid']);
+        return $this->hasOne(FindAddresAddrobj::class, ['AOGUID' => 'parentguid']);
     }
 
     /**
