@@ -3,9 +3,8 @@
 namespace rest\modules\search\models;
 
 use common\models\fias\Socrbase;
-use yii\db\ActiveQueryInterface;
+use rest\modules\address\models\Addrobj as FindAddresAddrobj;
 use yii\sphinx\ActiveRecord;
-use yii\sphinx\Query;
 
 /**
  *
