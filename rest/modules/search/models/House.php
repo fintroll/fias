@@ -1,7 +1,7 @@
 <?php
 
 namespace rest\modules\search\models;
-
+use rest\modules\address\models\Addrobj as FindAddresAddrobj;
 use common\models\fias\House as CommonHouse;
 
 /**
@@ -42,6 +42,6 @@ class House extends CommonHouse
      */
     public function getAddress()
     {
-        return $this->hasOne(Addrobj::class, ['AOGUID' => 'AOGUID']);
+        return $this->hasOne(FindAddresAddrobj::class, ['AOGUID' => 'AOGUID']);
     }
 }
