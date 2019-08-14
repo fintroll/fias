@@ -16,7 +16,6 @@ use yii\sphinx\ActiveRecord;
  * @property string $parentguid
  * @property string $actstatus
  * @property string $livestatus
- * @property string $fullname
  *
  * @property \common\models\fias\Addrobj $parent
  * @property Addrobj[] $parentsTree
@@ -60,7 +59,6 @@ class Addrobj extends ActiveRecord
             'parentguid',
             'actstatus',
             'livestatus',
-            'fullname',
         ];
     }
 
