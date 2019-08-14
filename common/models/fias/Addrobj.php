@@ -66,13 +66,6 @@ class Addrobj extends ActiveRecord
         return '{{%ADDROBJ}}';
     }
 
-    /**
-     * @return AddrobjQuery
-     */
-    public static function find()
-    {
-        return new AddrobjQuery(self::class);
-    }
 
     /**
      * {@inheritdoc}

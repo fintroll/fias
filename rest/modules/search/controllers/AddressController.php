@@ -37,11 +37,6 @@ class AddressController extends ActiveController
             'modelClass' => SearchAddress::class,
             'prepareDataProvider' => [$this, 'prepareRoomsDataProvider'],
         ];
-        $actions['postal'] = [
-            'class' => IndexAction::class,
-            'modelClass' => SearchAddress::class,
-            'prepareDataProvider' => [$this, 'preparePostalDataProvider'],
-        ];
         $actions['options'] = [
             'class' => yii\rest\OptionsAction::class,
         ];

@@ -47,13 +47,6 @@ class Room extends ActiveRecord
     }
 
 
-    /**
-     * @return RoomQuery|\yii\db\ActiveQuery
-     */
-    public static function find()
-    {
-        return new RoomQuery(self::class);
-    }
 
     /**
      * {@inheritdoc}

@@ -4,13 +4,10 @@ namespace rest\searches;
 
 use rest\modules\search\models\Addrobj;
 use rest\modules\search\models\House;
-use rest\modules\search\models\PostalCode;
 use rest\modules\search\models\Room;
 use yii\base\Model;
 use Yii;
 use yii\data\ActiveDataProvider;
-use yii\data\ArrayDataProvider;
-use yii\data\SqlDataProvider;
 use yii\log\Logger;
 use Throwable;
 use yii\sphinx\MatchExpression;
@@ -83,7 +80,7 @@ class SearchAddress extends Model
         ]);
         $this->load($params, '');
         if (!$this->validate()) {
-            $query->andWhere('0=1');
+            $query->andWhere(['id' => -1]);
             return $dataProvider;
         }
         switch ($this->type) {
@@ -142,27 +139,6 @@ class SearchAddress extends Model
         return $dataProvider;
     }
 
-    /**
-     * @param $params
-     * @return ActiveDataProvider
-     */
-    public function searchPostal($params): ActiveDataProvider
-    {
-        $query = PostalCode::find();
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-        $this->load($params, '');
-        if (!$this->validate()) {
-            $query->andWhere('0=1');
-            return $dataProvider;
-        }
-        $query->andWhere(['POSTALCODE' => $this->term]);
-        $query->andWhere(['>=', 'ENDDATE', date('Y-m-d')]);
-        $query->orderBy(['HOUSENUM' => SORT_ASC, 'BUILDNUM' => SORT_ASC, 'STRUCNUM' => SORT_ASC]);
-        $query->limit(20);
-        return $dataProvider;
-    }
 
 
     /**

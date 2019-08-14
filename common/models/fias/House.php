@@ -52,13 +52,6 @@ class House extends ActiveRecord
     }
 
 
-    /**
-     * @return \common\models\fias\HouseQuery|ActiveQuery
-     */
-    public static function find()
-    {
-        return new HouseQuery(self::class);
-    }
 
     /**
      * {@inheritdoc}
