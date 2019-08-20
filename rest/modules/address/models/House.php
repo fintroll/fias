@@ -2,7 +2,6 @@
 
 namespace rest\modules\address\models;
 
-use common\models\fias\AddrobjQuery;
 use common\models\fias\House as CommonHouse;
 
 /**
@@ -18,9 +17,8 @@ class House extends CommonHouse
     {
         return [
             'fullAddress',
-            'houseguid' => 'HOUSEGUID',
             'value' => 'streetNumber',
-            'id' => 'HOUSEID',
+            'id' => 'HOUSEGUID',
             'type' => function () {
                 return 'house';
             },

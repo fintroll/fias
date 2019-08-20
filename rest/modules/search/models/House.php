@@ -18,7 +18,7 @@ class House extends CommonHouse
         return [
             'value' => 'streetNumber',
             'houseguid' => 'HOUSEGUID',
-            'id' => 'HOUSEID',
+            'id' => 'HOUSEGUID',
             'postalcode' => 'POSTALCODE',
             'number' => 'fullNumber',
             'fullAddress',
