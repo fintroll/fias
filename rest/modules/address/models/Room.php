@@ -12,11 +12,15 @@ class Room extends CommonRoom
     public function fields(): array
     {
         return [
+            'id' => 'ROOMGUID',
             'fullAddress',
             'roomguid' => 'ROOMGUID',
             'fullNumber',
             'type' => function() {
                 return 'room';
+            },
+            'postalcode' =>  function(Room $model) {
+                return $model->house->POSTALCODE;
             },
             'house',
             'treeRecursive' =>  function(Room $model) {
@@ -51,6 +55,6 @@ class Room extends CommonRoom
      */
     public function getHouse()
     {
-        return $this->hasOne(House::class, ['HOUSEGUID' => 'HOUSEGUID']);
+        return $this->hasOne(House::class, ['HOUSEGUID' => 'HOUSEGUID'])->andWhere(['>=', 'ENDDATE', date('Y-m-d')]);
     }
 }

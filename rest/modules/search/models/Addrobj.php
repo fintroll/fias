@@ -42,7 +42,13 @@ class Addrobj extends ActiveRecord
     public function fields(): array
     {
         return [
-            'value' => 'fullAddress',
+            'value' => function ($model) {
+                $parent = '';
+                if ($this->parent !== null) {
+                    $parent = ', '.$this->parent->fullName;
+                }
+                return $this->fullname.$parent;
+            },
             'id' => 'aoguid',
             'name' => 'fullObjectName',
             'treeRecursive'

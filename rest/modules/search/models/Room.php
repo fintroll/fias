@@ -18,7 +18,8 @@ class Room extends CommonRoom
         return [
             'id' => 'ROOMID',
             'value' => 'fullNumber',
-            'fullAddress'
+            'fullAddress',
+            'house',
         ];
     }
 
@@ -30,7 +31,6 @@ class Room extends CommonRoom
             'roomnumber' => 'ROOMNUMBER',
             'roomtype' => 'ROOMTYPE',
             'houseguid' => 'HOUSEGUID',
-            'house',
             'livestatus' => 'LIVESTATUS',
             'normdoc' => 'NORMDOC',
             'operstatus' => 'OPERSTATUS',
@@ -44,6 +44,6 @@ class Room extends CommonRoom
      */
     public function getHouse()
     {
-        return $this->hasOne(House::class, ['HOUSEGUID' => 'HOUSEGUID']);
+        return $this->hasOne(House::class, ['HOUSEGUID' => 'HOUSEGUID'])->andWhere(['>=', 'ENDDATE', date('Y-m-d')]);
     }
 }
