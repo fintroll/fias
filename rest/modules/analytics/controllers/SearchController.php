@@ -4,17 +4,19 @@ namespace rest\modules\analytics\controllers;
 
 use rest\components\ActiveController;
 use rest\modules\address\models\Addrobj;
-use rest\searches\Searchanalytics;
-use yii\rest\IndexAction;
+use rest\modules\analytics\actions\FindByKladrAction;
+use rest\modules\analytics\actions\FindHouseAction;
+use rest\modules\analytics\actions\FindRoomAction;
+use rest\searches\SearchAnalytics;
+use yii\helpers\ArrayHelper;
 use yii\rest\OptionsAction;
-use yii\rest\ViewAction;
 use yii\web\NotFoundHttpException;
 
 /**
- * Class DefaultController
+ * Class SearchController
  * @package rest\modules\analytics\controllers
  */
-class DefaultController extends ActiveController
+class SearchController extends ActiveController
 {
     /**
      * @var string Обязательное поле. Класс модели по умолчанию
@@ -28,20 +30,20 @@ class DefaultController extends ActiveController
     {
         $actions = parent::actions();
         unset($actions['create'], $actions['update'], $actions['delete'], $actions['index'], $actions['view']);
-        $actions['klard'] = [
-            'class' => ViewAction::class,
+        $actions['kladr'] = [
+            'class' => FindByKladrAction::class,
             'modelClass' => SearchAnalytics::class,
-            'findModel' => [$this, 'prepareHousesDataProvider'],
+            'findModel' => [$this, 'findKladr'],
         ];
         $actions['house'] = [
-            'class' => ViewAction::class,
+            'class' => FindHouseAction::class,
             'modelClass' => SearchAnalytics::class,
-            'findModel' => [$this, 'prepareHousesDataProvider'],
+            'findModel' => [$this, 'findHouse'],
         ];
         $actions['room'] = [
-            'class' => ViewAction::class,
+            'class' => FindRoomAction::class,
             'modelClass' => SearchAnalytics::class,
-            'findModel' => [$this, 'prepareRoomsDataProvider'],
+            'findModel' => [$this, 'findRoom'],
         ];
         $actions['options'] = [
             'class' => OptionsAction::class,
@@ -49,24 +51,28 @@ class DefaultController extends ActiveController
         return $actions;
     }
 
-    /**
-     * @param $id
-     * @return Addrobj|\rest\modules\address\models\House|\rest\modules\address\models\Room|null
-     * @throws NotFoundHttpException
-     */
-    public function findModel($id)
-    {
-        $model = SearchAnalytics::findModel($id);
-        if ($model === null) {
-            throw new NotFoundHttpException('Объект по запросу ' . $id . ' не найден');
-        }
-        return $model;
-    }
 
     public function verbs(): array
     {
         $parentVerbs = parent::verbs();
-        $parentVerbs['view'] = ['GET'];
+        $parentVerbs['kladr'] = ['GET'];
+        $parentVerbs['house'] = ['GET'];
+        $parentVerbs['room'] = ['GET'];
         return $parentVerbs;
     }
+
+    /**
+     * @param $id
+     * @return Addrobj
+     * @throws NotFoundHttpException
+     */
+    public function findKladr($code)
+    {
+        $model = SearchAnalytics::findKladr($code);
+        if ($model === null) {
+            throw new NotFoundHttpException('Объект с кодом Кладр ' . $code . ' не найден');
+        }
+        return $model;
+    }
+
 }

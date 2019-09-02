@@ -13,21 +13,6 @@ class SearchAnalytics extends Model
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
-        return [
-            [['type'], 'required'],
-            [['parent_fias_id'], 'required', 'when' => function ($model) {
-                return in_array($model->type, ['house', 'room'], true);
-            }],
-            [['term', 'parent_fias_id', 'type'], 'string'],
-            [['type'], 'in', 'range' => $this->types],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class
@@ -44,32 +29,31 @@ class SearchAnalytics extends Model
     }
 
     /**
-     * @param $house
-     * @param $building
      * @param $parent_fias_id
-     * @return array|House|null
+     * @param $term
+     * @return array
      */
-    public static function findHouse($house, $building, $parent_fias_id)
+    public static function findHouses($parent_fias_id, $term): array
     {
-        return House::find()->where(['AOGUID' => $parent_fias_id])->andFilterwhere([
-            'OR',
-            ['HOUSENUM' => $house],
-            ['BUILDNUM' => $building],
-            ['STRUCNUM' => $building]
-        ])->andFilterWhere(['>=', 'ENDDATE', date('Y-m-d')])->one();
+        $query = House::find();
+        $query->andWhere(['AOGUID' => $parent_fias_id, 'HOUSENUM'=>$term]);
+        $query->andWhere(['>=', 'ENDDATE', date('Y-m-d')]);
+        $query->orderBy(['HOUSENUM' => SORT_ASC, 'BUILDNUM' => SORT_ASC, 'STRUCNUM' => SORT_ASC]);
+        return $query->all();
     }
 
+
     /**
-     * @param $room
-     * @param $parent_fias_id
-     * @return mixed
+     * @param string $parent_fias_id
+     * @param string $condition
+     * @return null|Room
      */
-    public static function findRoom($room, $parent_fias_id)
+    public static function findRoom($parent_fias_id, array $condition): ?Room
     {
-        return Room::class::find()->where(['HOUSEGUID' => $parent_fias_id])->andFilterwhere([
-            'OR',
-            ['FLATNUMBER', $room],
-            ['ROOMNUMBER', $room],
-        ])->andFilterWhere(['>=', 'ENDDATE', date('Y-m-d')])->one();
+        $query = Room::find();
+        $query->andWhere(['HOUSEGUID' => $parent_fias_id]);
+        $query->andFilterWhere($condition);
+        $query->andFilterWhere(['>=', 'ENDDATE', date('Y-m-d')]);
+        return $query->one();
     }
 }
