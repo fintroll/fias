@@ -63,15 +63,19 @@ class FindHouseAction extends Action
     public function findHouse($parent_fias_id, $term)
     {
         $params = $this->prepareHouseParams($term);
+        if (empty($params)) {
+            throw new NotFoundHttpException('Дома с id улицы ' . $parent_fias_id . ' по запросу  ' . $term . ' не найден');
+        }
         $houseNumber = $params[self::TYPE_HOUSE];
-        if (empty($params) || empty($houseNumber)) {
+        if (empty($houseNumber)) {
+
             throw new NotFoundHttpException('Дома с id улицы ' . $parent_fias_id . ' по запросу  ' . $term . ' не найден');
         }
         $models = SearchAnalytics::findHouses($parent_fias_id, $houseNumber);
         if (empty($models)) {
             throw new NotFoundHttpException('Дома с id улицы ' . $parent_fias_id . ' по запросу  ' . $term . ' не найден');
         }
-        return $this->filterHouseNumber($models, $params);
+        return $this->filterHouseNumber($models,$params);
     }
 
     /**

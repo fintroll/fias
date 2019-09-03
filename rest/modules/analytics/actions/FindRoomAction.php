@@ -29,7 +29,8 @@ class FindRoomAction extends Action
     private $houseMarkers = [
         'КВАРТИРА' => self::TYPE_FLAT,
         'ПОМ.' => self::TYPE_OFFICE,
-        'ОФ' => self::TYPE_OFFICE
+        'ОФ' => self::TYPE_OFFICE,
+        'КОМНАТА' => self::TYPE_FLAT
     ];
 
 
