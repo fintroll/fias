@@ -34,7 +34,7 @@ class ProfileFiasLink extends CommonLink
                 return [
                     'inversion_oksm' => 643,
                     'inversion_apartment' => $model->apartment ?? '',
-                    'inversion_postalcode' => ArrayHelper::getValue($model, 'house.address.POSTALCODE') ?? '',
+                    'inversion_postalcode' => ArrayHelper::getValue($model, 'house.POSTALCODE') ?? '',
                     'inversion_region_code' => ArrayHelper::getValue($model, 'house.address.REGIONCODE') ?? '',
                     'inversion_region_name' => ArrayHelper::getValue($inversion,'inversion_region_name') ?? '',
                     'inversion_district_name' => ArrayHelper::getValue($inversion,'inversion_district_name') ?? '',
