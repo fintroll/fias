@@ -19,13 +19,15 @@ class ProfileFiasLink extends CommonLink
             },
             'fullAddress' => function (CommonLink $model) {
                 $fullAddress = $model->house !== null ? $model->house->fullAddress : null;
-                if ($fullAddress !== null) {
+                if ($fullAddress !== null && $model->apartment !== null) {
                     $fullAddress .= ', ' . $model->apartment;
                 }
                 return $fullAddress;
             },
             'house',
-            'apartment'
+            'apartment' => function (CommonLink $model) {
+                return $model->apartment ?? '';
+            },
         ];
     }
 }
