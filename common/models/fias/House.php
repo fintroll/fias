@@ -39,6 +39,7 @@ use Yii;
  * @property Addrobj $address Адрес
  * @property string $fullAddress Полный адрес
  * @property string $fullNumber Полный номер
+ * @property string $inversionNumber Номер для инверсии
  * @property string $streetNumber Полный номер
  */
 class House extends ActiveRecord
@@ -140,6 +141,24 @@ class House extends ActiveRecord
 
         if (!empty($this->STRUCNUM)) {
             $number .= ' стр. ' . $this->STRUCNUM;
+        }
+
+        return $number;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInversionNumber()
+    {
+        $number = 'дом '.$this->HOUSENUM;
+
+        if (!empty($this->BUILDNUM)) {
+            $number .= ' корпус' . $this->BUILDNUM;
+        }
+
+        if (!empty($this->STRUCNUM)) {
+            $number .= ' строение ' . $this->STRUCNUM;
         }
 
         return $number;

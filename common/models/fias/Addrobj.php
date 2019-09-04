@@ -55,7 +55,6 @@ use Yii;
  * @property string $fullAddress
  * @property string $fullName
  * @property Socrbase $socrBase
- * @property string[] $inversionRecursive
  */
 class Addrobj extends ActiveRecord
 {
@@ -217,18 +216,6 @@ class Addrobj extends ActiveRecord
     }
 
 
-    public function getInversionRecursive()
-    {
-        $result = [
-            $this->replaceObjectLevelInversionType() => $this->SHORTNAME,
-            $this->replaceObjectLevelInversionValue() => $this->FORMALNAME
-        ];
-        if ($this->parent !== null) {
-            $result = array_merge($result, $this->parent->getInversionRecursive());
-        }
-        return $result;
-    }
-
     /**
      * Добавить отформатированный префикс к тайтлу
      *
@@ -312,53 +299,4 @@ class Addrobj extends ActiveRecord
         }
     }
 
-    /**
-     * @return string
-     */
-    protected function replaceObjectLevelInversionType(): string
-    {
-        switch ($this->AOLEVEL) {
-            case '1':
-            case '2':
-                return 'inversion_region_id';
-            case '3':
-                return 'inversion_district_type';
-            case '4':
-            case '5':
-            case '6':
-            case '35':
-            case '65':
-                return 'inversion_city_type';
-            case '7':
-            case '91':
-                return 'inversion_street_type';
-            default:
-                return 'inversion_unrestricted_type';
-        }
-    }
-
-    /**
-     * @return string
-     */
-    protected function replaceObjectLevelInversionValue(): string
-    {
-        switch ($this->AOLEVEL) {
-            case '1':
-            case '2':
-                return 'inversion_region_name';
-            case '3':
-                return 'inversion_district_name';
-            case '4':
-            case '5':
-            case '6':
-            case '35':
-            case '65':
-                return 'inversion_city_name';
-            case '7':
-            case '91':
-                return 'inversion_street_name';
-            default:
-                return 'inversion_unrestricted_name';
-        }
-    }
 }

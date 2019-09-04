@@ -143,8 +143,8 @@ class Addrobj extends CommonAddrobj
     public function getInversionRecursive()
     {
         $result = [
-            $this->replaceObjectLevelFiasID() => $this->AOGUID,
-            $this->replaceObjectLevelFiasValue() => $this->replaceTitle()
+            $this->replaceObjectLevelInversionType() => $this->socrBase->SOCRNAME,
+            $this->replaceObjectLevelInversionValue() => $this->FORMALNAME
         ];
         if ($this->parent !== null) {
             $result = array_merge($result, $this->parent->getInversionRecursive());
@@ -255,7 +255,7 @@ class Addrobj extends CommonAddrobj
         switch ($this->AOLEVEL) {
             case '1':
             case '2':
-                return 'inversion_region_id';
+                return 'inversion_region_type';
             case '3':
                 return 'inversion_district_type';
             case '4':
@@ -280,20 +280,20 @@ class Addrobj extends CommonAddrobj
         switch ($this->AOLEVEL) {
             case '1':
             case '2':
-                return 'inversion_region_id';
+                return 'inversion_region_name';
             case '3':
-                return 'inversion_district_type';
+                return 'inversion_district_name';
             case '4':
             case '5':
             case '6':
             case '35':
             case '65':
-                return 'inversion_city_type';
+                return 'inversion_city_name';
             case '7':
             case '91':
-                return 'inversion_street_type';
+                return 'inversion_street_name';
             default:
-                return 'inversion_unrestricted_type';
+                return 'inversion_unrestricted_name';
         }
     }
 }
