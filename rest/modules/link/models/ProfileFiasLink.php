@@ -14,6 +14,16 @@ class ProfileFiasLink extends CommonLink
     {
         return [
             'project_profile_id',
+            'id' => function (CommonLink $model) {
+                return $model->house !== null ? $model->house->HOUSEID : null;
+            },
+            'fullAddress' => function (CommonLink $model) {
+                $fullAddress = $model->house !== null ? $model->house->fullAddress : null;
+                if ($fullAddress !== null) {
+                    $fullAddress .= ', ' . $model->apartment;
+                }
+                return $fullAddress;
+            },
             'house',
             'apartment'
         ];
