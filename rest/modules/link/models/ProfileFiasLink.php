@@ -44,6 +44,7 @@ class ProfileFiasLink extends CommonLink
                     'inversion_district_type' => ArrayHelper::getValue($inversion,'inversion_district_type') ?? '',
                     'inversion_city_type' => ArrayHelper::getValue($inversion,'inversion_city_type') ?? '',
                     'inversion_street_type' => ArrayHelper::getValue($inversion,'inversion_street_type') ?? '',
+                    'allInversion' => $inversion,
                 ];
             },
         ];
