@@ -32,11 +32,6 @@ class AddressController extends ActiveController
             'modelClass' => SearchAddress::class,
             'prepareDataProvider' => [$this, 'prepareHousesDataProvider'],
         ];
-        $actions['room'] = [
-            'class' => IndexAction::class,
-            'modelClass' => SearchAddress::class,
-            'prepareDataProvider' => [$this, 'prepareRoomsDataProvider'],
-        ];
         $actions['options'] = [
             'class' => yii\rest\OptionsAction::class,
         ];
@@ -60,23 +55,5 @@ class AddressController extends ActiveController
     {
         $search = new SearchAddress();
         return $search->searchHouses(Yii::$app->request->queryParams);
-    }
-
-    /**
-     * @return ActiveDataProvider
-     */
-    public function prepareRoomsDataProvider(): ActiveDataProvider
-    {
-        $search = new SearchAddress();
-        return $search->searchRooms(Yii::$app->request->queryParams);
-    }
-
-    /**
-     * @return ActiveDataProvider
-     */
-    public function preparePostalDataProvider(): ActiveDataProvider
-    {
-        $search = new SearchAddress();
-        return $search->searchPostal(Yii::$app->request->queryParams);
     }
 }

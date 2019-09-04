@@ -40,11 +40,6 @@ class SearchController extends ActiveController
             'modelClass' => SearchAnalytics::class,
             'findModel' => [$this, 'findHouse'],
         ];
-        $actions['room'] = [
-            'class' => FindRoomAction::class,
-            'modelClass' => SearchAnalytics::class,
-            'findModel' => [$this, 'findRoom'],
-        ];
         $actions['options'] = [
             'class' => OptionsAction::class,
         ];
@@ -57,7 +52,6 @@ class SearchController extends ActiveController
         $parentVerbs = parent::verbs();
         $parentVerbs['kladr'] = ['GET'];
         $parentVerbs['house'] = ['GET'];
-        $parentVerbs['room'] = ['GET'];
         return $parentVerbs;
     }
 

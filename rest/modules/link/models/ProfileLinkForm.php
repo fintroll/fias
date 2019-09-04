@@ -2,6 +2,7 @@
 
 namespace rest\modules\link\models;
 
+use common\models\fias\House;
 use Yii;
 use rest\searches\SearchAddress;
 use Throwable;
@@ -29,9 +30,10 @@ class ProfileLinkForm extends Model
     public $fias_id;
 
     /**
-     * @var string $full_address
+     * @var string $apartment
      */
-    public $full_address;
+    public $apartment;
+
 
     /**
      * @var ProfileFiasLink $link
@@ -54,14 +56,8 @@ class ProfileLinkForm extends Model
         return [
             [['fias_id'], 'required'],
             [['fias_id'], 'string', 'max' => 36],
-            [['fias_id'], function ($attribute) {
-                $model = SearchAddress::findModel($this->{$attribute});
-                if ($model === null) {
-                    $this->addError('fias_id', 'Объект fias_id=' . $this->{$attribute} . ' не найден');
-                } else {
-                    $this->full_address = $model->fullAddress;
-                }
-            }],
+            [['fias_id'], 'exist', 'targetClass' => House::class, 'targetAttribute' => 'HOUSEID'],
+            [['apartment'], 'string', 'max' => 255],
         ];
     }
 
@@ -107,6 +103,7 @@ class ProfileLinkForm extends Model
             'id' => 'ID',
             'project_profile_id' => 'ID Анкеты в проекте',
             'fias_id' => 'Fias_id',
+            'apartment' => 'квартира/офис',
         ];
     }
 
@@ -119,18 +116,18 @@ class ProfileLinkForm extends Model
     }
 
     /**
-     * @param string $fias_id
      * @return ProfileFiasLink
      */
     public function prepareFiasLinkRecord(): ProfileFiasLink
     {
-        $model = ProfileFiasLink::find()->where(['fias_id' => $this->fias_id])->one();
+        $model = ProfileFiasLink::find()->where(['fias_id' => $this->fias_id, 'apartment' => $this->apartment])->one();
         if ($model !== null) {
             $this->id = $model->id;
             $this->fias_link_id = $model->project_profile_id;
         } else {
             $model = new ProfileFiasLink();
             $model->fias_id = $this->fias_id;
+            $model->apartment = $this->apartment;
             $model->project_profile_id = uniqid('fias_', false);
             $this->fias_link_id = $model->project_profile_id;
         }

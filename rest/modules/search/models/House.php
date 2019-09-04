@@ -18,22 +18,10 @@ class House extends CommonHouse
         return [
             'value' => 'streetNumber',
             'houseguid' => 'HOUSEGUID',
-            'id' => 'HOUSEGUID',
+            'id' => 'HOUSEID',
             'postalcode' => 'POSTALCODE',
             'number' => 'fullNumber',
             'fullAddress',
-        ];
-    }
-
-    public function extraFields(): array
-    {
-        return [
-            'aoguid' => 'AOGUID',
-            'cadnum' => 'CADNUM',
-            'normdoc' => 'NORMDOC',
-            'counter' => 'COUNTER',
-            'strstatus' => 'STRSTATUS',
-            'statstatus' => 'STATSTATUS',
         ];
     }
 

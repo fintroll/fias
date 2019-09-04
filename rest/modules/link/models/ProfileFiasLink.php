@@ -14,6 +14,8 @@ class ProfileFiasLink extends CommonLink
     {
         return [
             'fias_link_id',
+            'house',
+            'apartment'
         ];
     }
 }

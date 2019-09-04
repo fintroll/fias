@@ -2,7 +2,6 @@
 
 namespace rest\searches;
 
-use rest\modules\address\models\Room;
 use rest\modules\address\models\House;
 use rest\modules\address\models\Addrobj;
 use yii\base\Model;
@@ -43,17 +42,4 @@ class SearchAnalytics extends Model
     }
 
 
-    /**
-     * @param string $parent_fias_id
-     * @param string $condition
-     * @return null|Room
-     */
-    public static function findRoom($parent_fias_id, array $condition): ?Room
-    {
-        $query = Room::find();
-        $query->andWhere(['HOUSEGUID' => $parent_fias_id]);
-        $query->andFilterWhere($condition);
-        $query->andFilterWhere(['>=', 'ENDDATE', date('Y-m-d')]);
-        return $query->one();
-    }
 }

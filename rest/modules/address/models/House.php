@@ -16,12 +16,9 @@ class House extends CommonHouse
     public function fields(): array
     {
         return [
-            'id' => 'HOUSEGUID',
+            'id' => 'HOUSEID',
             'fullAddress',
             'value' => 'streetNumber',
-            'type' => function () {
-                return 'house';
-            },
             'postalcode' => 'POSTALCODE',
             'number' => 'fullNumber',
             'treeRecursive' => function (House $model) {
@@ -38,17 +35,6 @@ class House extends CommonHouse
         return new HouseQuery(self::class);
     }
 
-    public function extraFields(): array
-    {
-        return [
-            'aoguid' => 'AOGUID',
-            'cadnum' => 'CADNUM',
-            'normdoc' => 'NORMDOC',
-            'counter' => 'COUNTER',
-            'strstatus' => 'STRSTATUS',
-            'statstatus' => 'STATSTATUS',
-        ];
-    }
 
     /**
      * @return \yii\db\ActiveQuery

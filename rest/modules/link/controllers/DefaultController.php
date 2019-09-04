@@ -3,12 +3,8 @@
 namespace rest\modules\link\controllers;
 
 use rest\components\ActiveController;
-use rest\modules\address\models\Addrobj;
-use rest\modules\address\models\House;
-use rest\modules\address\models\Room;
 use rest\modules\link\models\ProfileFiasLink;
 use rest\modules\link\models\ProfileLinkForm;
-use rest\searches\SearchAddress;
 use yii\filters\Cors;
 use yii\web\NotFoundHttpException;
 
@@ -64,19 +60,15 @@ class DefaultController extends ActiveController
 
     /**
      * @param $id
-     * @return Addrobj|House|Room
+     * @return array|\common\models\fias\ProfileFiasLink|null
      * @throws NotFoundHttpException
      */
     public function findModel($id)
     {
         $fiasLinkModel = ProfileFiasLink::find()->where(['project_profile_id' => $id])->one();
-        if ($fiasLinkModel === null){
+        if ($fiasLinkModel === null || $fiasLinkModel->house === null) {
             throw new NotFoundHttpException('Объект id=' . $id . ' не найден');
         }
-        $model = SearchAddress::findModel($fiasLinkModel->fias_id);
-        if ($model === null) {
-            throw new NotFoundHttpException('Объект fias_id=' . $fiasLinkModel->fias_id . ' не найден');
-        }
-        return $model;
+        return $fiasLinkModel;
     }
 }

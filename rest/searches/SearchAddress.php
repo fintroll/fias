@@ -4,12 +4,9 @@ namespace rest\searches;
 
 use rest\modules\search\models\Addrobj;
 use rest\modules\search\models\House;
-use rest\modules\search\models\Room;
 use yii\base\Model;
 use Yii;
 use yii\data\ActiveDataProvider;
-use yii\log\Logger;
-use Throwable;
 use yii\sphinx\MatchExpression;
 
 class SearchAddress extends Model
@@ -38,8 +35,6 @@ class SearchAddress extends Model
         'city',
         'street',
         'house',
-        'room',
-        'postal'
     ];
 
 
@@ -51,7 +46,7 @@ class SearchAddress extends Model
         return [
             [['type'], 'required'],
             [['parent_fias_id'], 'required', 'when' => function ($model) {
-                return in_array($model->type, ['house', 'room'], true);
+                return $model->type === 'house';
             }],
             [['term', 'parent_fias_id', 'type'], 'string'],
             [['type'], 'in', 'range' => $this->types],
@@ -137,70 +132,5 @@ class SearchAddress extends Model
         $query->orderBy(['HOUSENUM' => SORT_ASC, 'BUILDNUM' => SORT_ASC, 'STRUCNUM' => SORT_ASC]);
         $query->limit(20);
         return $dataProvider;
-    }
-
-
-
-    /**
-     * @param $params
-     * @return ActiveDataProvider
-     */
-    public function searchRooms($params): ActiveDataProvider
-    {
-        $query = Room::find();
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-        $this->load($params, '');
-        if (!$this->validate()) {
-            $query->andWhere('0=1');
-            return $dataProvider;
-        }
-        $query->andWhere(['HOUSEGUID' => $this->parent_fias_id]);
-        $query->andFilterWhere(
-            [
-                'OR',
-                ['LIKE', 'FLATNUMBER', $this->term],
-                ['LIKE', 'ROOMNUMBER', $this->term]
-            ]
-        );
-        $query->andFilterWhere(['>=', 'ENDDATE', date('Y-m-d')]);
-        return $dataProvider;
-    }
-
-
-    /**
-     * @param $id
-     * @return \rest\modules\address\models\Room|\rest\modules\address\models\House|\rest\modules\address\models\Addrobj|null
-     */
-    public static function findModel($id)
-    {
-        $modelsClasses = [
-            'ROOMID' => \rest\modules\address\models\Room::class,
-            'HOUSEGUID' => \rest\modules\address\models\House::class,
-            'AOGUID' => \rest\modules\address\models\Addrobj::class
-        ];
-        $model = null;
-        try {
-            foreach ($modelsClasses as $key => $modelsClass) {
-                /**
-                 * @var \rest\modules\address\models\Room|\rest\modules\address\models\House|\rest\modules\address\models\Addrobj $modelsClass
-                 */
-                $query = $modelsClass::find()->where([$key => $id]);
-                if ($key === 'AOGUID') {
-                    $query->andFilterWhere(['actstatus' => 1]);
-                }
-                if ($key === 'HOUSEGUID' || $key === 'ROOMID') {
-                    $query->andFilterWhere(['>=', 'ENDDATE', date('Y-m-d')]);
-                }
-                $model = $query->one();
-                if ($model !== null) {
-                    break;
-                }
-            }
-        } catch (Throwable $ignore) {
-            Yii::getLogger()->log($ignore->getMessage(), Logger::LEVEL_ERROR);
-        }
-        return $model;
     }
 }
