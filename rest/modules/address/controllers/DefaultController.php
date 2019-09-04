@@ -25,7 +25,6 @@ class DefaultController extends ActiveController
     {
         $actions = parent::actions();
         unset($actions['create'], $actions['update'], $actions['delete'], $actions['index']);
-        $actions['view']['findModel'] = [$this, 'findModel'];
         return $actions;
     }
 
