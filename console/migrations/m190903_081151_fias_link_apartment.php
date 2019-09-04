@@ -12,7 +12,7 @@ class m190903_081151_fias_link_apartment extends Migration
      */
     public function safeUp()
     {
-        $this->addColumn('%profiles_x_fias_link%', 'apartment', $this->string(255));
+        $this->addColumn('{{profiles_x_fias_link}}', 'apartment', $this->string(255));
     }
 
     /**
@@ -20,7 +20,7 @@ class m190903_081151_fias_link_apartment extends Migration
      */
     public function safeDown()
     {
-        $this->dropColumn('%profiles_x_fias_link%', 'apartment');
+        $this->dropColumn('{{profiles_x_fias_link}}', 'apartment');
 
     }
 }
