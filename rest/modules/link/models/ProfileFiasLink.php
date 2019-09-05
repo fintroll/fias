@@ -43,7 +43,9 @@ class ProfileFiasLink extends CommonLink
                     'inversion_city_type' => ArrayHelper::getValue($inversion,'inversion_city_type') ?? "",
                     'inversion_street_name' => ArrayHelper::getValue($inversion,'inversion_street_name') ?? "",
                     'inversion_street_type' => ArrayHelper::getValue($inversion,'inversion_street_type') ?? "",
-                    'inversion_house' => ArrayHelper::getValue($model,'house.inversionNumber') ?? "",
+                    'inversion_house' => ArrayHelper::getValue($model,'house.HOUSENUM') ?? "",
+                    'inversion_house_building' => ArrayHelper::getValue($model,'house.BUILDNUM') ?? "",
+                    'inversion_house_structure' => ArrayHelper::getValue($model,'house.STRUCNUM') ?? "",
                     'inversion_apartment' => ArrayHelper::getValue($model,'apartment') ?? "",
                 ];
             },
