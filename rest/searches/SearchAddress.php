@@ -7,7 +7,9 @@ use rest\modules\search\models\House;
 use yii\base\Model;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 use yii\sphinx\MatchExpression;
+use common\models\fias\Addrobj as DataBaseAddrObj;
 
 class SearchAddress extends Model
 {
@@ -85,22 +87,27 @@ class SearchAddress extends Model
                 $query->andFilterWhere(['parentguid' => $this->parent_fias_id]);
                 break;
             case 'city':
+                $subquery = DataBaseAddrObj::find()->where(['actstatus' => 1,'parentguid' => $this->parent_fias_id])->all();
+                $children = ArrayHelper::getColumn($subquery,'AOGUID');
+                $searchData = !empty($this->parent_fias_id) ? array_merge([$this->parent_fias_id], $children) : null;
                 $query->match(new MatchExpression('@(fullname) *' . $sphinx->escapeMatchValue($this->term) . '*'));
-                $query->andWhere(['aolevel' => [1, 2, 3, 4, 5, 6, 7]]);
+                $query->andWhere(['aolevel' => [1, 3, 4, 5, 6, 35, 65]]);
                 $query->andWhere(['not in', 'shortname', ['Респ', 'Чувашия', 'край', 'обл', 'Аобл', 'округ', 'АО']]);
-                $query->andFilterWhere(['parentguid' => $this->parent_fias_id]);
+                $query->andFilterWhere(['parentguid' => $searchData]);
                 break;
             case 'street':
+                $subquery = DataBaseAddrObj::find()->select([])->where(['actstatus' => 1,'parentguid' => $this->parent_fias_id])->all();
+                $children = ArrayHelper::getColumn($subquery,'AOGUID');
+                $searchData = !empty($this->parent_fias_id) ? array_merge([$this->parent_fias_id], $children) : null;
                 $query->match(new MatchExpression('@(fullname) *' . $sphinx->escapeMatchValue($this->term) . '*'));
-                $query->andWhere(['aolevel' => [4, 5, 6, 7, 35, 65, 91]]);
-                $query->andFilterWhere(['parentguid' => $this->parent_fias_id]);
+                $query->andWhere(['aolevel' => [7, 91]]);
+                $query->andFilterWhere(['parentguid' => $searchData]);
                 break;
             default:
                 $query->andWhere('0=1');
                 return $dataProvider;
         }
         $query->orderBy(['aolevel' => SORT_ASC]);
-        $query->limit(20);
         return $dataProvider;
     }
 
