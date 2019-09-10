@@ -29,6 +29,7 @@ class FindHouseAction extends Action
 
     private $houseMarkers = [
         'ДОМ' => self::TYPE_HOUSE,
+        '' => self::TYPE_HOUSE,
         'ДОМОВЛ' => self::TYPE_HOUSE,
         'КОРПУС' => self::TYPE_BUILDING,
         'СТРОЕНИЕ' => self::TYPE_STRUCTURE,
