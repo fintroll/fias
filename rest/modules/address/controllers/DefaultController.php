@@ -25,7 +25,22 @@ class DefaultController extends ActiveController
     {
         $actions = parent::actions();
         unset($actions['create'], $actions['update'], $actions['delete'], $actions['index']);
+        $actions['view']['findModel'] = [$this, 'findModel'];
         return $actions;
+    }
+
+    /**
+     * @param $id
+     * @return \rest\modules\search\models\Addrobj|\rest\modules\search\models\House
+     * @throws NotFoundHttpException
+     */
+    public function findModel($id)
+    {
+        $model = SearchAddress::findModel($id);
+        if ($model === null) {
+            throw new NotFoundHttpException('Объект fias_id=' . $id . ' не найден');
+        }
+        return $model;
     }
 
 

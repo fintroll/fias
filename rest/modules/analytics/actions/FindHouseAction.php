@@ -109,10 +109,17 @@ class FindHouseAction extends Action
     private function prepareHouseParams(string $term): array
     {
         $result = [];
-        preg_match_all('/([^ ,]*) (\d*)/', $term, $matches, PREG_SET_ORDER);
-        foreach ($matches as $match) {
-            if (isset($this->houseMarkers[$match[1]]) && !empty($match[2])) {
-                $result[$this->houseMarkers[$match[1]]] = $match[2];
+        if (mb_stripos($term,'ДОМ') !== false) {
+            preg_match_all('/([^ ,]*) (\d*)/', $term, $matches, PREG_SET_ORDER);
+            foreach ($matches as $match) {
+                if (isset($this->houseMarkers[$match[1]]) && !empty($match[2])) {
+                    $result[$this->houseMarkers[$match[1]]] = $match[2];
+                }
+            }
+        } else {
+            preg_match('/(\d*)/', $term, $matches);
+            if (!empty($matches)) {
+                $result[self::TYPE_HOUSE] = $matches[0];
             }
         }
         return $result;

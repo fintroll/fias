@@ -8,6 +8,7 @@ use yii\base\Model;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
+use yii\log\Logger;
 use yii\sphinx\MatchExpression;
 use common\models\fias\Addrobj as DataBaseAddrObj;
 
@@ -139,5 +140,40 @@ class SearchAddress extends Model
         $query->orderBy(['HOUSENUM' => SORT_ASC, 'BUILDNUM' => SORT_ASC, 'STRUCNUM' => SORT_ASC]);
         $query->limit(20);
         return $dataProvider;
+    }
+
+
+    /**
+     * @param $id
+     * @return \rest\modules\address\models\House|\rest\modules\address\models\Addrobj|null
+     */
+    public static function findModel($id)
+    {
+        $modelsClasses = [
+            'HOUSEGUID' => \rest\modules\address\models\House::class,
+            'AOGUID' => \rest\modules\address\models\Addrobj::class
+        ];
+        $model = null;
+        try {
+            foreach ($modelsClasses as $key => $modelsClass) {
+                /**
+                 * @var \rest\modules\address\models\House|\rest\modules\address\models\Addrobj $modelsClass
+                 */
+                $query = $modelsClass::find()->where([$key => $id]);
+                if ($key === 'AOGUID') {
+                    $query->andFilterWhere(['actstatus' => 1]);
+                }
+                if ($key === 'HOUSEGUID' || $key === 'ROOMID') {
+                    $query->andFilterWhere(['>=', 'ENDDATE', date('Y-m-d')]);
+                }
+                $model = $query->one();
+                if ($model !== null) {
+                    break;
+                }
+            }
+        } catch (\Throwable $ignore) {
+            Yii::getLogger()->log($ignore->getMessage(), Logger::LEVEL_ERROR);
+        }
+        return $model;
     }
 }
