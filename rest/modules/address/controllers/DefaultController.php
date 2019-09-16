@@ -31,7 +31,7 @@ class DefaultController extends ActiveController
 
     /**
      * @param $id
-     * @return \rest\modules\search\models\Addrobj|\rest\modules\search\models\House
+     * @return \rest\modules\address\models\House|\rest\modules\address\models\Addrobj
      * @throws NotFoundHttpException
      */
     public function findModel($id)
