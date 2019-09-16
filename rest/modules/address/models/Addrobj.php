@@ -19,6 +19,7 @@ use common\models\fias\Socrbase;
  * @property Addrobj $parent
  * @property Addrobj[] $parentsTree
  * @property string[] $treeRecursive
+ * @property string[] $inversionRecursive
  * @property array $parents
  * @property string $fullAddress
  * @property string $fullObjectName
@@ -139,6 +140,18 @@ class Addrobj extends CommonAddrobj
         return $result;
     }
 
+    public function getInversionRecursive()
+    {
+        $result = [
+            $this->replaceObjectLevelInversionType() => $this->socrBase->SOCRNAME,
+            $this->replaceObjectLevelInversionValue() => $this->FORMALNAME
+        ];
+        if ($this->parent !== null) {
+            $result = array_merge($result, $this->parent->getInversionRecursive());
+        }
+        return $result;
+    }
+
     /**
      * @return array
      */
@@ -231,6 +244,56 @@ class Addrobj extends CommonAddrobj
                 return 'street_level_fias_value';
             default:
                 return 'unrestricted_level_fias_value';
+        }
+    }
+
+    /**
+     * @return string
+     */
+    protected function replaceObjectLevelInversionType(): string
+    {
+        switch ($this->AOLEVEL) {
+            case '1':
+            case '2':
+                return 'inversion_region_type';
+            case '3':
+                return 'inversion_district_type';
+            case '4':
+            case '5':
+            case '6':
+            case '35':
+            case '65':
+                return 'inversion_city_type';
+            case '7':
+            case '91':
+                return 'inversion_street_type';
+            default:
+                return 'inversion_unrestricted_type';
+        }
+    }
+
+    /**
+     * @return string
+     */
+    protected function replaceObjectLevelInversionValue(): string
+    {
+        switch ($this->AOLEVEL) {
+            case '1':
+            case '2':
+                return 'inversion_region_name';
+            case '3':
+                return 'inversion_district_name';
+            case '4':
+            case '5':
+            case '6':
+            case '35':
+            case '65':
+                return 'inversion_city_name';
+            case '7':
+            case '91':
+                return 'inversion_street_name';
+            default:
+                return 'inversion_unrestricted_name';
         }
     }
 }

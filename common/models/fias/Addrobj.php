@@ -215,6 +215,7 @@ class Addrobj extends ActiveRecord
         return $result;
     }
 
+
     /**
      * Добавить отформатированный префикс к тайтлу
      *
@@ -297,4 +298,5 @@ class Addrobj extends ActiveRecord
                 return 'unrestricted_level_fias_value';
         }
     }
+
 }

@@ -84,6 +84,9 @@ return [
         'search' => [
             'class' => \rest\modules\search\Search::class,
         ],
+        'analytics' => [
+            'class' => \rest\modules\analytics\Analytics::class,
+        ],
     ],
     'params' => $params,
 ];

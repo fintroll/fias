@@ -3,7 +3,7 @@
 namespace rest\modules\address\controllers;
 
 use rest\components\ActiveController;
-use rest\modules\address\models\Addrobj;
+use rest\modules\address\models\House;
 use rest\searches\SearchAddress;
 use yii\web\NotFoundHttpException;
 
@@ -16,7 +16,7 @@ class DefaultController extends ActiveController
     /**
      * @var string Обязательное поле. Класс модели по умолчанию
      */
-    public $modelClass = Addrobj::class;
+    public $modelClass = House::class;
 
     /**
      * @return array
@@ -31,7 +31,7 @@ class DefaultController extends ActiveController
 
     /**
      * @param $id
-     * @return \rest\modules\search\models\Addrobj|\rest\modules\search\models\House|\rest\modules\search\models\Room
+     * @return \rest\modules\address\models\House|\rest\modules\address\models\Addrobj
      * @throws NotFoundHttpException
      */
     public function findModel($id)
@@ -42,6 +42,7 @@ class DefaultController extends ActiveController
         }
         return $model;
     }
+
 
     public function verbs(): array
     {
