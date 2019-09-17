@@ -2,7 +2,6 @@
 
 namespace rest\modules\link\models;
 
-use common\models\fias\House;
 use Yii;
 use common\models\fias\ProfileFiasLink;
 use Throwable;
@@ -66,7 +65,7 @@ class ProfileLinkForm extends Model
         return [
             [['fias_id'], 'required'],
             [['fias_id'], 'string', 'max' => 36],
-            [['apartment', 'house', 'postal'], 'string', 'max' => 255],
+            [['apartment', 'house'], 'string', 'max' => 255],
             [['postal'], 'string', 'max' => 6],
         ];
     }
