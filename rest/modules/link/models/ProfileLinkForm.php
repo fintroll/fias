@@ -129,7 +129,12 @@ class ProfileLinkForm extends Model
      */
     public function prepareFiasLinkRecord(): ProfileFiasLink
     {
-        $model = ProfileFiasLink::find()->where(['fias_id' => $this->fias_id, 'apartment' => $this->apartment])->one();
+        $model = ProfileFiasLink::find()->where([
+            'fias_id' => $this->fias_id,
+            'apartment' => $this->apartment,
+            'house' => $this->house,
+            'postal' => $this->postal
+        ])->one();
         if ($model !== null) {
             $this->id = $model->id;
             $this->fias_link_id = $model->project_profile_id;
