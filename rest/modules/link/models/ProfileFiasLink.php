@@ -46,8 +46,9 @@ class ProfileFiasLink extends CommonLink
             'apartment' => function (CommonLink $model) {
                 return $model->apartment ?? '';
             },
+            'fiasData',
             'inversion' => function (CommonLink $model) {
-                $inversion = $model->fiasData instanceof House ? ArrayHelper::getValue($model, 'fiasData.address.inversionRecursive') : ArrayHelper::getValue($model, 'inversionRecursive');
+                $inversion = $model->fiasData instanceof House ? ArrayHelper::getValue($model, 'fiasData.address.inversionRecursive') : ArrayHelper::getValue($model, 'fiasData.inversionRecursive');
                 return [
                     'inversion_oksm' => 643,
                     'inversion_postalcode' => ArrayHelper::getValue($model, 'fiasData.POSTALCODE') ?? $model->postal ?? "",
@@ -64,6 +65,17 @@ class ProfileFiasLink extends CommonLink
                     'inversion_house_building' => ArrayHelper::getValue($model,'fiasData.BUILDNUM') ?? "",
                     'inversion_house_structure' => ArrayHelper::getValue($model,'fiasData.STRUCNUM') ?? "",
                     'inversion_apartment' => ArrayHelper::getValue($model,'apartment') ?? "",
+                ];
+            },
+            'nbch' => function (CommonLink $model) {
+                $treeRecursive = $model->fiasData instanceof House ? ArrayHelper::getValue($model, 'fiasData.address.treeRecursive') : ArrayHelper::getValue($model, 'fiasData.treeRecursive');
+                return [
+                    'registrationAddressPostal' => ArrayHelper::getValue($model, 'fiasData.POSTALCODE') ?? $model->postal ?? "",
+                    'registrationAddressRegion' => ArrayHelper::getValue($treeRecursive,'region_level_fias_value') ?? "",
+                    'registrationAddressCity' => ArrayHelper::getValue($treeRecursive,'city_level_fias_value') ?? "",
+                    'registrationAddressStreet' => ArrayHelper::getValue($treeRecursive,'street_level_fias_value') ?? "",
+                    'registrationAddressHouseNumber' => ArrayHelper::getValue($model,'fiasData.HOUSENUM') ?? ArrayHelper::getValue($model,'house') ?? "",
+                    'registrationAddressApartment' => ArrayHelper::getValue($model,'apartment') ?? "",
                 ];
             },
         ];
