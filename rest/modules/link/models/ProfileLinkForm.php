@@ -4,7 +4,7 @@ namespace rest\modules\link\models;
 
 use common\models\fias\House;
 use Yii;
-use rest\searches\SearchAddress;
+use common\models\fias\ProfileFiasLink;
 use Throwable;
 use yii\base\Model;
 
@@ -34,6 +34,16 @@ class ProfileLinkForm extends Model
      */
     public $apartment;
 
+    /**
+     * @var string $house
+     */
+    public $house;
+
+    /**
+     * @var string $postal
+     */
+    public $postal;
+
 
     /**
      * @var ProfileFiasLink $link
@@ -56,8 +66,8 @@ class ProfileLinkForm extends Model
         return [
             [['fias_id'], 'required'],
             [['fias_id'], 'string', 'max' => 36],
-            [['fias_id'], 'exist', 'targetClass' => House::class, 'targetAttribute' => 'HOUSEID'],
-            [['apartment'], 'string', 'max' => 255],
+            [['apartment', 'house', 'postal'], 'string', 'max' => 255],
+            [['postal'], 'string', 'max' => 6],
         ];
     }
 
@@ -128,6 +138,8 @@ class ProfileLinkForm extends Model
             $model = new ProfileFiasLink();
             $model->fias_id = $this->fias_id;
             $model->apartment = $this->apartment;
+            $model->house = $this->house;
+            $model->postal = $this->postal;
             $model->project_profile_id = uniqid('fias_', false);
             $this->fias_link_id = $model->project_profile_id;
         }

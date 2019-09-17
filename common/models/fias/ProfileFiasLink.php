@@ -2,8 +2,10 @@
 
 namespace common\models\fias;
 
+use rest\searches\SearchAddress;
 use Yii;
 use rest\modules\address\models\House;
+use rest\modules\address\models\Addrobj;
 use yii\db\ActiveRecord;
 
 /**
@@ -13,7 +15,9 @@ use yii\db\ActiveRecord;
  * @property string $project_profile_id ID Анкеты в проекте
  * @property string $fias_id Fias_id
  * @property string $apartment Apartment
- * @property House $house
+ * @property string $house Apartment
+ * @property string $postal Apartment
+ * @property House|Addrobj $fiasData
  */
 class ProfileFiasLink extends ActiveRecord
 {
@@ -33,7 +37,8 @@ class ProfileFiasLink extends ActiveRecord
         return [
             [['project_profile_id', 'fias_id'], 'required'],
             [['project_profile_id', 'fias_id'], 'string', 'max' => 36],
-            [['apartment'], 'string', 'max' => 255],
+            [['apartment','house'], 'string', 'max' => 255],
+            [['postal'], 'string', 'max' => 6],
         ];
     }
 
@@ -60,10 +65,10 @@ class ProfileFiasLink extends ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return Addrobj|House
      */
-    public function getHouse()
+    public function getFiasData()
     {
-        return $this->hasOne(House::class, ['HOUSEID' => 'fias_id']);
+        return SearchAddress::findModel($this->fias_id);
     }
 }
