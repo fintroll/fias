@@ -37,7 +37,7 @@ class ProfileFiasLink extends CommonLink
                 }
                 return $result;
             },
-            'fias_leval_type' => function (CommonLink $model) {
+            'fias_level_type' => function (CommonLink $model) {
                 $result = '';
                 if ($model->fiasData !== null) {
                     $result = $model->fiasData instanceof House ? 'house' : 'address';
