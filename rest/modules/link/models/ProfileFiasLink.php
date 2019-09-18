@@ -53,7 +53,7 @@ class ProfileFiasLink extends CommonLink
             'apartment' => function (CommonLink $model) {
                 return $model->apartment ?? '';
             },
-            'fias_data',
+            'fias_data' => 'fiasData',
             'inversion' => function (CommonLink $model) {
                 $inversion = $model->fiasData instanceof House ? ArrayHelper::getValue($model, 'fiasData.address.inversionRecursive') : ArrayHelper::getValue($model, 'fiasData.inversionRecursive');
                 $fiasDataAddress = $model->fiasData instanceof House ? ArrayHelper::getValue($model, 'fiasData.address') : ArrayHelper::getValue($model, 'fiasData');
