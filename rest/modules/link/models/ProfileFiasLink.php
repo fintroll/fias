@@ -24,7 +24,7 @@ class ProfileFiasLink extends CommonLink
                 }
                 return $result;
             },
-            'fullAddress' => function (CommonLink $model) {
+            'full_address' => function (CommonLink $model) {
                 $result = '';
                 $fiasObject = $model->fiasData;
 
@@ -37,6 +37,14 @@ class ProfileFiasLink extends CommonLink
                 }
                 return $result;
             },
+
+            'fias_leval_type' =>function (CommonLink $model) {
+                $result = '';
+                if ($model->fiasData !== null) {
+                    $result = $model->fiasData instanceof House ? 'house' : 'address';
+                }
+                return $result;
+            },
             'house' => function (CommonLink $model) {
                 return $model->house ?? '';
             },
@@ -46,7 +54,7 @@ class ProfileFiasLink extends CommonLink
             'apartment' => function (CommonLink $model) {
                 return $model->apartment ?? '';
             },
-            'fiasData',
+            'fias_data',
             'inversion' => function (CommonLink $model) {
                 $inversion = $model->fiasData instanceof House ? ArrayHelper::getValue($model, 'fiasData.address.inversionRecursive') : ArrayHelper::getValue($model, 'fiasData.inversionRecursive');
                 $fiasDataAddress = $model->fiasData instanceof House ? ArrayHelper::getValue($model, 'fiasData.address') : ArrayHelper::getValue($model, 'fiasData');
